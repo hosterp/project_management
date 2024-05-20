@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>
+		<record id="form_bill_status_update" model="ir.ui.view">
+			<field name="name">Update Bill Status</field>
+			<field name="model">bill.status.update</field>
+			<field name="arch" type="xml">
+				<form>
+					<group>
+						<group>
+							<field name="current_status" />
+							<field name="current_table" string="Project"/>
+						</group>
+						<group>
+							<field name="Date"/>
+							<field name="update_status" />
+							<field name="update_table" />
+							<field name="remarks" />
+						</group>
+					</group>
+					<footer>
+						<button type="object" name="button_save"
+							string="Save" class="oe_highlight" />
+						<button special="cancel" string="Cancel" />
+					</footer>
+				</form>
+			</field>
+		</record>
+
+
+		<record id="action_form_bill_status_update" model="ir.actions.act_window">
+			<field name="name">Update Bill Status</field>
+			<field name="res_model">bill.status.update</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form</field>
+			<field name="target">new</field>
+		</record>
+	</data>
+</openerp>

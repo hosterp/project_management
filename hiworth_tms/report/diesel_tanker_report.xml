@@ -1,0 +1,330 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>
+
+    
+		<record id="form_report_location_stock" model="ir.ui.view">
+			<field name="name">Diesel Stock Report</field>
+			<field name="model">diesel.tanker.report</field>
+			<field name="arch" type="xml">
+				<form>
+					<group>
+						<group>
+							<field name="from_date"/>
+							<field name="to_date" />
+                            <field name="diesel_tanker_id" />
+							
+						</group>
+					</group>
+					<footer>
+						<button type="object" name="view_diesel_stock_report"
+							string="View" class="oe_highlight" />
+						<button type="object" name="print_diesel_stock_report"
+							string="Print" class="oe_highlight" />
+						<button special="cancel" string="Cancel" />
+					</footer>
+				</form>
+			</field>
+		</record>
+		<!-- Material request wizard action-->
+		<record id="action_report_diesel_tanker" model="ir.actions.act_window">
+			<field name="name">Diesel Stock Report</field>
+			<field name="res_model">diesel.tanker.report</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form</field>
+			<field name="target">new</field>
+		</record>
+
+	 <report id="report_diesel_tanker_report" string="DIESEL TANKER"
+				model="diesel.tanker.report" report_type="qweb-pdf"
+				name="hiworth_tms.report_diesel_tanker_template_view" />
+
+
+
+
+		<record id="paper_format_diesel_report" model="report.paperformat">
+				<field name="name">A4 new</field>
+				<field name="default" eval="True" />
+				<field name="format">A4</field>
+				<field name="orientation">Landscape</field>
+				<field name="margin_top">10</field>
+				<field name="margin_bottom">10</field>
+				<field name="margin_left">7</field>
+				<field name="margin_right">7</field>
+				<field name="header_line" eval="False" />
+				<field name="header_spacing">35</field>
+				<field name="dpi">90</field>
+			</record>
+
+			<record id="hiworth_tms.report_diesel_tanker_report" model="ir.actions.report.xml">
+				<field name="paperformat_id" ref="hiworth_tms.paper_format_diesel_report" />
+			</record>
+
+
+
+            
+        	
+
+		<template id = "report_diesel_tanker_template_view">
+			<t t-call="report.html_container">
+                <t t-call="report.external_layout">
+                    <!-- <div class="page"> -->
+                       
+                             <div class="page">
+                                 <t t-foreach="docs" t-as="o">
+                             
+  
+                        <!--div class="row"-->
+                            <!--div class="col-xs-4" align="left"-->
+                            <div class="row">
+            					<div class="col-xs-12" align = "center">
+                					<span ><b> DIESEL TANKER </b></span>
+            					</div>
+            				</div>
+            <table style="width:100%;border-bottom: 1px solid black;border-top: 1px solid black;border-left: 1px solid black;border-right: 1px solid black;">
+        		<tr><td style="border-left: 1px solid black;border-bottom: 1px solid black;" colspan="3"><b>SL.NO.</b></td>
+        		<td style="border-left: 1px solid black;border-bottom: 1px solid black;" colspan="3"><center><span t-esc="o.diesel_tanker_id.license_plate"/></center></td>
+        		<td style="border-left: 1px solid black;border-bottom: 1px solid black;" colspan="1"><b> Date:</b></td>
+        		<td style="border-left: 1px solid black;border-bottom: 1px solid black;" colspan="2"><center>From:<span t-esc="o.from_date"/>To:<span t-esc="o.to_date"/></center></td>
+        	</tr>
+        	<tr >
+        		<!--div class="col-xs-12 text-left" style="font-size: 25px;margin-top:30px;" t-field="company.rml_header1"/-->
+        		<td style="font-size: 25px;margin-top:30px;border-bottom: 1px solid black;" align ="center" colspan ="9">
+        			<span>BEGORRA INFRASTRUCTURE AND DEVELOPERS PVT.LTD.</span>
+        		</td>
+        	</tr>
+
+        	
+            
+        
+        	<!--table style="width:100%;border-bottom: 1px solid black;border-top: 1px solid black;border-left: 1px solid black;border-right: 1px solid black;"-->
+        		<tr>
+        			<td style="border-left: 1px solid black;border-bottom: 1px solid black;" colspan="3"><b>MACHINE OPENING READING: <span t-field = "o.machine_opening_reading"/></b></td>
+        			<td style="border-left: 1px solid black;border-bottom: 1px solid black;" colspan="3"><b>DIESEL OPENING STOCK: <span t-field = "o.diesel_opening_stock"/> </b></td>
+        			<td style="border-left: 1px solid black;border-bottom: 1px solid black;" colspan ="3"><b>DIESEL PURCHASED FROM:<span t-field = "o.diesel_pump"/></b></td>
+        		</tr>
+        		<tr>
+        			<td style="border-left: 1px solid black;border-bottom: 1px solid black;" colspan="3"><b>MACHINE CLOSING READING: <span t-field = "o.machine_closing_reading"/></b></td>
+        			<td style="border-left: 1px solid black;border-bottom: 1px solid black;" colspan="3"><b>DIESEL CLOSING STOCK: <span t-field = "o.total_diesel_filled"/> </b></td>
+        			<td style="border-left: 1px solid black;border-bottom: 1px solid black;" colspan ="3"><b>DIESEL FILLED From: <span t-field = "o.from_date"/>TO:<span t-field="o.to_date"/> </b></td>
+
+        		<tr>
+        		<td style="font-size: 15px;border-bottom: 1px solid black;" align ="center" colspan ="9">
+        			<span>.</span>
+        		</td>
+        	</tr> 
+        		</tr>
+                                <!--table style="width:100%;border-bottom: 1px solid black;border-top: 1px solid black;border-left: 1px solid black;border-right: 1px solid black;margin-top:50px;"-->
+                                    <tr><td style="border-left: 1px solid black;border-bottom: 1px solid black;"><strong>SL.NO</strong></td>
+                                    	<td style="border-left: 1px solid black;border-bottom: 1px solid black;"><strong>Date</strong></td>
+										<td style="border-left: 1px solid black;border-bottom: 1px solid black;"><strong>VEHICLE NO</strong></td>
+                                    	<td style="border-left: 1px solid black;border-bottom: 1px solid black;"><strong>OPERATOR NAME</strong></td>
+                                    	<td style="border-left: 1px solid black;border-bottom: 1px solid black;"><strong>OPENING READING</strong> </td>
+                                    	<td style="border-left: 1px solid black;border-bottom: 1px solid black;"><strong>CLOSING READING</strong> </td>
+                                    	<td style="border-left: 1px solid black;border-bottom: 1px solid black;"><strong>TOTAL DIESEL FILLED</strong> </td>
+                                    	<td style='font-size:10px;border-left: 1px solid black;border-bottom: 1px solid black;'><strong>VEH-READING AT THE <br>TIME OF DIESEL FILLING</br></strong> </td>
+                                    	<td style="border-left: 1px solid black;border-bottom: 1px solid black;"><strong>DIESEL FILLING TIME</strong></td>
+                                    	<td style="border-left: 1px solid black;border-bottom: 1px solid black;"><strong>DRIVER SIGNATURE</strong></td>
+
+                                    </tr>
+                                    <t t-set="sl_no" t-value="1"/>
+                                    <t t-foreach="o.get_diesel_tanker()" t-as="line"> 
+                                    <tr >
+                                    	<td style="border-left: 1px solid black;border-bottom: 1px solid black;"><center><span t-esc="sl_no"/></center></td> 
+                                    	<td style="border-left: 1px solid black;border-bottom: 1px solid black;"><center><span t-esc="line.date"/></center></td>
+										<td style="border-left: 1px solid black;border-bottom: 1px solid black;"><center><span t-esc="line.vehicle_id.name"/></center></td>
+                                    	<td style="border-left: 1px solid black;border-bottom: 1px solid black;"><center><span t-esc="line.receiver_id.name"/></center></td>
+                                    	<td style="border-left: 1px solid black;border-bottom: 1px solid black;">
+                                         <center><span t-esc="line.opening_reading"/></center>   
+                                        </td>
+                                    	<td style="border-left: 1px solid black;border-bottom: 1px solid black;">
+                                        <center> <span t-esc="line.closing_reading"/> </center> 
+                                        </td>
+                                    	<td style="border-left: 1px solid black;border-bottom: 1px solid black;">
+                                        <center> <span t-esc="line.total_diesel"/>  </center>
+                                        </td>
+                                    	<td style="border-left: 1px solid black;border-bottom: 1px solid black;">
+                                        <center> <span t-esc="line.diesel_start_reading"/> </center> 
+                                        </td>
+                                    	<td style="border-left: 1px solid black;border-bottom: 1px solid black;">
+                                         <center><span t-esc="line.filling_time"/>  </center>
+                                        </td>
+                                    	<td style="border-left: 1px solid black;border-bottom: 1px solid black;"></td>
+                                        <t t-set="sl_no" t-value="sl_no+1" />
+                                    </tr>
+                                    </t>
+                                    <tr height="30">
+                                    	<td colspan ="4" align="left">
+                                    		<b>DIESEL DRIVER NAME: </b>
+                                    	</td>
+                                    	<td colspan="5" align="center">
+                                    		<b>SIGNATURE :</b>
+                                    	</td>
+                                    </tr>
+
+                                   </table>
+                        </t> 
+                     
+                    </div>
+                    
+                </t>
+             </t>
+         </template>
+
+         <menuitem id = "menu_diesel_stock_report"
+				   name="Diesel Tanker Report"
+				   action = "action_report_diesel_tanker"/>
+
+
+
+
+		<record id="form_report_diesel_pump" model="ir.ui.view">
+			<field name="name">Diesel Pump Report</field>
+			<field name="model">diesel.pump.report</field>
+			<field name="arch" type="xml">
+				<form>
+					<group>
+						<group>
+							<field name="today_date" />
+							<field name="to_date" />
+                            <field name="diesel_pump_id" />
+
+						</group>
+					</group>
+					<footer>
+						<button type="object" name="view_diesel_stock_report"
+							string="View" class="oe_highlight" />
+						<button type="object" name="generate_xls_report"
+							string="Print" class="oe_highlight" />
+						<button special="cancel" string="Cancel" />
+					</footer>
+				</form>
+			</field>
+		</record>
+		<!-- Material request wizard action-->
+		<record id="action_report_diesel_pump" model="ir.actions.act_window">
+			<field name="name">Diesel Pump Report</field>
+			<field name="res_model">diesel.pump.report</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form</field>
+			<field name="target">new</field>
+		</record>
+
+		 <report id="report_diesel_pump_report" string="DIESEL PUMP"
+				model="diesel.pump.report" report_type="qweb-pdf"
+				name="hiworth_tms.report_diesel_pump_template_view" />
+
+
+		 <menuitem id = "menu_diesel_pump_report"
+				   name="Diesel Pump Report"
+				   action = "action_report_diesel_pump"/>
+<report
+            id="diesel_pump_report_excel"
+            model="diesel.pump.report"
+            string="Diesel Pump"
+            report_type="xlsx"
+            name="Diesel Pump Report.xlsx"
+            file="Diesel Pump Report.xlsx"
+            menu="False"
+        />
+
+		<template id = "report_diesel_pump_template_view">
+			<t t-call="report.html_container">
+                <t t-call="report.external_layout">
+                    <!-- <div class="page"> -->
+
+                             <div class="page">
+                                 <t t-foreach="docs" t-as="o">
+
+
+                        <!--div class="row"-->
+                            <!--div class="col-xs-4" align="left"-->
+                            <div class="row">
+            					<div class="col-xs-12" align = "center">
+
+        			<span>BEGORRA INFRASTRUCTURE AND DEVELOPERS PVT.LTD.</span>
+
+                					<span ><b> DIESEL Pump </b><span t-field="o.diesel_pump_id.name"/> </span>
+            					</div>
+            				</div>
+            <table style="width:100%;border-bottom: 1px solid black;border-top: 1px solid black;border-left: 1px solid black;border-right: 1px solid black;">
+
+
+
+
+
+
+        	<!--table style="width:100%;border-bottom: 1px solid black;border-top: 1px solid black;border-left: 1px solid black;border-right: 1px solid black;"-->
+
+                                <!--table style="width:100%;border-bottom: 1px solid black;border-top: 1px solid black;border-left: 1px solid black;border-right: 1px solid black;margin-top:50px;"-->
+                                    <tr><td style="border-left: 1px solid black;border-bottom: 1px solid black;"><strong>SL.NO</strong></td>
+										<td style="border-left: 1px solid black;border-bottom: 1px solid black;"><strong>Date</strong></td>
+										<td style="border-left: 1px solid black;border-bottom: 1px solid black;"><strong>VEHICLE NO</strong></td>
+										<td style="border-left: 1px solid black;border-bottom: 1px solid black;"><strong>VEHICLE Type</strong></td>
+                                    	<td style="border-left: 1px solid black;border-bottom: 1px solid black;"><strong>Bill NO</strong></td>
+                                    	<td style="border-left: 1px solid black;border-bottom: 1px solid black;"><strong>Indent No</strong></td>
+										<td style="border-left: 1px solid black;border-bottom: 1px solid black;"><strong>Litre</strong></td>
+                                    	<td style='font-size:10px;border-left: 1px solid black;border-bottom: 1px solid black;'><strong>Rate</strong> </td>
+                                    	<td style="border-left: 1px solid black;border-bottom: 1px solid black;"><strong>Amount</strong></td>
+
+										<td style="border-left: 1px solid black;border-bottom: 1px solid black;"><strong>Pre READING</strong> </td>
+                                    	<td style="border-left: 1px solid black;border-bottom: 1px solid black;"><strong>Current READING</strong> </td>
+                                    	<td style="border-left: 1px solid black;border-bottom: 1px solid black;"><strong>Running KM</strong> </td>
+                                    	<td style="border-left: 1px solid black;border-bottom: 1px solid black;"><strong>Mileage</strong> </td>
+
+
+                                    </tr>
+                                    <t t-set="sl_no" t-value="1"/>
+                                    <t t-foreach="o.get_diesel_pump()" t-as="line">
+                                    <tr >
+                                    	<td style="border-left: 1px solid black;border-bottom: 1px solid black;"><center><span t-esc="sl_no"/></center></td>
+                                    	<td style="border-left: 1px solid black;border-bottom: 1px solid black;"><center><span t-esc="line.date"/></center></td>
+										<td style="border-left: 1px solid black;border-bottom: 1px solid black;"><center><span t-esc="line.vehicle_id.license_plate"/></center></td>
+                                    	<td style="border-left: 1px solid black;border-bottom: 1px solid black;"><center><span t-esc="line.vehicle_id.vehicle_categ_id.name"/></center></td>
+                                    	<td style="border-left: 1px solid black;border-bottom: 1px solid black;">
+                                         <center><span t-esc="line.pump_bill_no"/></center>
+                                        </td>
+                                    	<td style="border-left: 1px solid black;border-bottom: 1px solid black;">
+                                        <center> <span t-esc="line.indent_no"/> </center>
+                                        </td>
+                                    	<td style="border-left: 1px solid black;border-bottom: 1px solid black;">
+                                        <center> <span t-esc="line.litre"/>  </center>
+                                        </td>
+                                    	<td style="border-left: 1px solid black;border-bottom: 1px solid black;">
+                                        <center> <span t-esc="line.per_litre"/> </center>
+                                        </td>
+                                    	<td style="border-left: 1px solid black;border-bottom: 1px solid black;">
+                                         <center><span t-esc="line.total_litre_amount"/>  </center>
+                                        </td>
+										<td style="border-left: 1px solid black;border-bottom: 1px solid black;">
+                                         <center><span t-esc="line.start_km"/>  </center>
+                                        </td>
+										<td style="border-left: 1px solid black;border-bottom: 1px solid black;">
+                                         <center><span t-esc="line.close_km"/>  </center>
+                                        </td>
+										<td style="border-left: 1px solid black;border-bottom: 1px solid black;">
+                                         <center><span t-esc="line.running_km"/>  </center>
+                                        </td>
+										<td style="border-left: 1px solid black;border-bottom: 1px solid black;">
+                                         <center><span t-esc="line.mileage"/>  </center>
+                                        </td>
+                                    	<td style="border-left: 1px solid black;border-bottom: 1px solid black;"></td>
+                                        <t t-set="sl_no" t-value="sl_no+1" />
+                                    </tr>
+                                    </t>
+
+
+                                   </table>
+                        </t>
+
+                    </div>
+
+                </t>
+             </t>
+         </template>
+
+
+
+     </data>
+   </openerp>
+

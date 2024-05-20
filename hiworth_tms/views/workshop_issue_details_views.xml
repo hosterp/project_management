@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+
+
+
+
+	<record model="ir.ui.view" id="hiworth_workshop_issue_details_form">
+		<field name="name">workshop.issue</field>
+		<field name="model">workshop.issue</field>
+		<field name="priority" eval="1"/>
+		<field name="arch" type="xml">
+		<form string="Workshop Issue Details">
+			<header>
+				<button name="action_confirm" type="object" class="oe_highlight"
+				string="Confirm" states="draft"/>
+				<field name="state" widget="statusbar"/>
+			</header>
+			<sheet>
+				<field name="name"  nolabel="1" readonly="1"/>
+				<group>
+
+
+
+                <field name="workshop_id" attrs="{'readonly':[('state','=','confirm')]}"/>
+                <field name="date_order" attrs="{'readonly':[('state','=','confirm')]}"/>
+					<field name="project_id" attrs="{'readonly':[('state','=','confirm')]}"/>
+
+				</group>
+
+
+                <notebook>
+                    <page string="Issue Details">
+                        <field name="issue_line_ids" widget="one2many_list" attrs="{'readonly':[('state','=','confirm')]}">
+                            <tree editable="bottom">
+
+                                <field name="item_id" />
+								 <field name="unit_id" />
+								 <field name="available_qty" />
+                                <field name="quantity" />
+								 <field name="rem_qty" />
+                                <field name="price" />
+                                <field name="total" />
+
+                            </tree>
+                        </field>
+                    </page>
+                </notebook>
+
+
+			</sheet>
+		</form>
+		</field>
+	</record>
+
+        <record model="ir.ui.view" id="hiworth_workshop_issue_details_tree">
+		<field name="name">workshop.issue.tree</field>
+		<field name="model">workshop.issue</field>
+		<field name="priority" eval="1"/>
+		<field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="workshop_id"/>
+                <field name="date_order"/>
+				<field name="state"/>
+            </tree>
+        </field>
+        </record>
+
+        <record id="action_workshop_issue_details_form" model="ir.actions.act_window">
+		<field name="name">Workshop Issue Details</field>
+		<field name="res_model">workshop.issue</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+	</record>
+
+        <menuitem action="action_workshop_issue_details_form"
+			  parent="fleet.fleet_vehicles"
+			  id="menu_workshop_issue_details"
+			  name="Workshop Issue Details" />
+
+
+			<record id="product_template_only_form_view_neww_vehicle_Workshop" model="ir.ui.view">
+			<field name="name">product.template.changed</field>
+			<field name="model">product.template</field>
+			<field name="inherit_id" ref="product.product_template_only_form_view" />
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='type']" position="after">
+					<field name="useable_qty"/>
+					<field name="non_useable_qty"/>
+				</xpath>
+			</field>
+			</record>
+
+
+
+    </data>
+</openerp>

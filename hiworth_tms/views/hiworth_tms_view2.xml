@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+
+
+		<record id="vpicktree_altered" model="ir.ui.view">
+			<field name="name">stock.picking.tree.altered</field>
+			<field name="model">stock.picking</field>
+			<field name="inherit_id" ref="stock.vpicktree" />
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='location_dest_id']" position="before">
+					<field name="location_id" string="Source Location" />
+				</xpath>
+			</field>
+		</record>
+		<record id="view_partner_form_altered_accounts_form" model="ir.ui.view">
+			<field name="name">res.partner.form.alter</field>
+			<field name="model">res.partner</field>
+			<!-- <field eval="1" name="priority"/> -->
+			<field name="inherit_id" ref="account.view_partner_property_form" />
+			<field name="arch" type="xml">
+				<xpath expr="//notebook/page" position="attributes">
+					<attribute name="attrs">{'invisible':[('is_rent_mach_owner','=',True)]}</attribute>
+				</xpath>
+			</field>
+		</record>
+
+
+		<record id="view_partner_form_altered" model="ir.ui.view">
+			<field name="name">res.partner.form.alter</field>
+			<field name="model">res.partner</field>
+			<!-- <field eval="1" name="priority"/> -->
+			<field name="inherit_id" ref="base.view_partner_form" />
+			<field name="arch" type="xml">
+
+				<xpath expr="//notebook/page/group/group/field[@name='supplier']"
+					position="after">
+					<field name="is_fuel_station" attrs="{'invisible':[('is_rent_mach_owner','=',True)]}" string="Fuel Station" value="True" />
+					<field name="is_rent_mach_owner"/>
+				</xpath>
+				<xpath expr="//notebook/page/group/group/field[@name='supplier']" position="attributes">
+					<attribute name="attrs">{'invisible':[('is_rent_mach_owner','=',True)]}</attribute>
+				</xpath>
+				<xpath expr="//notebook/page" position="attributes">
+					<attribute name="attrs">{'invisible':[('is_rent_mach_owner','=',True)]}</attribute>
+				</xpath>
+
+				<xpath expr="//notebook/page[1]" position="after">
+					<page string="Rent Machinery Details" attrs="{'invisible':[('is_rent_mach_owner','=',False)]}">
+						<field name="rent_vehicle_bata_ids">
+							<tree editable="bottom">
+								<field name="vehicle_categ_id"/>
+								<field name="mode_of_rate"/>
+								<field name="rate"/>
+								<field name="mode_of_bata"/>
+								<field name="bata"/>
+								<field name="with_effect"/>
+
+							</tree>
+						</field>
+					</page>
+					<page string="Rent Vehicle Details" attrs="{'invisible':[('is_rent_mach_owner','=',False)]}">
+						<field name="rent_vehicle_km_ids" >
+							<tree editable="bottom">
+								<field name="rate_km"/>
+
+								<field name="with_effect"/>
+
+							</tree>
+						</field>
+					</page>
+				</xpath>
+			</field>
+		</record>
+
+
+		<record id="inherit_view_fuel_stations_filter" model="ir.ui.view">
+			<field name="name">Fuel Station</field>
+			<field name="model">res.partner</field>
+			<field name="inherit_id" ref="base.view_res_partner_filter" />
+			<field name="arch" type="xml">
+				<xpath expr="//filter[@string='Persons']" position="after">
+					<filter string="Fuel Station" name="group_fuel_station"
+						domain="[('is_fuel_station','=',1)]" />
+				</xpath>
+			</field>
+		</record>
+
+
+		<record id="action_inherit_view_fuel_stations_form" model="ir.actions.act_window">
+			<field name="name">Fuel Stations</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">res.partner</field>
+			<field name="view_type">form</field>
+			<field name="domain">[]</field>
+			<field name="view_mode">tree,form</field>
+			<field name="context">{'search_default_group_fuel_station':
+				1,'default_customer': 0,'default_supplier': 1,
+				'default_is_fuel_station': 1}
+			</field>
+			<field name="filter" eval="True" />
+		</record>
+
+
+		<record id="view_move_picking_form_altered" model="ir.ui.view">
+			<field name="name">stock.move.form.altered</field>
+			<field name="model">stock.move</field>
+			<!-- <field eval="20" name="priority"/> -->
+			<field name="inherit_id" ref="stock.view_move_picking_form" />
+			<field name="arch" type="xml">
+				<xpath expr="//group/group[@string='Reserved Quants']"
+					position="replace">
+					<group name="quants_grp" string="Reserved Quants" colspan="4"
+						groups="base.group_no_one" invisible="True">
+						<field name="reserved_quant_ids" nolabel="1" />
+					</group>
+				</xpath>
+				<xpath expr="//group/group/field[@name='date']" position="replace">
+					<field name="date" invisible="True" />
+				</xpath>
+				<xpath expr="//group/group/field[@name='date_expected']"
+					position="replace">
+					<field name="date_expected" required="False"
+						on_change="onchange_date(date,date_expected)" invisible="True" />
+				</xpath>
+
+			</field>
+		</record>
+
+		<record id="view_move_picking_tree_altered" model="ir.ui.view">
+			<field name="name">stock.move.tree.altered</field>
+			<field name="model">stock.move</field>
+			<!-- <field eval="4" name="priority"/> -->
+			<field name="inherit_id" ref="stock.view_move_picking_tree" />
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='location_dest_id']" position="before">
+					<field name="location_id" groups="stock.group_locations" />
+				</xpath>
+
+				<xpath expr="//field[@name='string_availability_info']"
+					position="after">
+					<button name="%(stock.move_scrap)d" string="Scrap Products"
+						type="action" icon="terp-gtk-jump-to-ltr" context="{'scrap': True}"
+						states="draft,waiting,confirmed,assigned" groups="stock.group_stock_user" />
+				</xpath>
+
+				<xpath expr="//button[@string='Scrap Products']" position="replace">
+					<button name="%(stock.move_scrap)d" string="Scrap Products"
+						type="action" icon="terp-gtk-jump-to-ltr" context="{'scrap': True}"
+						states="draft,waiting,confirmed,assigned" groups="stock.group_stock_user"
+						invisible="1" />
+				</xpath>
+
+
+			</field>
+		</record>
+
+
+
+
+
+
+	</data>
+</openerp>
+    

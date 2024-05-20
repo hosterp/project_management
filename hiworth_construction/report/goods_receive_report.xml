@@ -1,0 +1,195 @@
+<openerp>
+	<data>
+<!--		<report id="report_goods_recieve_report" string="Goods Recieve Report"-->
+<!--                model="goods.recieve.report" report_type="qweb-pdf"-->
+<!--                name="hiworth_construction.report_goods_recieve_report_template"-->
+<!--                -->
+<!--			/>-->
+
+<!--<template id="external_layout_inherit">-->
+<!--    &lt;!&ndash; Multicompany &ndash;&gt;-->
+<!--    <t t-if="o and 'company_id' in o">-->
+<!--        <t t-set="company" t-value="o.company_id"></t>-->
+<!--    </t>-->
+<!--    <t t-if="not o or not 'company_id' in o">-->
+<!--        <t t-set="company" t-value="res_company"></t>-->
+<!--    </t>-->
+
+<!--    <t t-call="hiworth_construction.external_layout_header_inherit" />-->
+<!--    <t t-raw="0" />-->
+<!--    <t t-call="hiworth_construction.external_layout_footer_inherit" />-->
+<!--</template>-->
+
+<!--<template id="external_layout_header_inherit">-->
+<!--    <div class="header">-->
+<!--        <div class="row">-->
+<!--            <div class="col-xs-3">-->
+<!--                <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % company.logo" style="max-height: 80px;"/>-->
+<!--            </div>-->
+<!--            <div class="col-xs-9 text-left" style="font-size: 20px;margin-top:30px;" t-field="company.rml_header1"/>-->
+<!--        </div>-->
+<!--            <div class="col-xs-12 text-center" style="font-size: 20px;margin-top:10px;"> -->
+<!--                <div style="border-style:solid;">GOODS RECEIVE REPORT</div>-->
+<!--        </div>-->
+<!--        &lt;!&ndash;div class="row zero_min_height">-->
+<!--            <div class="col-xs-12">-->
+<!--                <div style="border-bottom: 1px solid black;"></div>-->
+<!--            </div>-->
+<!--        </div&ndash;&gt;-->
+<!--        &lt;!&ndash;div class="row">-->
+<!--            <div class="col-xs-3">-->
+<!--                <div t-field="company.partner_id" -->
+<!--                    t-field-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": true}'-->
+<!--                    style="border-bottom: 1px solid black;"/>-->
+<!--            </div>-->
+<!--        </div&ndash;&gt;-->
+<!--    </div>-->
+<!--</template>-->
+
+<!--<template id="external_layout_footer_inherit">-->
+<!--    <div class="footer">-->
+<!--        <div class="text-center" style="border-top: 1px solid black;">-->
+<!--            <ul t-if="not company.custom_footer" class="list-inline">-->
+<!--                <li t-if="company.phone">Phone: <span t-field="company.phone"/></li>-->
+
+<!--                <li t-if="company.fax and company.phone">&amp;bull;</li>-->
+<!--                <li t-if="company.fax">Fax: <span t-field="company.fax"/></li>-->
+
+<!--                <li t-if="company.email">&amp;bull;</li>-->
+<!--                <li t-if="company.email">Email: <span t-field="company.email"/></li>-->
+
+<!--                <li t-if="company.website">&amp;bull;</li>-->
+<!--                <li t-if="company.website">Website: <span t-field="company.website"/></li>-->
+<!--            </ul>-->
+
+<!--            <t t-if="company.custom_footer">-->
+<!--                <span t-raw="company.rml_footer"/>-->
+<!--            </t>-->
+
+<!--            <ul class="list-inline">-->
+<!--                <li>Page:</li>-->
+<!--                <li><span class="page"/></li>-->
+<!--                <li>/</li>-->
+<!--                <li><span class="topage"/></li>-->
+<!--            </ul>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</template>-->
+
+<!-- 		<template id="report_goods_recieve_report_template">-->
+<!--            <t t-call="report.html_container">-->
+<!--                <t t-call="hiworth_construction.external_layout_inherit">-->
+<!--                    <div class="page">-->
+<!--                        <t t-foreach="docs" t-as="o">-->
+<!--                                    &lt;!&ndash;center><strong style="display: inline-block; margin-bottom: 25px;"> <h1>BEGORRA INFRASTRUCTURE &amp; DEVELOPERS PVT.LTD.</h1></strong></center&ndash;&gt;-->
+<!--                            -->
+<!--                                    -->
+<!--                                    <table class="table table-bordered" align="left" style="width:40%">-->
+<!--                                        <tr >-->
+<!--                                            <td>Supplier:<span t-esc="o.supplier_id.name" /></td>-->
+<!--                                             <td>Invoice No:<span t-esc="o.invoice_no" /></td>-->
+<!--                                            -->
+<!--                                        </tr>-->
+<!--                                    </table>-->
+<!--                                    <table class="table table-bordered" align="right" style="width:40%">-->
+<!--                                        <tr>-->
+<!--                                            <td>GRR No : <span t-esc="o.grr_no"/></td>-->
+<!--                                            <td>Date: <span t-esc="o.Date"/></td>-->
+<!--                                        </tr>-->
+<!--                                        <tr>-->
+<!--                                        	<td>Project Name: <span t-esc="o.project_id.name"/></td>-->
+<!--                                        	<td>P.O.No : <span t-esc="o.po_no"/></td>-->
+<!--                                        </tr>-->
+<!--                                    </table>-->
+
+<!--                                -->
+<!--                                -->
+<!--                            -->
+<!--                            <t t-set="sl_no" t-value="1"/>-->
+<!--                            <table class="table table-bordered">-->
+<!--                                <thead>-->
+<!--                                    <tr class="info">-->
+<!--                                        <th>Sl.No</th>-->
+<!--                                        <th>Um</th>-->
+<!--                                        <th>Description/ Nomenclature</th>-->
+<!--                                        <th>Part No./ Specification</th>-->
+<!--                                        <th>Quantity received</th>-->
+<!--                                        <th>Quantity Accepted</th>-->
+<!--                                        <th>Quantity Rejected</th>-->
+<!--                                        <th>Landed Price</th>-->
+<!--                                        <th>Remarks</th>-->
+<!--                                    </tr>-->
+<!--                                </thead>-->
+<!--                                <tbody>-->
+<!--                                    <t t-foreach="o.goods_recieve_report_line_ids" t-as="line">-->
+<!--                                        <tr>-->
+<!--                                            <td>-->
+<!--                                                <span t-esc="sl_no"/>-->
+<!--                                            </td>-->
+<!--                                                <td>-->
+<!--                                                    <span t-esc="line.item_id.name"/>-->
+<!--                                                </td>-->
+<!--                                            -->
+<!--                                                <td>-->
+<!--                                                    <span t-esc="line.desc"/>-->
+<!--                                                </td>-->
+<!--                                                <td>-->
+<!--                                                    <span t-esc="line.specs"/>-->
+<!--                                                </td>-->
+<!--                                            -->
+<!--                                            <td>-->
+<!--                                                <span t-esc="line.quantity_rec"/>-->
+<!--                                            </td>-->
+<!--                                            <td>-->
+<!--                                                <span t-esc="line.quantity_accept"/>-->
+<!--                                            </td>-->
+<!--                                            <td>-->
+<!--                                                <span t-esc="line.quantity_reject"/>-->
+<!--                                            </td>-->
+<!--                                            <td>-->
+<!--                  -->
+<!--                                                <span t-esc="line.rate"/>-->
+<!--                                            </td>-->
+<!--                                            <td>-->
+<!--                                                <span t-esc="line.remarks"/>-->
+<!--                                            </td>-->
+<!--                                        </tr>-->
+<!--                                        <t t-set="sl_no" t-value="sl_no+1"/>-->
+<!--                                    </t>-->
+<!--                                </tbody>-->
+<!--                            </table>-->
+<!--                            &lt;!&ndash;table class="table table-bordered">-->
+<!--                                    <tr>-->
+<!--                                        <td>Requested By : <span t-esc = "o.user_created.name"/></td>-->
+<!--                                        <td>Authorised By :<span t-esc = "o.project_manager.name"/> </td>-->
+<!--                                        <td>Transferred By :<span t-esc = "o.purchase_manager.name"/> </td>-->
+<!--                                        <td>Received By :<span t-esc = "o.dgm_id.name"/> </td>-->
+<!--                                    </tr>-->
+<!--   -->
+<!--                            </table&ndash;&gt;-->
+<!--                        </t>-->
+<!--                    </div>-->
+<!--                </t>-->
+<!--            </t>-->
+<!--        </template>-->
+<!--        <record id="grr_report_paperformat" model="report.paperformat">-->
+<!--            <field name="name">Landscape</field>-->
+<!--            <field name="default" eval="True" />-->
+<!--            <field name="format">A4</field>-->
+<!--            <field name="orientation">Landscape</field>-->
+<!--            <field name="margin_top">0</field>-->
+<!--            <field name="margin_bottom">0</field>-->
+<!--            <field name="margin_left">15</field>-->
+<!--            <field name="margin_right">15</field>-->
+<!--            <field name="header_line" eval="False" />-->
+<!--            <field name="header_spacing">0</field>-->
+<!--            <field name="dpi">0</field>-->
+<!--        </record>-->
+
+
+<!--        <report id="print_goods_recieve_report" string="Goods Recieve Report"-->
+<!--            model="goods.recieve.report" report_type="qweb-pdf"-->
+<!--            name="hiworth_construction.report_goods_recieve_report_template" />-->
+
+    </data>
+</openerp>

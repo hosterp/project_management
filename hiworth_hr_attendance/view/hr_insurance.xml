@@ -1,0 +1,649 @@
+<?xml version="1.0"?>
+
+<openerp>
+		<data>
+
+			<record id="employee_insurance_form" model="ir.ui.view">
+				<field name="name">employee.insurance.form</field>
+				<field name="model">employee.insurance</field>
+				<field name="arch" type="xml">
+					<form string="Employee Insurance">
+						<header>
+							<button name="view_renewal" string="Insurance Renewal" type="object" class="oe_highlight" attrs="{'invisible':[('insurance_status','!=','draft')]}"/>
+							<button name="view_close" string="Close" type="object" class="oe_highlight" attrs="{'invisible':[('insurance_status','!=','draft')]}"/>
+		                    <field name="state" widget="statusbar" statusbar_visible="draft,paid,closed" />
+		                </header>
+						<sheet>
+							
+							<group>
+								
+								<group>
+									<field name="employee_id" required="1" attrs="{'readonly':[('state','in',['paid','closed'])]}"/>
+									<field name="user_category" required="1" readonly="1"/>
+									<field name="work_phone" readonly="1"/>
+									<field name="name" invisible="1" />
+									<!-- <field name="techinical_training" /> -->
+									
+								</group>
+								<group>
+									
+									<!-- <field name="qualification" /> -->
+									<field name="gender" readonly="1"/>
+									<field name="birthday" readonly="1"/>
+									<field name="age" widget="char" readonly="1"/>
+									<!-- <field name="address" /> -->
+
+								</group>
+
+							</group>
+							<group>
+								<!-- <h1>
+									<label string ="Insurance Details"/>
+								</h1> -->
+								<group>
+									<field name="insurer_id" required="1" attrs="{'readonly':[('state','in',['paid','closed'])]}"/>
+									<field name="policy_id" required="1" attrs="{'readonly':[('state','in',['paid','closed'])]}"/>
+									<field name="premium_amount" widget="char" required="1" attrs="{'readonly':[('state','in',['paid','closed'])]}"/>
+									<field name="is_company_policy" attrs="{'readonly':[('state','in',['paid','closed'])]}"/>
+									<!-- <field name="sponsor" /> -->
+									<field name="empol_contribution" widget="char" attrs="{'invisible':[('is_company_policy','!=',True)],'required':[('is_company_policy','=',True)], 'readonly':[('state','=','paid')]}"/>
+									<field name="comp_contribution" widget="char" attrs="{'invisible':[('is_company_policy','!=',True)],'required':[('is_company_policy','=',True)], 'readonly':[('state','=','paid')]}"/>
+									<field name="emp_paid_amt" readonly="1"/>
+								</group>
+								<group>
+									<field name="insured_code" widget="char" required="1" attrs="{'readonly':[('state','in',['paid','closed'])]}"/>
+									<field name="insurance_status" readonly="1" />
+									<field name="policy_no" widget="char" attrs="{'readonly':[('state','in',['paid','closed'])]}"/>
+									<!-- <field name="claim_duration" /> -->
+									<field name="no_of_person" widget="char" attrs="{'readonly':[('state','in',['paid','closed'])]}"/>
+									<field name="commit_date" required="1" attrs="{'readonly':[('state','in',['paid','closed'])]}"/>
+									<field name="renew_date" required="1" attrs="{'readonly':[('state','in',['paid','closed'])]}"/>
+								</group>
+							</group>
+							<div>
+								<label for="claim_duration" string="Claim Duration" required="1"/>
+                                <field name="claim_duration" class="oe_inline" readonly="1" /> years
+                            </div>
+						</sheet>
+					</form>
+				</field>
+			</record>
+
+			<record id="employee_insurance_tree" model="ir.ui.view">
+				<field name="name">employee.insurance.tree</field>
+				<field name="model">employee.insurance</field>
+				<field name="arch" type="xml">
+					<tree string="Employee Insurance">
+						<field name="employee_id" />
+						<field name="user_category" />
+						<field name="policy_id" />
+						<field name="insured_code" widget="char" />
+						<field name="policy_no" widget="char"/>
+						<field name="state" />
+						<field name="work_phone"/>
+						<field name="gender" />
+						<field name="birthday" />
+						<field name="age" />
+						<field name="claim_duration" />
+						<field name="no_of_person" widget="char" />
+						<field name="premium_amount" widget="char"/>
+						<field name="empol_contribution" widget="char" />
+						<field name="comp_contribution" widget="char"/>
+						<field name="commit_date" />
+						<field name="renew_date" />
+					
+					</tree>
+				</field>
+			</record>
+
+			<record id="employee_insurence_action" model="ir.actions.act_window">
+				<field name="name">Employee Insurance</field>
+				<field name="res_model">employee.insurance</field>
+				<field name="view_type">form</field>
+				<field name="view_mode">tree,form</field>
+			</record>
+
+			<menuitem id="employee_insurance_menu" parent="hr.menu_hr_root" name="Employee Policy" sequence="48" groups="base.group_erp_manager,group_hr"/>
+
+			<menuitem id="employee_insurance_payment" parent="employee_insurance_menu" name="Employee Policy" sequence="1" action="employee_insurence_action" groups="base.group_erp_manager,group_hr"/>
+
+
+
+
+			<record id="insurance_policy_type_form" model="ir.ui.view">
+				<field name="name">policy.type.form</field>
+				<field name="model">policy.type</field>
+				<field name="arch" type="xml">
+					<form string="Insurance Policy">
+						<sheet>
+							<h1>
+								<field name="name" required="1"/>
+							</h1>
+							<group>
+								<group>
+									<field name="account_id" required="1"/>
+								</group>
+								<group>
+									<div>
+										<label for="duration" string="Duration" class="oe_inline"/>
+	                                    <field name="duration" class="oe_inline" required="1"/> years
+	                                </div>
+								</group>
+							</group>
+							
+						</sheet>
+					</form>
+				</field>
+			</record>
+
+			<record id="insurance_policy_type_tree" model="ir.ui.view">
+				<field name="name">policy.type.tree</field>
+				<field name="model">policy.type</field>
+				<field name="arch" type="xml">
+					<tree string="Insurance Policy">
+						<field name="name" />
+						<field name="duration" />
+						<field name="account_id"/>
+					</tree>
+				</field>
+			</record>
+
+			<record id="insurance_policy_type_action" model="ir.actions.act_window">
+				<field name="name">Insurance Policy</field>
+				<field name="res_model">policy.type</field>
+				<field name="view_type">form</field>
+				<field name="view_mode">tree,form</field>
+			</record>
+
+			<menuitem id="insurance_policy_type" parent="hr.menu_hr_configuration" name="Employee Policy Types" sequence="2" action="insurance_policy_type_action" groups="base.group_erp_manager,group_hr"/>
+
+
+
+			<record id="insurance_policy_payment_form" model="ir.ui.view">
+				<field name="name">insurance.policy.payment.form</field>
+				<field name="model">insurance.policy.payment</field>
+				<field name="arch" type="xml">
+					<form string="Policy Payment">
+						<header>
+							<button name="view_action_send_approval" states="draft" string="Send To Approval" type="object" class="oe_highlight" />
+							<button name="view_action_approve" states="send_approval" string="Approve" type="object" class="oe_highlight" />
+							<button name="view_action_payment" states="approved" string="Payment" type="object" class="oe_highlight" />
+		                    <field name="state" widget="statusbar" statusbar_visible="draft,send_approval,approved,paid" />
+		                </header>
+						<sheet>					
+							<group col="4">
+								<field name="date" required="1" attrs="{'readonly':[('state','=','paid')]}"/>
+								<field name="policy_id" required="1" attrs="{'readonly':[('state','=','paid')]}"/>
+							</group>
+							<group>
+								<field name="payment_ids" nolabel="1" attrs="{'readonly':[('state','=','paid')]}">
+									<tree editable="bottom">
+										<field name="employee_id" required="1"/>
+										<field name="emp_policy_id" required="1"/>
+										<field name="insurer_id" required="1"/>
+										<field name="insured_code" required="1"/>
+										<field name="amount" required="1"/>
+										<field name="commit_date" required="1"/>
+										<field name="renew_date" required="1"/>
+									</tree>
+								</field>
+							</group>
+						</sheet>
+					</form>
+				</field>
+			</record>
+
+
+			<record id="insurance_policy_payment_tree" model="ir.ui.view">
+				<field name="name">insurance.policy.payment.tree</field>
+				<field name="model">insurance.policy.payment</field>
+				<field name="arch" type="xml">
+					<tree string="Policy Payment">
+						<field name="date" />
+						<field name="policy_id" />
+						<field name="state" />
+					</tree>
+				</field>
+			</record>
+
+			<record id="insurance_policy_payment_action" model="ir.actions.act_window">
+				<field name="name">Policy Payment</field>
+				<field name="res_model">insurance.policy.payment</field>
+				<field name="view_type">form</field>
+				<field name="view_mode">tree,form</field>
+			</record>
+
+			<menuitem id="menu_insurance_policy_payment" parent="employee_insurance_menu" name="Policy Payment" sequence="2" action="insurance_policy_payment_action" groups="base.group_erp_manager,group_hr"/>
+
+			<menuitem id="menu_policy_finance"  name="Employee Policy" sequence="2" action="insurance_policy_payment_action" groups="base.group_erp_manager,group_hr"/>
+
+			<menuitem id="menu_policy_payment_finance" parent="menu_policy_finance" name="Policy Payment" sequence="2" action="insurance_policy_payment_action" groups="base.group_erp_manager,group_hr"/>
+
+
+
+			<record id="policy_payment_wizard_form" model="ir.ui.view">
+				<field name="name">policy.payment.wizard.form</field>
+				<field name="model">policy.payment.wizard</field>
+				<field name="arch" type="xml">
+					<form string="Policy Payment">
+						<sheet>					
+							<group>
+								<group>
+									<field name="date" required="1"/>
+									<field name="payment_mode" required="1"/>
+									<!-- <field name="bank_id" />
+									<field name="account_id" /> -->
+									<field name="payment_amount" readonly="1"/>
+									<field name="payment_id" invisible="1"/>
+								</group>
+								<group>
+								</group>
+							</group>
+						</sheet>
+						<footer>
+							<button name="button_payment" string="Payment" type="object" class="oe_highlight" />
+							<button string="Cancel" class="oe_link" special="cancel" />
+		                </footer>
+					</form>
+				</field>
+			</record>
+
+
+			<record id="insurance_policy_claim_form" model="ir.ui.view">
+				<field name="name">insurance.policy.claim.form</field>
+				<field name="model">insurance.policy.claim</field>
+				<field name="arch" type="xml">
+					<form string="Policy Claim">
+						<header>
+							<button name="view_action_payment" states="draft,active" string="Paid To Employee" type="object" class="oe_highlight" />
+							<button name="button_claim_request" states="draft,active" string="Claim Request" type="object" class="oe_highlight" />
+							<button name="button_claim_release" states="claim_request" string="Claim Release" type="object" class="oe_highlight" />
+		                    <field name="state" widget="statusbar" statusbar_visible="draft,active,claim_request,claim_release" />
+		                </header>
+						<sheet>					
+							<group>
+								<group>
+									<field name="date" required="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+									<field name="emp_policy_id" required="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+									<field name="insured_code" required="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+									<field name="insurer_id" required="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+								</group>
+								<group>
+									<field name="employee_id" required="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+									<field name="commit_date" required="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+									<field name="renew_date" required="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+								<field name="claim_asset_account_id" required="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+								</group>
+							</group>
+							<group string="Employee Payment Details" attrs="{'invisible':[('state','=','draft')]}">
+								<field name="payment_ids" nolabel="1">
+									<tree>
+										<field name="date"/>
+										<field name="claim_id" invisible="1"/>
+										<field name="payment_mode"/>
+										<field name="claim_asset_account_id" invisible="1"/>
+										<field name="amount_paid" sum="Total"/>
+									</tree>
+								</field>
+							</group>
+							<group>
+								<field name="amount_paid" />
+							</group>
+							<group string="Claim Details" attrs="{'invisible':[('state','=','draft')]}">
+								<field name="requested_claim_amount" attrs="{'required':[('state','in',['claim_request','claim_release'])],'readonly':[('state','not in',['draft','active'])]}" widget="char"/>
+								<field name="released_claim_amount" readonly="1" widget="char"/>
+							</group>
+						</sheet>
+					</form>
+				</field>
+			</record>
+
+			<record id="insurance_policy_claim_tree" model="ir.ui.view">
+				<field name="name">insurance.policy.claim.tree</field>
+				<field name="model">insurance.policy.claim</field>
+				<field name="arch" type="xml">
+					<tree string="Policy Claim">
+						<field name="date" />
+						<field name="insured_code" />
+						<field name="emp_policy_id" />
+						<field name="employee_id" />
+					</tree>
+				</field>
+			</record>
+
+			<record id="insurance_policy_claim_action" model="ir.actions.act_window">
+				<field name="name">Policy Claim</field>
+				<field name="res_model">insurance.policy.claim</field>
+				<field name="view_type">form</field>
+				<field name="view_mode">tree,form</field>
+			</record>
+
+			<menuitem id="menu_insurance_policy_claim" parent="employee_insurance_menu" name="Employee Claim" sequence="3" action="insurance_policy_claim_action" groups="base.group_erp_manager,group_hr"/>
+
+
+			<record id="claim_payment_wizard_form" model="ir.ui.view">
+				<field name="name">claim.payment.wizard.form</field>
+				<field name="model">claim.payment.wizard</field>
+				<field name="arch" type="xml">
+					<form string="Claim Payment">
+						<sheet>					
+							<group>
+								<group>
+									<field name="date" required="1"/>
+									<field name="payment_mode" required="1"/>
+									<field name="claim_asset_account_id" readonly="1"/>
+									<field name="amount_paid" required="1"/>
+									<field name="claim_id" invisible="1"/>
+								</group>
+								<group>
+								</group>
+							</group>
+						</sheet>
+						<footer>
+							<button name="button_payment" string="Payment" type="object" class="oe_highlight" />
+							<button string="Cancel" class="oe_link" special="cancel" />
+		                </footer>
+					</form>
+				</field>
+			</record>
+
+
+			<record id="claim_release_wizard_form" model="ir.ui.view">
+				<field name="name">claim.release.wizard.form</field>
+				<field name="model">claim.release.wizard</field>
+				<field name="arch" type="xml">
+					<form string="Claim Release">
+						<sheet>					
+							<group>
+								<group>
+									<field name="date" required="1"/>
+									<field name="payment_mode" required="1"/>
+									<field name="released_claim_amount" required="1"/>
+									<field name="company_expense_account_id"/>
+									<field name="claim_id" invisible="1"/>
+								</group>
+								<group>
+								</group>
+							</group>
+						</sheet>
+						<footer>
+							<button name="button_release" string="Release" type="object" class="oe_highlight" />
+							<button string="Cancel" class="oe_link" special="cancel" />
+		                </footer>
+					</form>
+				</field>
+			</record>
+
+
+
+
+
+
+
+
+
+
+
+
+			<record id="management_policy_form" model="ir.ui.view">
+				<field name="name">management.policy.form</field>
+				<field name="model">management.policy</field>
+				<field name="arch" type="xml">
+					<form string="Management Policy">
+						<header>
+							<button name="button_active" states="draft" string="Active" type="object" class="oe_highlight" />
+							<button name="view_action_surrender" states="active" string="Surrender" type="object" class="oe_highlight" />
+							<button name="view_action_mn" string="Money Back" attrs="{'invisible':['|',('state','!=','active'),('is_money_back_policy','!=',True)]}" type="object" class="oe_highlight" />
+							<button name="view_action_payment" states="matured" string="Release" type="object" class="oe_highlight" />
+		                    <field name="state" widget="statusbar" statusbar_visible="draft,active,surrender,matured,release" />
+		                </header>
+						<sheet>
+							<group>
+								<group>
+									<field name="policy_type_id" required="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+									<!-- <field name="insurance_company_id" /> -->
+									<field name="account_id" required="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+									<field name="policy_no" required="1" attrs="{'readonly':[('state','!=','draft')]}" />
+									<field name="payment_mode" required="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+									<field name="sum_assured" widget="char" required="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+									<field name="premium_amount" widget="char" required="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+								</group>
+								<group>
+									<field name="is_money_back_policy"  attrs="{'readonly':[('state','!=','draft')]}"/>
+									<field name="res_company_id" required="1"  attrs="{'readonly':[('state','!=','draft')]}"/>
+									<field name="commencement_date" required="1"  attrs="{'readonly':[('state','!=','draft')]}"/>
+									<field name="remittance_date" required="1"  attrs="{'readonly':[('state','!=','draft')]}"/>
+									<field name="maturity_date" required="1"  attrs="{'readonly':[('state','!=','draft')]}"/>
+ 								</group>
+							</group>
+							<group string="Released Amounts" attrs="{'invisible':[('state','not in',['surrender','release'])]}">
+								<field name="released_sum_assured" readonly="1" attrs="{'invisible':[('state','not in',['surrender','release'])]}"/>
+								<field name="released_survival_benefit" readonly="1" attrs="{'invisible':[('state','not in',['surrender','release'])]}"/>
+								<field name="released_amount" readonly="1" attrs="{'invisible':[('state','not in',['surrender','release'])]}"/>
+								<field name="released_payment_mode" readonly="1" attrs="{'invisible':[('state','not in',['surrender','release'])]}"/>
+								<field name="survival_benefit_account_id" readonly="1" attrs="{'invisible':[('state','not in',['surrender','release'])]}"/>
+							</group>
+							<group string="Money Back Details" attrs="{'invisible':[('is_money_back_policy','=',False)]}">
+								<field name="mn_ids" nolabel="1" attrs="{'invisible':[('is_money_back_policy','=',False)]}">
+									<tree >
+										<field name="date"/>
+										<field name="payment_mode" />
+										<field name="payment_amount"/>
+										<field name="state" />
+									</tree>
+								</field>
+							</group>
+							
+							<group string="Payment Details">
+								<field name="payment_ids" nolabel="1" readonly="1">
+									<tree editable="top">
+										<!-- <field name="line_id" /> -->
+										<field name="date" required="1"/>
+										<field name="premium_amount" widget="char" required="1"/>
+										<field name="state" />
+									</tree>
+								</field>
+							</group>
+							<group>
+								<field name="remarks" />
+							</group>
+						</sheet>
+					</form>
+				</field>
+			</record>
+
+			<record id="management_policy_tree" model="ir.ui.view">
+				<field name="name">management.policy.tree</field>
+				<field name="model">management.policy</field>
+				<field name="arch" type="xml">
+					<tree string="Management Policy">
+						<field name="res_company_id" />
+						<field name="policy_type_id" />
+						<field name="account_id" />
+						<field name="policy_no" widget="char"/>
+						<field name="commencement_date" />
+						<field name="maturity_date" />
+						<field name="remittance_date" />
+						<field name="payment_mode" />
+						<field name="sum_assured" widget="char"/>
+						<field name="premium_amount" widget="char"/>
+						<field name="state" />
+ 					</tree>
+				</field>
+			</record>
+
+
+			<record id="action_management_policy" model="ir.actions.act_window">
+				<field name="name">Management Policy</field>
+				<field name="res_model">management.policy</field>
+				<field name="view_type">form</field>
+				<field name="view_mode">tree,form</field>
+			</record>
+
+			<menuitem id="menu_management_insurance" parent="hr.menu_hr_root" name="Management Policy" sequence="49"/>
+
+	
+			<menuitem id="menu_management_insurance_policy1" parent="menu_management_insurance" name="Management Policy" sequence="2" action="action_management_policy"/>
+
+
+		
+
+			<record id="mgmt_policy_release_wizard_form111111111" model="ir.ui.view">
+				<field name="name">management.policy.release.wizard.form</field>
+				<field name="model">management.policy.release.wizard</field>
+				<field name="arch" type="xml">
+					<form string="Policy Payment">
+						<sheet>					
+							<group>
+								<group>
+									<field name="date" required="1"/>
+									<field name="payment_mode" required="1"/>
+									<field name="survival_benefit_account_id" attrs="{'invisible':[('survival_benefit','=',False)],'required':[('survival_benefit','!=',False)]}"/>
+									<field name="payment_amount" widget="char" required="1"/>
+									<field name="sum_assured" widget="char" />
+									<field name="survival_benefit" widget="char"/>
+									<field name="payment_id" invisible="1"/>
+								</group>
+								<group>
+								</group>
+							</group>
+						</sheet>
+						<footer>
+							<button name="button_policy_release" string="Release" type="object" class="oe_highlight" />
+							<button string="Cancel" class="oe_link" special="cancel" />
+		                </footer>
+					</form>
+				</field>
+			</record>
+
+			<record id="mgmt_policy_money_back_wizard_form" model="ir.ui.view">
+				<field name="name">management.policy.money_back.form</field>
+				<field name="model">management.policy.money_back</field>
+				<field name="arch" type="xml">
+					<form string="Money Back">
+						<sheet>					
+							<group>
+								<group>
+									<field name="date" required="1"/>
+									<field name="payment_mode" required="1"/>
+									<field name="payment_amount" widget="char" required="1"/>
+									<field name="payment_id" invisible="1"/>
+									<field name="state"/>
+								</group>
+								<group>
+								</group>
+							</group>
+						</sheet>
+						<footer>
+							<button name="button_policy_money_back" string="Money Back" type="object" class="oe_highlight" />
+							<button string="Cancel" class="oe_link" special="cancel" />
+		                </footer>
+					</form>
+				</field>
+			</record>
+
+
+			<record id="management_policy_payment_form" model="ir.ui.view">
+				<field name="name">management.policy.line.form</field>
+				<field name="model">management.policy.line</field>
+				<field name="arch" type="xml">
+					<form string="Management Policy Payment">
+						<header>
+							<button name="button_payment" states="draft" string="Payment" type="object" class="oe_highlight" />
+		                    <field name="state" widget="statusbar" statusbar_visible="draft,paid" />
+		                </header>
+						<sheet>
+							<group>
+								<group>
+									<field name="line_id" required="1" attrs="{'readonly':[('state','=','paid')]}"/>
+									<field name="res_company_id" attrs="{'readonly':[('state','=','paid')]}" />
+									<field name="policy_type_id" attrs="{'readonly':[('state','=','paid')]}" />
+									<field name="account_id" required="1" attrs="{'readonly':[('state','=','paid')]}"/>
+									<field name="policy_no" attrs="{'readonly':[('state','=','paid')]}" />
+									<field name="payment_mode" required="1" attrs="{'readonly':[('state','=','paid')]}"/>
+									<field name="premium_amount" widget="char" required="1" attrs="{'readonly':[('state','=','paid')]}"/>
+								</group>
+								<group>
+									<field name="date" required="1" attrs="{'readonly':[('state','=','paid')]}"/>
+									<field name="sum_assured"  attrs="{'readonly':[('state','=','paid')]}"/>
+									<field name="payment_duration"  attrs="{'readonly':[('state','=','paid')]}"/>
+									<field name="commencement_date"  attrs="{'readonly':[('state','=','paid')]}"/>
+									<field name="remittance_date"  attrs="{'readonly':[('state','=','paid')]}"/>
+									<field name="maturity_date"  attrs="{'readonly':[('state','=','paid')]}"/>
+ 								</group>
+							</group>
+						</sheet>
+					</form>
+				</field>
+			</record>
+
+
+			<record id="management_policy_payment_tree" model="ir.ui.view">
+				<field name="name">management.policy.line.tree</field>
+				<field name="model">management.policy.line</field>
+				<field name="arch" type="xml">
+					<tree string="Management Policy Payment">
+						<field name="date" />
+						<field name="res_company_id" />
+						<field name="policy_type_id" />
+						<field name="account_id" />
+						<field name="policy_no" />
+						<field name="sum_assured" />
+						<field name="premium_amount" widget="char"/>
+						<field name="state" />
+ 					</tree>
+				</field>
+			</record>
+
+
+			<record id="action_management_policy_payment" model="ir.actions.act_window">
+				<field name="name">Management Policy Payment</field>
+				<field name="res_model">management.policy.line</field>
+				<field name="view_type">form</field>
+				<field name="view_mode">tree,form</field>
+			</record>
+	
+			<menuitem id="menu_management_policy__payment" parent="menu_management_insurance" name="Policy Payment" sequence="2" action="action_management_policy_payment" groups="base.group_hr_manager,group_hr"/>
+
+
+			<record id="management_policy_type_form" model="ir.ui.view">
+				<field name="name">management.policy.type.form</field>
+				<field name="model">management.policy.type</field>
+				<field name="arch" type="xml">
+					<form string="Management Policy">
+						<sheet>
+							<h1>
+								<field name="name" />
+							</h1>
+							<group>
+								<field name="is_money_back_policy"/>
+							</group>
+							
+						</sheet>
+					</form>
+				</field>
+			</record>
+
+
+			<record id="management_policy_type_tree" model="ir.ui.view">
+				<field name="name">management.policy.type.tree</field>
+				<field name="model">management.policy.type</field>
+				<field name="arch" type="xml">
+					<tree string="Management Policy">
+						<field name="name" />
+ 					</tree>
+				</field>
+			</record>
+
+
+			<record id="action_management_policy_type" model="ir.actions.act_window">
+				<field name="name">Management Policy</field>
+				<field name="res_model">management.policy.type</field>
+				<field name="view_type">form</field>
+				<field name="view_mode">tree,form</field>
+			</record>
+
+			<menuitem id="menu_management_policy_type" parent="hr.menu_hr_configuration" name="Management Policy Types" sequence="1" action="action_management_policy_type" groups="base.group_hr_manager,group_hr"/>
+
+	</data>
+</openerp>

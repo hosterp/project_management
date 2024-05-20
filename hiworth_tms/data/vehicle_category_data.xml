@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+
+	<!--	<record model="vehicle.category.type" id="vehicle_category_eicher1">
+			<field name="name">Eicher</field>
+			<field name="type">view</field>
+		</record>
+
+		<record model="vehicle.category.type" id="vehicle_category_taurus">
+			<field name="name">Taurus</field>
+			<field name="type">view</field>
+		</record>
+
+		<record model="vehicle.category.type" id="vehicle_category_pickup">
+			<field name="name">Pick-up</field>
+			<field name="type">view</field>
+		</record>
+
+		<record model="vehicle.category.type" id="vehicle_category_jcb">
+			<field name="name">JCB</field>
+			<field name="type">view</field>
+		</record>
+
+		<record model="vehicle.category.type" id="vehicle_category_lt">
+			<field name="name">L &amp; T</field>
+			<field name="type">view</field>
+		</record>
+
+		<record model="vehicle.category.type" id="vehicle_category_soil_compactor">
+			<field name="name">Soil Compactor</field>
+			<field name="type">view</field>
+		</record>
+
+		<record model="vehicle.category.type" id="vehicle_category_bobcat">
+			<field name="name">Bobcat</field>
+			<field name="type">view</field>
+		</record>-->
+
+		 <record model="ir.sequence.type" id="workshop_issue_seq">
+		    <field name="name">Workshop Issue Seq</field>
+		    <field name="code">workshop.issue.code</field>
+		</record>
+
+        <record id="workshop_issue_sequence" model="ir.sequence">
+			<field name="name">Workshop Issue Code</field>
+			<field name="code">workshop.issue.code</field>
+
+			<field name="padding">3</field>
+		</record>
+
+		 <record model="ir.sequence.type" id="workshop_return_seq">
+		    <field name="name">Workshop Return Seq</field>
+		    <field name="code">workshop.return.code</field>
+		</record>
+
+        <record id="workshop_return_sequence" model="ir.sequence">
+			<field name="name">Workshop Return Code</field>
+			<field name="code">workshop.return.code</field>
+
+			<field name="padding">3</field>
+		</record>
+
+	</data>
+</openerp>
+
+		

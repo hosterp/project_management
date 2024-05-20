@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<openerp>
+    <data>
+        <template id="report_site_purchase_template">
+            <t t-call="report.html_container">
+                <t t-call="report.external_layout">
+                    <div class="page">
+                        <t t-foreach="docs['data']" t-as="o">
+                            <header>
+                                <t t-if="docs['type'] == 'receive'">
+                                    <center><strong><h1>GOODS RECEIVE REPORT</h1></strong></center>
+                                    <table class="table table-bordered">
+                                        <tr>
+                                            <td>Challan/ Bill GTN No. : </td>
+                                            <td>Project : <span t-esc="o['project']"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td>GRR No : <span t-esc="o['grr']"/></td>
+                                            <td>Date : <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d-%m-%Y')"/></td>
+                                        </tr>
+                                    </table>
+                                </t>
+                                <t t-if="docs['type'] == 'transfer'">
+                                    <center><strong><h1>GOODS TRANSFER NOTE</h1></strong></center>
+                                    <table class="table table-bordered">
+                                        <tr>
+                                            <td>To : <span t-esc="o['site']"/></td>
+                                            <td>Project : <span t-esc="o['project']"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Date : <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d-%m-%Y')"/></td>
+                                            <td>GTN NO. : </td>
+                                        </tr>
+                                    </table>
+                                </t>
+                            </header>
+                            <t t-set="sl_no" t-value="1"/>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Sl.No</th>
+                                        <t t-if="docs['type'] == 'transfer'">
+                                            <th>From</th>
+                                        </t>
+                                        <t t-if="docs['type'] == 'receive'">
+                                            <th>Supplier</th>
+                                            <th>P.O No</th>
+                                        </t>
+                                        <th>Um</th>
+                                        <th>Description/ Nomenclature</th>
+                                        <th>Part No./ Specification</th>
+                                        <t t-if="docs['type'] == 'transfer'">
+                                            <th>Qty Req</th>
+                                            <th>Qty Appro.</th>
+                                        </t>
+                                        <t t-if="docs['type'] == 'receive'">
+                                            <th>Qty Received</th>
+                                            <th>Qty Accepted</th>
+                                            <th>Qty Rejected</th>
+                                        </t>
+                                        <th>Rate</th>
+                                        <th>Value</th>
+                                        <th>Remarks</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="o['lines']" t-as="listy">
+                                        <tr>
+                                            <td>
+                                                <t t-esc="sl_no"/>
+                                            </td>
+                                            <t t-if="docs['type'] == 'transfer'">
+                                                <td>
+                                                    <t t-esc="listy['location_id']"/>
+                                                </td>
+                                            </t>
+                                            <t t-if="docs['type'] == 'receive'">
+                                                <td>
+                                                    <t t-esc="listy['supplier']"/>
+                                                </td>
+                                                <td>
+                                                    <t t-esc="listy['po']"/>
+                                                </td>
+                                            </t>
+                                            <td>
+                                                <t t-esc="listy['unit']"/>
+                                            </td>
+                                            <td>
+                                                <t t-esc="listy['item_id']"/>
+                                            </td>
+                                            <td>
+                                                <t t-esc="listy['default_code']"/>
+                                            </td>
+                                            <td>
+                                                <t t-if="docs['type'] == 'transfer'">
+                                                    <t t-esc="listy['requested_quantity']"/>
+                                                </t>
+                                                <t t-if="docs['type'] == 'receive'">
+                                                    <t t-esc="listy['received_quantity']"/>
+                                                </t>
+                                            </td>
+                                            <td>
+                                                <t t-if="docs['type'] == 'transfer'">
+                                                    <t t-esc="listy['quantity']"/>
+                                                </t>
+                                                <t t-if="docs['type'] == 'receive'">
+                                                    <t t-esc="listy['accepted_quantity']"/>
+                                                </t>
+                                            </td>
+                                            <t t-if="docs['type'] == 'receive'">
+                                                <td>
+                                                    <t t-esc="listy['rejected_qty']"/>
+                                                </td>
+                                            </t>
+                                            <td>
+                                                <t t-esc="listy['rate']"/>
+                                            </td>
+                                            <td>
+                                                <t t-esc="listy['estimated_amount']"/>
+                                            </td>
+
+                                            <td>
+                                                <t t-esc="listy['remarks']"/>
+                                            </td>
+                                        </tr>
+                                        <t t-set="sl_no" t-value="sl_no+1"/>
+                                    </t>
+                                </tbody>
+                            </table>
+                            <table class="table table-bordered">
+                                <t t-if="docs['type'] == 'transfer'">
+                                    <tr>
+                                        <td>Requested By : <span t-esc="o['approved_by3']"/></td>
+                                        <td>Authorised By : <span t-esc="o['approved_by2']"/></td>
+                                        <td>Transferred By : <span t-esc="o['approved_by1']"/></td>
+                                        <td>Received By : </td>
+                                    </tr>
+                                </t>
+                                <t t-if="docs['type'] == 'receive'">
+                                    <td>Received By : <span t-esc="o['approved_by3']"/></td>
+                                    <td>Inspected By : <span t-esc="o['approved_by1']"/></td>
+                                    <td>Entered In Store : <span t-esc="o['approved_by1']"/></td>
+                                </t>
+                            </table>
+                        </t>
+                    </div>
+                </t>
+            </t>
+        </template>
+
+        <report id="report_site_purchase_action" string="Goods Transfer/Receive Reports"
+                model="site.purchase.report" report_type="qweb-pdf"
+                menu="0"
+                name="hiworth_construction.report_site_purchase_template"
+                file="hiworth_construction.report_site_purchase_template"
+        />
+
+        <report id="report_site_purchase_action_view" string="Goods Transfer/Receive Reports"
+                model="site.purchase.report" report_type="qweb-html"
+                menu="0"
+                name="hiworth_construction.report_site_purchase_template"
+                file="hiworth_construction.report_site_purchase_template"
+        />
+    </data>
+</openerp>

@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+
+		<report id="action_print_delivery_mapping" model="fleet.route.mapping"
+			report_type="qweb-pdf" string="Delivery Mapping"
+			name="hiworth_tms.report_delivery_mapping" file="hiworth_tms.report_delivery_mapping" />
+
+		<template id="report_delivery_mapping">
+			<t t-call="report.html_container">
+				<t t-foreach="docs" t-as="o">
+					<t t-call="report.external_layout">
+						<div class="page">
+							
+							<center><b><h2>Delivery Mapping</h2></b></center>
+						
+							<t t-set="sl_no" t-value="1" />
+
+							<table style="width: 100%; font-size:16px;margin-top:30px;">
+								<thead>
+									<tr style="height: 30px;">
+										
+										<td style="width: 10%;" align="left"><h5><b>Vehicle</b></h5></td>
+										<td style="width: 5%;" align="left"><h5><b>:</b></h5></td>
+										<td style="width: 25%;" align="left">
+											<span t-field="o.vehicle_id"/>
+										</td>
+										<td style="width: 10%;" align="left"><h5><b>Start Date</b></h5></td>
+										<td style="width: 5%;" align="left"><h5><b>:</b></h5></td>
+										<td style="width: 25%;" align="left">
+											<span t-field="o.start_date"/>
+										</td>
+									</tr>
+
+									<tr style="height: 30px;">
+										<td style="width: 10%;" align="left"><h5><b>Driver</b></h5></td>
+										<td style="width: 5%;" align="left"><h5><b>:</b></h5></td>
+										<td style="width: 25%;" align="left">
+											<span t-field="o.driver_id"/>
+										</td>
+										<td style="width: 10;" align="left"><h5><b>End Date</b></h5></td>
+										<td style="width: 5%;" align="left"><h5><b>:</b></h5></td>
+										<td style="width: 25%;" align="left">
+											<span t-field="o.end_date"/>
+										</td>
+									</tr>
+									<tr style="height: 30px;">
+										<td style="width: 10%;" align="left"><h5><b>Start Balance</b></h5></td>
+										<td style="width: 5%;" align="left"><h5><b>:</b></h5></td>
+										<td style="width: 25%;" align="left">
+											<span t-field="o.start_bal"/>
+										</td>
+									</tr>
+
+								</thead>
+							</table>
+
+
+							<table style="font-size:16px;width: 100%;border-bottom: outset;border-top: outset;margin-top:30px;">
+							
+							
+								<tr style="border-bottom: outset;border-right: outset;border-left: outset;">
+									<td style="width: 3%; border-right: outset;%" align="center"><h5><b>Sl No</b></h5></td>
+									<td style="width: 3%; border-right: outset;" align="center"><h5><b>Start Time</b></h5></td>
+									<td style="width: 15%; border-right: outset;" align="center"><h5><b>End Time</b></h5></td>
+									<td style="width: 15%; border-right: outset;" align="center"><h5><b>Odometer Start Value</b></h5></td>
+									<td style="width: 5%; border-right: outset;" align="center"><h5><b>Odometer End Value</b></h5></td>
+
+									<td style="width: 7%; border-right: outset;" align="center"><h5><b>Route From</b></h5></td>
+									<td style="width: 7%; border-right: outset;" align="center"><h5><b>Route To</b></h5></td>
+									<td style="width: 7%; border-right: outset;" align="center"><h5><b>Opening Balance</b></h5></td>
+									<td style="width: 5%; border-right: outset;" align="center"><h5><b>Ending Balance</b></h5></td>
+								</tr>
+								<t t-set="nos" t-value="0" />
+								<!-- <t t-set="nos2" t-value="0" /> -->
+								<t t-foreach="o.routes" t-as="l" style="border-left: outset;">
+									<tr style="border-right: outset;border-left: outset;" height="25">
+										
+										<td style="width: 3%; border-right: outset;" align="center">
+											<t t-esc="sl_no" />
+											<t t-set="sl_no" t-value="sl_no+1" />
+										</td>
+										<td style="width: 3%; border-right: outset;" align="center" ><span t-field="l.time_from" /></td>
+										<td style="width: 15%; border-right: outset;" align="center" ><span t-field="l.time_to"/></td>
+										<td style="width: 15%; border-right: outset;" align="center" ><span t-field="l.odometer_start"/></td>
+										<td style="width: 7%; border-right: outset;" align="center" ><span t-field="l.odometer_end"/></td>
+										<td style="width: 7%; border-right: outset;" align="center" ><span t-field="l.start_location" /></td>
+										<td style="width: 7%; border-right: outset;" align="center" ><span t-field="l.dest_location" /></td>
+										<td style="width: 7%; border-right: outset;" align="center" ><span t-field="l.opening_bal" /></td>
+
+										<td style="width: 7%; border-right: outset;" align="center" ><span t-field="l.ending_bal" /></td>
+
+										
+										<t t-set="nos" t-value="nos+1" />
+									</tr>
+								</t>
+							</table>
+						</div>
+					</t>
+				</t>
+			</t>
+		</template>
+
+
+		<report id="report_route_mapping" string="Route Mapping"
+			model="fleet.route.mapping.line" report_type="qweb-pdf"
+			name="hiworth_tms.report_route_mapping_template"  file="hiworth_tms.report_route_mapping_template" />
+
+
+		<template id="report_route_mapping_template">
+			<t t-call="report.html_container">
+				<t t-foreach="docs" t-as="o">
+					<t t-call="report.external_layout">
+						<div class="page">
+							<center><b><h2>Route Mapping</h2></b></center>
+							
+
+							<t t-set="sl_no" t-value="1" />
+							
+
+	                        <table style="width: 100%; font-size:16px;margin-top:30px;">
+								<thead>
+									<tr style="height: 30px;">
+										<td style="width: 10%;" align="left"><h5><b>Vehicle</b></h5></td>
+										<td style="width: 5%;" align="left"><h5><b>:</b></h5></td>
+										<td style="width: 25%;" align="left">
+											<span t-field="o.vehicle_id"/>
+										</td>
+										<td style="width: 20%;" align="left"><h5><b>Driver</b></h5></td>
+										<td style="width: 5%;" align="left"><h5><b>:</b></h5></td>
+										<td style="width: 25%;" align="left">
+											<span t-field="o.driver_id"/>
+										</td>
+									</tr>
+									<tr style="height: 30px;">
+										
+										<td style="width: 20%;" align="left"><h5><b>Time From</b></h5></td>
+										<td style="width: 5%;" align="left"><h5><b>:</b></h5></td>
+										<td style="width: 25%;" align="left">
+											<span t-field="o.time_from"/>
+										</td>
+										<td style="width: 20%;" align="left"><h5><b>Odometer End Value</b></h5></td>
+										<td style="width: 5%;" align="left"><h5><b>:</b></h5></td>
+										<td style="width: 25%;" align="left">
+											<span t-field="o.odometer_end"/>
+										</td>
+									</tr>
+
+									<tr style="height: 30px;">
+										<td style="width: 20%;" align="left"><h5><b>Time To</b></h5></td>
+										<td style="width: 5%;" align="left"><h5><b>:</b></h5></td>
+										<td style="width: 25%;" align="left">
+											<span t-field="o.time_to"/>
+										</td>
+										<td style="width: 20%;" align="left"><h5><b>Odometer Start Value</b></h5></td>
+										<td style="width: 5%;" align="left"><h5><b>:</b></h5></td>
+										<td style="width: 25%;" align="left">
+											<span t-field="o.odometer_start"/>
+										</td>
+									</tr>
+									<tr style="height: 30px;">
+										<td style="width: 20%;" align="left"><h5><b>Route From</b></h5></td>
+										<td style="width: 5%;" align="left"><h5><b>:</b></h5></td>
+										<td style="width: 25%;" align="left">
+											<span t-field="o.start_location"/>
+										</td>
+										<td style="width: 20%;" align="left"><h5><b>Opening Balance From</b></h5></td>
+										<td style="width: 5%;" align="left"><h5><b>:</b></h5></td>
+										<td style="width: 25%;" align="left">
+											<span t-field="o.opening_bal"/>
+										</td>
+									</tr>
+
+									<tr style="height: 30px;">
+										<td style="width: 20%;" align="left"><h5><b>Route To</b></h5></td>
+										<td style="width: 5%;" align="left"><h5><b>:</b></h5></td>
+										<td style="width: 25%;" align="left">
+											<span t-field="o.dest_location"/>
+										</td>
+										<td style="width: 20%;" align="left"><h5><b>Ending Balance</b></h5></td>
+										<td style="width: 5%;" align="left"><h5><b>:</b></h5></td>
+										<td style="width: 25%;" align="left">
+											<span t-field="o.ending_bal"/>
+										</td>
+									</tr>
+
+								</thead>
+							</table>
+
+
+
+							<table style="font-size:16px;width: 100%;border-bottom: outset;border-top: outset;margin-top:30px;">
+							
+							
+								<tr style="border-bottom: outset;border-right: outset;border-left: outset;">
+									<td style="width: 3%; border-right: outset;%" align="center"><h5><b>Sl No</b></h5></td>
+									<td style="width: 3%; border-right: outset;" align="center"><h5><b>Product</b></h5></td>
+									<td style="width: 15%; border-right: outset;" align="center"><h5><b>Description</b></h5></td>
+									<td style="width: 15%; border-right: outset;" align="center"><h5><b>Quantity</b></h5></td>
+								</tr>
+								<t t-set="nos" t-value="0" />
+								<!-- <t t-set="nos2" t-value="0" /> -->
+								<t t-foreach="o.stocks" t-as="l" style="border-left: outset;">
+									<tr style="border-right: outset;border-left: outset;" height="25">
+										
+										<td style="width: 3%; border-right: outset;" align="center">
+											<t t-esc="sl_no" />
+											<t t-set="sl_no" t-value="sl_no+1" />
+										</td>
+										<td style="width: 3%; border-right: outset;" align="center" ><span t-field="l.product_id" /></td>
+										<td style="width: 15%; border-right: outset;" align="center" ><span t-field="l.description"/></td>
+										<td style="width: 15%; border-right: outset;" align="center" ><span t-field="l.quantity"/></td>
+										<t t-set="nos" t-value="nos+1" />
+									</tr>
+								</t>
+							</table>
+						</div>
+					</t>
+				</t>
+			</t>
+		</template>
+
+
+		
+	</data>
+</openerp>

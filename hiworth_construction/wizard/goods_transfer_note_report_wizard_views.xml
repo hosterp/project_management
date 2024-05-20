@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>
+<record id="form_goods_transfer_note_daily" model="ir.ui.view">
+			<field name="name">Goods Receive Reort</field>
+			<field name="model">goods.transfer.note.report.wizard</field>
+			<field name="arch" type="xml">
+				<form>
+					<group>
+						<group>
+
+							<field name="till_date" string="Till Date"/>
+
+						</group>
+						<group>
+
+							<field name="category_id"/>
+
+						</group>
+					</group>
+					<footer>
+
+						<button type="object" name="generate_xls_report"
+							string="Export" class="oe_highlight" />
+
+						<button special="cancel" string="Cancel" />
+					</footer>
+				</form>
+			</field>
+		</record>
+		<record id="action_report_goods_transfer_note" model="ir.actions.act_window">
+			<field name="name">GTN Report</field>
+			<field name="res_model">goods.transfer.note.report.wizard</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form</field>
+			<field name="target">new</field>
+		</record>
+		<report
+            id="goods_transfer_note_report_wizard_daily"
+            model="goods.transfer.note.report.wizard"
+            string="GTN Report"
+            report_type="xlsx"
+            name="GTN Report.xlsx"
+            file="GTN Report.xlsx"
+            menu="False"
+        />
+
+
+        />
+
+
+    <menuitem id="report_goods_transfer_note_report_daily" parent="hiworth_construction.menu_stock_warehouse_reports"
+				  name="GTN Report"
+				  action="action_report_goods_transfer_note" sequence ="8"/>
+
+
+
+
+	</data>
+</openerp>

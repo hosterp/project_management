@@ -1,0 +1,413 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_account_account_user,Grant rw to accounts,account.model_account_account,group_accounts_user,1,0,1,0
+access_project_account_user_project,Grant permission to account user project,model_project_project,group_accounts_user,1,1,1,0
+access_project_account_user_account_journal,Grant permission to account user account journal,account.model_account_journal,group_accounts_user,1,1,1,0
+access_project_account_user_invoice_attachment,Grant permission to account user invoice attachment,model_invoice_attachment,group_accounts_user,1,0,0,0
+access_project_account_user_purchase_order,Grant permission to account user purchase order,model_purchase_order,group_accounts_user,1,0,0,0
+access_project_account_user_purchase_order_line,Grant permission to account user purchase order line,model_purchase_order_line,group_accounts_user,1,0,0,0
+access__project_account_user_picking,Grant rw to Accounts picking ,model_stock_picking,group_accounts_user,1,0,0,0
+access_project_account_user_picking_type,Grant rw to Accounts picking type,stock.model_stock_picking_type,group_accounts_user,1,0,0,0
+access__project_account_user_stock_move,Grant rw to Accounts stock Move,model_stock_move,group_accounts_user,1,0,0,0
+access_account_user_contractor_bill,Grant rw to account contractor bill,model_hiworth_invoice,group_accounts_user,1,1,0,0
+access_account_user_contractor_bill_line,Grant rw to account contractor bill line,model_hiworth_invoice_line,group_accounts_user,1,1,0,0
+access_account_user_contractor_bill,Grant rw to account contractor bill,model_hiworth_invoice,group_accounts_user,1,1,1,0
+access_account_user_contractor_bill_line,Grant rw to account contractor bill line,model_hiworth_invoice_line,group_accounts_user,1,1,1,1
+access_account_user_contractor_bill_line2,Grant rw to account contractor bill line2,model_hiworth_invoice_line2,group_accounts_user,1,1,1,1
+access_account_project_schedule,Grant permission to accounts payment schedule,model_project_schedule,group_accounts_user,1,1,1,0
+access_account_purchase_item_category,Grant rw to account purchase item category,model_purchase_item_category,group_accounts_user,1,1,1,0
+access_account_product_location_transport,Grant permission to accounts product location transport,model_product_location_transport,group_accounts_user,1,1,1,0
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+access_stock_picking_user_picking,Grant rw to warehouse,model_stock_picking,group_warehouse_user,1,1,1,0
+access_stock_picking_user_picking_type,Grant rw to warehouse picking type,stock.model_stock_picking_type,group_warehouse_user,1,0,1,0
+access_stock_picking_user_estimation,Grant rw to warehouse esimation,model_project_task_estimation,group_warehouse_user,1,0,0,0
+access_stock_picking_partner_warehouse,stock_picking_partner_warehouse,model_res_partner,group_warehouse_user,1,0,1,0
+access_stock_picking_user_task,Grant rw to warehouse task,model_project_task,group_warehouse_user,1,0,0,0
+access_stock_picking_user_stock_move,Grant rw to warehouse stock move,model_stock_move,group_warehouse_user,1,1,1,1
+access_stock_picking_user_stock_move_operation_link,Grant rw to warehouse stock move operation link,stock.model_stock_move_operation_link,group_warehouse_user,1,1,1,1
+access_stock_picking_user_warehouse,Grant rw to warehouse warehouse,stock.model_stock_warehouse,group_warehouse_user,1,0,1,0
+access_stock_picking_user_location,Grant rw to warehouse location,stock.model_stock_location,group_warehouse_user,1,0,1,0
+access_stock_picking_user_product,Grant rw to warehouse product,product.model_product_product,group_warehouse_user,1,1,1,0
+access_stock_picking_user_product_template,Grant rw to warehouse product template,product.model_product_template,group_warehouse_user,1,1,1,0
+access_stock_picking_user_stock_quant,Grant rw to warehouse stoke quant,stock.model_stock_quant,group_warehouse_user,1,0,1,0
+access_stock_picking_user_stock_history,Grant rw to warehouse stoke history,model_stock_history,group_warehouse_user,1,1,1,0
+access_stock_picking_user_stock_inventory,Grant rw to warehouse stoke inventory,stock.model_stock_inventory,group_warehouse_user,1,1,1,0
+access_stock_picking_user_stock_inventory_line,Grant rw to warehouse stoke inventory line,stock.model_stock_inventory_line,group_warehouse_user,1,1,1,0
+access_stock_picking_user_stock_pack_operation,Grant rw to warehouse stoke pack operation,stock.model_stock_pack_operation,group_warehouse_user,1,1,1,0
+access_stock_picking_user_product_category,Grant rw to warehouse product category,product.model_product_category,group_warehouse_user,1,1,1,0
+access_stock_picking_user_product_price_history,Grant rw to warehouse product price history,product.model_product_price_history,group_warehouse_user,1,1,1,0
+access_stock_picking_user_product_cost_table,Grant rw to warehouse product cost table,model_product_cost_table,group_warehouse_user,1,1,1,0
+access_stock_picking_user_purchase_order,Grant rw to warehouse purchase oredr,model_purchase_order,group_warehouse_user,1,0,0,0
+access_stock_picking_user_purchase_order_line,Grant rw to warehouse purchase oredr line,model_purchase_order_line,group_warehouse_user,1,0,0,0
+access_stock_picking_user_account_invoice,Grant rw to warehouse account invoice,model_account_invoice,group_warehouse_user,1,1,1,0
+access_stock_picking_user_account_invoice_line,Grant rw to warehouse account invoice line,account.model_account_invoice_line,group_warehouse_user,1,1,1,0
+access_stock_picking_user_account_invoice_tax,Grant rw to warehouse account invoice tax,account.model_account_invoice_tax,group_warehouse_user,1,1,1,0
+access_stock_picking_user_account_move_line,Grant rw to warehouse account move line,account.model_account_move_line,group_warehouse_user,1,1,1,0
+access_stock_picking_user_invoice_attachment,Grant rw to warehouse invoice attachment,model_invoice_attachment,group_warehouse_user,1,0,0,0
+access_project_picking_user_project,Grant permission to warehouse project,model_project_project,group_warehouse_user,1,1,1,0
+access_picking_user_contractor_bill,Grant rw to admin contractor bill,model_hiworth_invoice,group_warehouse_user,1,1,1,0
+access_picking_user_contractor_bill_line,Grant rw to admin contractor bill line,model_hiworth_invoice_line,group_warehouse_user,1,1,1,0
+access_picking_user_contractor_bill_line2,Grant rw to admin contractor bill line2,model_hiworth_invoice_line2,group_warehouse_user,1,1,1,0
+access_picking_purchase_item_category,Grant rw to picking purchase item category,model_purchase_item_category,group_warehouse_user,1,1,1,0
+access_picking_product_location_transport,Grant permission to picking product location transport,model_product_location_transport,group_warehouse_user,1,1,1,0
+access_picking_purchase_item_category,Grant rw to picking payment vouchers,hiworth_accounting.model_payment_vouchers,group_warehouse_user,1,1,1,0
+,,,,,,,
+,,,,,,,
+,,,,,,,
+access_project_estimation_user_project,Grant permission to estimation,model_project_project,group_estimation_user,1,1,1,0
+access_project_estimation_user_task,Grant permission to estimation task,model_project_task,group_estimation_user,1,1,1,0
+access_project_estimation_user_account_move_line,Grant permission to estimation account move line,account.model_account_move_line,group_estimation_user,1,1,1,0
+access_project_estimation_user_project_stages,Grant permission to estimation project stages,model_project_stages,group_estimation_user,1,1,1,0
+access_project_estimation_user_location,Grant permission to estimation  location,stock.model_stock_location,group_estimation_user,1,0,1,0
+access_project_estimation_user_project_product,Grant permission to estimation project product,model_project_product,group_estimation_user,1,1,1,0
+access_project_estimation_user_project_schedule,Grant permission to estimation project schedule,model_project_schedule,group_estimation_user,1,1,1,0
+access_project_estimation_user_task_estimation,Grant permission to estimation task estimation,model_project_task_estimation,group_estimation_user,1,1,1,1
+access_project_estimation_user_project_attachment,Grant permission to estimation project attachment,model_project_attachment,group_estimation_user,1,1,1,0
+access_project_estimation_user_task_work,Grant permission to estimation task work,project.model_project_task_work,group_estimation_user,1,1,1,0
+access_project_estimation_user_stock_picking,Grant permission to estimation stock  picking,model_stock_picking,group_estimation_user,1,1,1,0
+access_project_estimation_user_task_type,Grant permission to estimation task type,project.model_project_task_type,group_estimation_user,1,1,1,0
+access_project_estimation_user_stock_move,Grant permission to estimation stock move,model_stock_move,group_estimation_user,1,1,1,1
+access_project_estimation_user_analytic_account,Grant permission to estimation analytic account,analytic.model_account_analytic_account,group_estimation_user,1,1,1,0
+access_project_estimation_user_project_stage_lines,Grant permission to estimation project stage lines,model_project_stages_line,group_estimation_user,1,1,1,0
+access_project_estimation_user_task_category,Grant permission to estimation task category,model_task_category,group_estimation_user,1,1,1,0
+access_project_estimation_user_product_product,Grant permission to estimation product product,product.model_product_product,group_estimation_user,1,1,1,0
+access_project_estimation_user_product_price_history,Grant permission to estimation product price history,product.model_product_price_history,group_estimation_user,1,1,1,0
+access_project_estimation_user_product_template,Grant permission to estimation product template,product.model_product_template,group_estimation_user,1,1,1,0
+access_project_estimation_user_product_cost_table,Grant permission to estimation product cost table,model_product_cost_table,group_estimation_user,1,1,1,0
+access_project_estimation_user_task_history,Grant permission to estimation task history,project.model_project_task_history,group_estimation_user,1,1,1,0
+access_project_estimation_user_etxtra_request,Grant permission to estimation extra request,model_estimate_quantity_extra_request,group_estimation_user,1,1,0,0
+access_project_estimation_user_account_invoice,Grant permission to estimation account invoice,account.model_account_invoice,group_estimation_user,1,1,1,0
+access_project_estimation_user_account_invoice_line,Grant permission to estimation account invoice line,account.model_account_invoice_line,group_estimation_user,1,1,1,0
+access_project_estimation_user_stock_history,Grant permission to estimation stock history,model_stock_history,group_estimation_user,1,1,1,0
+access_project_estimation_user_product_category,Grant permission to estimation product category,product.model_product_category,group_estimation_user,1,1,1,0
+access_project_estimation_user_mrp_bom,Grant permission to estimation mrp bom,model_mrp_bom,group_estimation_user,1,1,1,0
+access_project_estimation_user_mrp_bom_line,Grant permission to estimation mrp bom line,model_mrp_bom_line,group_estimation_user,1,1,1,0
+access_project_estimation_user_project_labour_report,Grant permission to estimation labour report,model_project_labour_report,group_estimation_user,1,1,1,0
+access_project_estimation_user_document_directory,Grant permission to estimation document directory,model_document_directory,group_estimation_user,1,1,1,0
+access_project_estimation_user_category_items_estimation,Grant permission to estimation category items estimation,model_category_items_estimation,group_estimation_user,1,1,1,1
+access_project_estimation_user_labour_details,Grant permission to estimation labour details,model_labour_details,group_estimation_user,1,1,1,0
+access_estimation_user_account_invoice_tax,Grant rw to estimation account invoice tax,account.model_account_invoice_tax,group_estimation_user,1,0,0,0
+access_estimation_user_account_move,Grant rw to estimation account move,account.model_account_move,group_estimation_user,1,0,0,0
+access_estimation_user_account_move_reconcil,Grant rw to estimation account move reconcile,account.model_account_move_reconcile,group_estimation_user,1,0,0,0
+access_estimation_user_invoice_attachment,Grant rw to estimation invoice attachment,model_invoice_attachment,group_estimation_user,1,1,1,1
+access_estimation_user_project_attachment,Grant rw to estimation project attachment,model_project_directory,group_estimation_user,1,1,1,1
+access_estimation_user_contractor_bill,Grant rw to estimation contractor bill,model_hiworth_invoice,group_estimation_user,1,1,1,0
+access_estimation_user_contractor_bill_line,Grant rw to estimation contractor bill line,model_hiworth_invoice_line,group_estimation_user,1,1,1,1
+access_estimation_user_contractor_bill_line2,Grant rw to estimation contractor bill line2,model_hiworth_invoice_line2,group_estimation_user,1,1,1,1
+access_estimation_user_dpr,Grant rw to estimation dpr,model_daily_progress_report,group_estimation_user,1,1,1,0
+access_estimation_user_dpr_line,Grant rw to estimation dpr line,model_daily_progress_report_line,group_estimation_user,1,1,1,1
+access_estimation_user_work_schedule,Grant rw to estimation work schedule,model_work_schedule,group_estimation_user,1,1,1,0
+access_estimation_user_work_schedule_line,Grant rw to estimation work schedule Line,model_work_schedule_line,group_estimation_user,1,1,1,1
+access_estimation_user_employee_activity,Grant rw to estimation employee activity,model_employee_activity,group_estimation_user,1,1,1,0
+access_estimation_user_employee_activity_line,Grant rw to estimation employee activity Line,model_employee_activity_line,group_estimation_user,1,1,1,1
+access_estimation_delay_report,Grant rw to estimation delay report,model_delay_report,group_estimation_user,1,1,1,0
+access_estimation_delay_report_line,Grant rw to estimation delay report line,model_delay_report_line,group_estimation_user,1,1,1,1
+access_estimation_progress_report,Grant rw to estimation progress report,model_progress_report,group_estimation_user,1,1,1,0
+access_estimation_progress_report_line,Grant rw to estimation progress report line,model_progress_report_line,group_estimation_user,1,1,1,1
+access_estimation_project_modification,Grant rw to estimation project modification,model_project_modification,group_estimation_user,1,1,1,1
+access_estimation_sale_order,Grant rw to estimation Sale Order,sale.model_sale_order,group_estimation_user,1,1,1,0
+access_estimation_material_request,Grant rw to estimation Material Request,model_material_request,group_estimation_user,1,1,1,0
+access_estimation_material_request_line,Grant rw to estimation Material Request Line,model_material_request_line,group_estimation_user,1,1,1,0
+access_estimation_product_location_transport,Grant permission to estimation product location transport,model_product_location_transport,group_estimation_user,1,1,1,0
+access_next_day_settlement,Grant permission to Nextday settlement,model_nextday_settlement,group_estimation_user,1,1,1,0
+access_next_day_settlement_line,Grant permission to Nextday settlement Line,model_settlement_line,group_estimation_user,1,1,1,0
+access_next_day_other_settlements_line,Grant permission to Nextday settlement Line,model_other_settlements_line,group_estimation_user,1,1,1,0
+access_next_day_settlement_bank_line,Grant permission to Nextday settlement Bank Line,model_settlement_bank_line,group_estimation_user,1,1,1,0
+access_approver_line,Grant permission to Approver Line,model_approver_line,group_estimation_user,1,1,1,0
+,,,,,,,
+,,,,,,,
+,,,,,,,
+access_project_management_user_project,Grant permission to management,model_project_project,group_project_management_user,1,1,1,0
+access_project_management_user_task,Grant permission to management task,model_project_task,group_project_management_user,1,1,1,0
+access_project_management_user_account_move_line,Grant permission to management account move line,account.model_account_move_line,group_project_management_user,1,1,1,0
+access_project_management_user_project_stages,Grant permission to management project stages,model_project_stages,group_project_management_user,1,1,1,0
+access_project_management_user_location,Grant permission to management  location,stock.model_stock_location,group_project_management_user,1,0,1,0
+access_project_management_user_project_product,Grant permission to management project product,model_project_product,group_project_management_user,1,1,1,0
+access_project_management_user_project_schedule,Grant permission to management project schedule,model_project_schedule,group_project_management_user,1,1,1,0
+access_project_management_user_task_management,Grant permission to management task estimation,model_project_task_estimation,group_project_management_user,1,1,1,0
+access_project_management_user_project_attachment,Grant permission to management project attachment,model_project_attachment,group_project_management_user,1,1,1,1
+access_project_management_user_task_work,Grant permission to management task work,project.model_project_task_work,group_project_management_user,1,1,1,0
+access_project_management_user_stock_picking,Grant permission to management stock  picking,model_stock_picking,group_project_management_user,1,1,1,0
+access_project_management_user_task_type,Grant permission to management task type,project.model_project_task_type,group_project_management_user,1,1,1,0
+access_project_management_user_stock_move,Grant permission to management stock move,model_stock_move,group_project_management_user,1,1,1,0
+access_project_management_user_analytic_account,Grant permission to management analytic account,analytic.model_account_analytic_account,group_project_management_user,1,1,1,0
+access_project_management_user_project_stage_lines,Grant permission to management project stage lines,model_project_stages_line,group_project_management_user,1,1,1,0
+access_project_management_user_task_category,Grant permission to management task category,model_task_category,group_project_management_user,1,1,1,0
+access_project_management_user_product_product,Grant permission to management product product,product.model_product_product,group_project_management_user,1,1,1,0
+access_project_management_user_product_price_history,Grant permission to management product price history,product.model_product_price_history,group_project_management_user,1,1,1,0
+access_project_management_user_product_template,Grant permission to management product template,product.model_product_template,group_project_management_user,1,1,1,0
+access_project_management_user_product_cost_table,Grant permission to management product cost table,model_product_cost_table,group_project_management_user,1,1,1,0
+access_project_management_user_task_history,Grant permission to management task history,project.model_project_task_history,group_project_management_user,1,1,1,0
+access_project_management_user_etxtra_request,Grant permission to management extra request,model_estimate_quantity_extra_request,group_project_management_user,1,1,0,0
+access_project_management_user_account_invoice,Grant permission to management account invoice,account.model_account_invoice,group_project_management_user,1,1,1,0
+access_project_management_user_account_invoice_line,Grant permission to management account invoice line,account.model_account_invoice_line,group_project_management_user,1,1,1,0
+access_project_management_user_stock_history,Grant permission to management stock history,model_stock_history,group_project_management_user,1,1,1,0
+access_project_management_user_product_category,Grant permission to management product category,product.model_product_category,group_project_management_user,1,1,1,0
+access_project_management_user_mrp_bom,Grant permission to management mrp bom,model_mrp_bom,group_project_management_user,1,1,1,0
+access_project_management_user_mrp_bom_line,Grant permission to management mrp bom line,model_mrp_bom_line,group_project_management_user,1,1,1,0
+access_project_managementuser_project_labour_report,Grant permission to management labour report,model_project_labour_report,group_project_management_user,1,0,0,0
+access_project_management_user_document_directory,Grant permission to management document directory,model_document_directory,group_project_management_user,1,1,1,0
+access_project_management_user_document_directory_user,Grant permission to management document directory User,model_document_directory,base.group_user,1,1,1,1
+access_project_management_user_category_items_estimation,Grant permission to management category items estimation,model_category_items_estimation,group_project_management_user,1,1,1,0
+access_management_user_project_attachment,Grant rw to management project attachment,model_project_directory,group_project_management_user,1,1,1,1
+access_management_user_activity,Grant rw to management activity,model_activity_activity,group_project_management_user,1,1,1,0
+access_management_dpr,Grant rw to management dpr,model_daily_progress_report,group_project_management_user,1,1,1,0
+access_management_dpr_line,Grant rw to management dpr line,model_daily_progress_report_line,group_project_management_user,1,1,1,1
+access_management_work_shedule,Grant rw to management work schedule,model_work_schedule,group_project_management_user,1,1,1,0
+access_management_work_shedule_line,Grant rw to management work schedule Line,model_work_schedule_line,group_project_management_user,1,1,1,1
+access_management_project_modification,Grant rw to management project modification,model_project_modification,group_project_management_user,1,1,1,0
+access_managemen_product_location_transport,Grant permission to managemen product location transport,model_product_location_transport,group_project_management_user,1,1,1,0
+,,,,,,,
+,,,,,,,
+,,,,,,,
+access_project_admin_user_labour_details2,Grant permission to admin labour details,model_category_items_estimation,group_admin_user,1,1,1,1
+access_project_admin_user_project_labour_report,Grant permission to admin labour report,model_project_labour_report,group_admin_user,1,1,1,1
+access_project_admin_user_labour_details,Grant permission to admin labour details,model_labour_details,group_admin_user,1,1,1,1
+access_project_admin_user_project_product,Grant permission to admin project product,model_project_product,group_admin_user,1,1,1,1
+access_project_admin_user_project_schedule,Grant permission to admin project schedule,model_project_schedule,group_admin_user,1,1,1,1
+access_project_admin_user_project_stages,Grant permission to admin project stages,model_project_stages,group_admin_user,1,1,1,1
+access_project_admin_user_task_estimation,Grant permission to admin task estimation,model_project_task_estimation,group_admin_user,1,1,1,1
+access_project_admin_user_project_attachment,Grant permission to admin project attachment,model_project_attachment,group_admin_user,1,1,1,1
+access_project_admin_user_task_work,Grant permission to admin task work,project.model_project_task_work,group_admin_user,1,1,1,1
+access_project_admin_user_project_stage_lines,Grant permission to admin project stage lines,model_project_stages_line,group_admin_user,1,1,1,1
+access_project_admin_user_task_category,Grant permission to admin task category,model_task_category,group_admin_user,1,1,1,1
+access_project_admin_user_product_cost_table,Grant permission to admin product cost table,model_product_cost_table,group_admin_user,1,1,1,1
+access_project_admin_user_task_history,Grant permission to admin task history,project.model_project_task_history,group_admin_user,1,1,1,1
+access_project_admin_user_etxtra_request,Grant permission to admin extra request,model_estimate_quantity_extra_request,group_admin_user,1,1,1,1
+access_project_admin_user_project_labour_report,Grant permission to admin labour report,model_project_labour_report,group_admin_user,1,1,1,1
+access_project_admin_user_document_directory,Grant permission to admin document directory,model_document_directory,group_admin_user,1,1,1,1
+access_project_admin_user_stock_move,Grant permission to admin stock move,model_stock_move,group_admin_user,1,1,1,1
+access_project_admin__user_picking,Grant rw to admin warehouse,model_stock_picking,group_admin_user,1,1,1,1
+access_project_admin__user_company,Grant rw to admin company,base.model_res_company,group_admin_user,1,1,1,1
+access_project_admin__user_location,Grant rw to admin location,stock.model_stock_location,group_admin_user,1,1,1,1
+access_project_admin__user_location,Grant rw to admin location,stock.model_stock_location,group_admin_user,1,1,1,1
+access_project_admin__user_project_directory,Grant rw to admin project directory,model_project_directory,group_admin_user,1,1,1,1
+access_admin_user_activity,Grant rw to admin activity,model_activity_activity,group_admin_user,1,1,1,1
+access_admin_user_contractor_bill,Grant rw to admin contractor bill,model_hiworth_invoice,group_admin_user,1,1,1,1
+access_admin_user_contractor_bill_line,Grant rw to admin contractor bill line,model_hiworth_invoice_line,group_admin_user,1,1,1,1
+access_admin_user_contractor_bill_line2,Grant rw to admin contractor bill line2,model_hiworth_invoice_line2,group_admin_user,1,1,1,1
+access_admin_user_invoice_attachment,Grant rw to admin invoice attachment,model_invoice_attachment,group_admin_user,1,1,1,1
+access_admin_user_contractor_dpr,Grant rw to admin dpr,model_daily_progress_report,group_admin_user,1,1,1,1
+access_admin_user_contractor_dpr_line,Grant rw to admin dpr line,model_daily_progress_report_line,group_admin_user,1,1,1,1
+access_admin_work_shedule,Grant rw to admin work schedule,model_work_schedule,group_admin_user,1,1,1,1
+access_admin_work_shedule_line,Grant rw to admin work schedule Line,model_work_schedule_line,group_admin_user,1,1,1,1
+access_admin_user_employee_activity,Grant rw to admin employee activity,model_employee_activity,group_admin_user,1,1,1,1
+access_admin_user_employee_activity_line,Grant rw to admin employee activity Line,model_employee_activity_line,group_admin_user,1,1,1,1
+access_admin_delay_report,Grant rw to admin delay report,model_delay_report,group_admin_user,1,1,1,1
+access_admin_delay_report_line,Grant rw to admin delay report line,model_delay_report_line,group_admin_user,1,1,1,1
+access_admin_progress_report,Grant rw to admin progress report,model_progress_report,group_admin_user,1,1,1,1
+access_admin_progress_report_line,Grant rw to admin progress report line,model_progress_report_line,group_admin_user,1,1,1,1
+access_admin_project_modification,Grant rw to admin project modification,model_project_modification,group_admin_user,1,1,1,1
+access_admin_purchase_item_category,Grant rw to admin purchase item category,model_purchase_item_category,group_admin_user,1,1,1,1
+access_admin_product_location_transport,Grant permission to admin product location transport,model_product_location_transport,group_admin_user,1,1,1,1
+access_admin_purchase_item_category,Grant rw to admin payment vouchers,hiworth_accounting.model_payment_vouchers,group_admin_user,1,1,1,1
+,,,,,,,
+access_next_day_settlement_adminuser,Grant permission to Nextday settlementAdminuser,model_nextday_settlement,group_admin_user,1,1,1,0
+access_next_day_settlement_line_adminuser,Grant permission to Nextday settlement LineAdminUser,model_settlement_line,group_admin_user,1,1,1,0
+access_next_day_settlement_bank_line_adminuser,Grant permission to Nextday settlement LineAdminUser,model_settlement_bank_line,group_admin_user,1,1,1,0
+access_next_day_other_settlements_line,Grant permission to Nextday settlement Line,model_other_settlements_line,group_admin_user,1,1,1,0
+access_approver_line_adminuser,Grant permission to Approver LineAdminuser,model_approver_line,group_admin_user,1,1,1,0
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+access_driver_daily_statement_eicher,Grant per To driver Daily statementEicher,model_driver_daily_statement,hiworth_hr_attendance.group_eicher_driver,1,1,1,0
+access_item_products_eicher,Grant per Item product Eicher,model_item_product,hiworth_hr_attendance.group_eicher_driver,1,1,1,0
+access_driver_vehicle_meter_eicher,Grant Vehicle Meter Eicher,hiworth_tms.model_vehicle_meter,hiworth_hr_attendance.group_eicher_driver,1,1,1,0
+access_diesel_pump_line_eicher,Grant Diesel pump lineEicher,model_diesel_pump_line,hiworth_hr_attendance.group_eicher_driver,1,1,1,0
+access_driver_daily_statement_line_eicher,Grant per To driver Daily statementLineEicher,model_driver_daily_statement_line,hiworth_hr_attendance.group_eicher_driver,1,1,1,0
+access_fleet_vehicle_eicher,Grant to Fleet VehicleEicher,hiworth_tms.model_fleet_vehicle,hiworth_hr_attendance.group_eicher_driver,1,1,1,0
+access_cash_confirm_transfer_eicher,Grant Cash Confirm TransferEicher,model_cash_confirm_transfer,hiworth_hr_attendance.group_eicher_driver,1,1,1,0
+access_driver_payable_report_eicher,Driver Payable Report eicher,model_driver_payable_report,hiworth_hr_attendance.group_eicher_driver,1,1,1,0
+access_hiworth_account_journal eicher,Grant per To Hiworth account journal,account.model_account_journal,hiworth_hr_attendance.group_eicher_driver,1,1,1,0
+access_hiworth_account_period eicher,Grant per To Hiworth account period eicher,account.model_account_period,hiworth_hr_attendance.group_eicher_driver,1,1,1,0
+access_hiworth_account_analytic_line eicher,Grant per To Hiworth account analytic_line eicher,account.model_account_analytic_line,hiworth_hr_attendance.group_eicher_driver,1,1,1,0
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+access_driver_daily_statement,Grant per To driver Daily statement,model_driver_daily_statement,hiworth_hr_attendance.group_driver,1,1,1,0
+access_diesel_pump_line_driver,Diesel Pump Line Driver,model_diesel_pump_line,hiworth_hr_attendance.group_driver,1,1,1,0
+access_driver_item_product,Grant Item Product Driver,model_item_product,hiworth_hr_attendance.group_driver,1,1,1,0
+access_driver_daily_statement_line,Grant per To driver Daily statement Line,model_driver_daily_statement_line,hiworth_hr_attendance.group_driver,1,1,1,1
+access_partner_daily_statement1,Grant per To Partner Daily statement1,model_partner_daily_statement,hiworth_hr_attendance.group_driver,1,1,1,0
+access_partner_daily_statement_line1,Grant per To Partner Daily statement Line1,model_partner_daily_statement_line,hiworth_hr_attendance.group_driver,1,1,1,0
+access_cash_confirm_transfer,Grant per To Cash Confirm Transfer,model_cash_confirm_transfer,hiworth_hr_attendance.group_driver,1,1,1,0
+access_hiworth_tms,Grant per To Hiworth Tms,hiworth_tms.model_fleet_vehicle,hiworth_hr_attendance.group_driver,1,0,0,0
+access_hiworth_account_journal,Grant per To Hiworth account journal,account.model_account_journal,hiworth_hr_attendance.group_driver,1,1,1,0
+access_hiworth_account_move,Grant per To Hiworth account move,hiworth_construction.model_account_move,hiworth_hr_attendance.group_driver,1,1,1,0
+access_hiworth_account_period,Grant per To Hiworth account period,account.model_account_period,hiworth_hr_attendance.group_driver,1,1,1,0
+access_hiworth_account_move_line,Grant per To Hiworth account move_line,hiworth_construction.model_account_move_line,hiworth_hr_attendance.group_driver,1,1,1,0
+access_hiworth_account_analytic_line,Grant per To Hiworth account analytic_line,account.model_account_analytic_line,hiworth_hr_attendance.group_driver,1,1,1,0
+access_cash_transfer_limit_driver,Cash transfer limit driver,model_cash_transfer_limit,hiworth_hr_attendance.group_driver,1,1,1,0
+access_product_product_driver,Product product driver,product.model_product_product,hiworth_hr_attendance.group_driver,1,1,1,0
+access_product_template_driver,Product template driver,product.model_product_template,hiworth_hr_attendance.group_driver,1,1,1,0
+access_product_price_history_driver,Product price history driver,product.model_product_price_history,hiworth_hr_attendance.group_driver,1,1,1,0
+access_vehicle_meter_dirver,Vehicle meter driver,hiworth_tms.model_vehicle_meter,hiworth_hr_attendance.group_driver,1,0,0,0
+access_driver_daily_statement_item_receivedr,Vehicle driver_daily_statemnt_item_rcvd,model_daily_statement_item_received,hiworth_hr_attendance.group_driver,1,1,1,0
+access_diesel_pump_line_driver,Request Diesel Pump Line  Driver,model_diesel_pump_line,hiworth_hr_attendance.group_driver,1,1,1,1
+access_driver_payable_report_taurus,Driver Payable Report Taurus,model_driver_payable_report,hiworth_hr_attendance.group_driver,1,1,1,0
+access_purchase_order_taurus,Grant to Purchase Orderr Vtaurus,model_purchase_order,hiworth_hr_attendance.group_driver,1,1,1,0
+access_purchase_order_line_taurus,Grant to Purchase Orderr Line Vtaurus,model_purchase_order_line,hiworth_hr_attendance.group_driver,1,1,1,0
+,,,,,,,
+access_mason_line_supervisor_supervisor,Mason line Siupervisor,model_mason_line,hiworth_hr_attendance.group_supervisor,1,1,1,0
+access_site_purchase_supervisor,SIte Purchase Siupervisor,model_site_purchase,hiworth_hr_attendance.group_supervisor,1,1,1,1
+access_site_purchase_group_supervisor,SIte Purchase Group Siupervisor,model_site_purchase_group,hiworth_hr_attendance.group_supervisor,1,1,1,0
+access_product_cost_table_supervisor_supervisor,Product Cost Table Siupervisor,hiworth_construction.model_product_cost_table,hiworth_hr_attendance.group_supervisor,1,1,1,0
+access_stock_move_supervisor_supervisor,Stock Move Supervisor Siupervisor,hiworth_construction.model_stock_move,hiworth_hr_attendance.group_supervisor,1,1,1,0
+access_tds_line_supervisor,TDS Supervisor line Siupervisor,model_tds_line,hiworth_hr_attendance.group_supervisor,1,0,0,0
+access_mason_category_supervisor_supervisor,Mason category Siupervisor,model_mason_category,hiworth_hr_attendance.group_supervisor,1,1,1,0
+access_partner_daily_statement_supervisor,partner daily statement,model_partner_daily_statement,hiworth_hr_attendance.group_supervisor,1,1,1,0
+access_rent_vehicle_invoice_supervisor,Rent Vehicle Invoice Supervisor,model_rent_vehicle_invoice,hiworth_hr_attendance.group_supervisor,1,1,1,0
+access_rent_vehicle_invoice_line_supervisor,Rent Vehicle Invoice LineSupervisor,model_rent_vehicle_invoice_line,hiworth_hr_attendance.group_supervisor,1,1,1,0
+access_fleet_vehicle_state_supervisor,Fleet Vehicle Supervisor state,fleet.model_fleet_vehicle_state,hiworth_hr_attendance.group_supervisor,1,1,1,0
+access_agent_ins_lines_supervisor,Agent Ins Lines Supervisor,hiworth_tms.model_agent_ins_lines,hiworth_hr_attendance.group_supervisor,1,1,1,0
+access_bank_emi_lines_supervisor,Bank Emi Lines Supervisor,hiworth_tms.model_bank_emi_lines,hiworth_hr_attendance.group_supervisor,1,1,1,0
+access_vehicle_fuel_voucher_supervisor,Vehicle Fuel Voucher Supervisor,hiworth_tms.model_vehicle_fuel_voucher,hiworth_hr_attendance.group_supervisor,1,1,1,0
+access_fleet_vehicle_log_services_supervisor,Fleet Vehicle Log srvices Supervisor,hiworth_tms.model_fleet_vehicle_log_services,hiworth_hr_attendance.group_supervisor,1,1,1,0
+access_vehicle_meter_supervisor,Vehicle Meter Supervisor,hiworth_tms.model_vehicle_meter,hiworth_hr_attendance.group_supervisor,1,1,1,0
+access_fleet_vehicle_log_fuel_supervisor,Fleet Vehicle Log Fule Supervisr,hiworth_tms.model_fleet_vehicle_log_fuel,hiworth_hr_attendance.group_supervisor,1,1,1,0
+access_puc_lines_supervisor,Puc Lines Supervisor,hiworth_tms.model_puc_lines,hiworth_hr_attendance.group_supervisor,1,1,1,0
+access_fleet_vehicle_supervisor,Fleet Vehicle Supervisor,hiworth_tms.model_fleet_vehicle,hiworth_hr_attendance.group_supervisor,1,1,1,0
+access_rent_vehicle_statement_supervisor,Rent Vehicle statement,model_rent_vehicle_statement,hiworth_hr_attendance.group_supervisor,1,1,1,0
+access_partner_daily_statement_line_supervisor,partner daily statement line,model_partner_daily_statement_line,hiworth_hr_attendance.group_supervisor,1,1,1,1
+access_item_received_supervisor,item_received_suprvisor,model_daily_statement_item_received,hiworth_hr_attendance.group_supervisor,1,1,1,0
+access_next_day_work_supervisor,Next day work,model_next_day_work,hiworth_hr_attendance.group_supervisor,1,1,1,1
+access_next_day_work_items_supervisor,Next day work items,model_next_day_work_items,hiworth_hr_attendance.group_supervisor,1,1,1,1
+access_daily_statement_item_supervisor,Daily statement item,model_daily_statement_item,hiworth_hr_attendance.group_supervisor,1,1,1,1
+access_account_account_supervisor,Account account,account.model_account_account,hiworth_hr_attendance.group_supervisor,1,0,0,0
+access_account_move_supervisor,Account move,account.model_account_move,hiworth_hr_attendance.group_supervisor,1,1,1,1
+access_account_move_supervisor_line,Account move line,account.model_account_move_line,hiworth_hr_attendance.group_supervisor,1,1,1,0
+access_cash_confirm_transfer_supervisor,Cash confirm transfer,model_cash_confirm_transfer,hiworth_hr_attendance.group_supervisor,1,1,1,0
+access_cash_transfer_supervisor,Cash transfer,model_cash_transfer,hiworth_hr_attendance.group_supervisor,1,1,1,0
+access_cash_transfer_limit_supervisor,Cash transfer limit,model_cash_transfer_limit,hiworth_hr_attendance.group_supervisor,1,1,1,0
+access_product_product_supervisor,Product product supervisor,stock.model_product_product,hiworth_hr_attendance.group_supervisor,1,1,1,0
+access_product_template_supervisor,Product template supervisor,stock.model_product_template,hiworth_hr_attendance.group_supervisor,1,1,1,0
+access_driver_daily_statement_supervisor,Grant per To driver Daily statement supervisor,model_driver_daily_statement,hiworth_hr_attendance.group_supervisor,1,1,1,0
+access_driver_daily_statement_line_supervisor,Grant per To driver Daily statement Line supervisor,model_driver_daily_statement_line,hiworth_hr_attendance.group_supervisor,1,1,1,0
+access_account_account_type_supervisor,account_account_type_supervisor,account.model_account_account_type,hiworth_hr_attendance.group_supervisor,1,1,1,0
+access_account_period_supervisor,account_period_supervisor,account.model_account_period,hiworth_hr_attendance.group_supervisor,1,1,1,0
+access_account_journal_supervisor,account_journal_supervisor,account.model_account_journal,hiworth_hr_attendance.group_supervisor,1,1,1,0
+access_account_analytic_line_supervisor,account_analytic_line_supervisor,account.model_account_analytic_line,hiworth_hr_attendance.group_supervisor,1,1,1,0
+access_approver_line_supervisor,approver_line_supervisor,model_approver_line,hiworth_hr_attendance.group_supervisor,1,1,1,0
+access_operator_daily_statement_supervisor,operator_daily_statement_supervisor,model_operator_daily_statement,hiworth_hr_attendance.group_supervisor,1,1,1,1
+access_hr_employee_supervisor,operator_hr_employee_supervisor,model_hr_employee,hiworth_hr_attendance.group_supervisor,1,0,0,0
+access_item_product_supervisor,operator_item_product_supervisor,model_item_product,hiworth_hr_attendance.group_supervisor,1,1,1,1
+access_machinery_fuel_collection_supervisor,machinery_fuel_collection_supervisor,hiworth_tms.model_machinery_fuel_collection,hiworth_hr_attendance.group_supervisor,1,1,1,1
+access_machinery_fuel_allocation_supervisor,machinery_fuel_allocation_supervisor,hiworth_tms.model_machinery_fuel_allocation,hiworth_hr_attendance.group_supervisor,1,1,1,1
+access_fleet_vehicle_log_contract_supervisor,fleet_vehicle_log_contract_supervisor,fleet.model_fleet_vehicle_log_contract,hiworth_hr_attendance.group_supervisor,1,1,1,1
+access_stock_move_supervisor,stock_move_supervisor,stock.model_stock_move,hiworth_hr_attendance.group_supervisor,1,1,1,1
+access_fleet_vehicle_supervisor,fleet_vehicle_supervisor,fleet.model_fleet_vehicle,hiworth_hr_attendance.group_supervisor,1,1,1,1
+access_res_company_new_supervisor,res_company_new_supervisor,hiworth_hr_attendance.model_res_company_new,hiworth_hr_attendance.group_supervisor,1,1,1,0
+access_fuel_report_supervisor,fuel_report_supervisor,hiworth_construction.model_fuel_report,hiworth_hr_attendance.group_supervisor,1,1,1,0
+access_crusher_report_supervisor,crusher_report_supervisor,hiworth_construction.model_crusher_report,hiworth_hr_attendance.group_supervisor,1,1,1,0
+access_stock_history_supervisor,Grant Stock History supervisor,model_stock_history,hiworth_hr_attendance.group_supervisor,1,1,1,0
+,,,,,,,
+,,,,,,,
+access_project_manager_partner_daily,Project Manager Partner Daily,model_partner_daily_statement,hiworth_hr_attendance.group_project_manager,1,1,1,0
+,,,,,,,
+,,,,,,,
+access_project_manager_cash_confirm_transfer,Project Manager Cash Confirm Transfer,model_cash_confirm_transfer,hiworth_hr_attendance.group_project_manager,1,1,1,0
+,,,,,,,
+,,,,,,,
+access_project_manager_driver_daily_statement,Project Manager Driver Daily Statement,model_driver_daily_statement,hiworth_hr_attendance.group_project_manager,1,1,1,0
+access_project_manager_driver_daily_statement_line,Project Manager Driver Daily Statement Line,model_driver_daily_statement_line,hiworth_hr_attendance.group_project_manager,1,1,1,0
+access_project_manager_diesel_pump_line,Project Manager Diesel Pump Line,model_diesel_pump_line,hiworth_hr_attendance.group_project_manager,1,1,1,0
+access_project_manager_fleet_vehicle,Project Manager Fleet Vehicle,hiworth_tms.model_fleet_vehicle,hiworth_hr_attendance.group_project_manager,1,1,1,0
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+access_supervisor_payment_voucher_cashier,supervisor_payment_voucher_cashier,model_supervisor_payment_voucher,hiworth_hr_attendance.group_cashier,1,1,1,0
+access_supervisor_payment_line_approved_cashier,supervisor_payment_line_approved_cashier,model_supervisor_payment_line_approved,hiworth_hr_attendance.group_cashier,1,1,1,0
+access_supervisor_payment_cash_cashier,supervisor_payment_payment_cash_cashier,model_supervisor_payment_cash,hiworth_hr_attendance.group_cashier,1,1,1,0
+access_supervisor_payment_cash_line_cashier,supervisor_payment_payment_cash_line_cashier,model_supervisor_payment_cash_line,hiworth_hr_attendance.group_cashier,1,1,1,0
+access_supervisor_payment_bank_cashier,supervisor_payment_payment_bank_cashier,model_supervisor_payment_bank,hiworth_hr_attendance.group_cashier,1,1,1,0
+access_supervisor_payment_bank_line_cashier,supervisor_payment_payment_bank_line_cashier,model_supervisor_payment_bank_line,hiworth_hr_attendance.group_cashier,1,1,1,0
+access_account_move_cashier,account_move_cashier,account.model_account_move,hiworth_hr_attendance.group_cashier,1,1,1,0
+access_account_move_line_cashier,account_move_line_cashier,account.model_account_move_line,hiworth_hr_attendance.group_cashier,1,1,1,0
+access_account_journal_cashier,account_journal_cashier,account.model_account_journal,hiworth_hr_attendance.group_cashier,1,1,1,0
+access_account_period_cashier,account_period_cashier,account.model_account_period,hiworth_hr_attendance.group_cashier,1,1,1,0
+access_account_analytic_line_cashier,account_analytic_line_cashier,account.model_account_analytic_line,hiworth_hr_attendance.group_cashier,1,1,1,0
+access_res_company_new_cashier,res_company_new_cashier,hiworth_hr_attendance.model_res_company_new,hiworth_hr_attendance.group_cashier,1,1,1,0
+access_account_journal_period_cashier,account_journal_period_cashier,account.model_account_journal_period,hiworth_hr_attendance.group_cashier,1,1,1,0
+,,,,,,,
+access_driver_daily_statement_admin,Grant per To driver Daily statement Admin,model_driver_daily_statement,hiworth_hr_attendance.group_admin,1,1,1,1
+access_driver_daily_statement_line_admin,Grant per To driver Daily statement Line Admin,model_driver_daily_statement_line,hiworth_hr_attendance.group_admin,1,1,1,1
+access_cash_confirm_transfer_admin,Grant per To Cash Confirm Transfer Admin,model_cash_confirm_transfer,hiworth_hr_attendance.group_admin,1,1,1,0
+access_fund_return_cashier,grant fund return access to cashier,hiworth_construction.model_fund_return,hiworth_hr_attendance.group_cashier,1,1,1,1
+access_fund_return_line_cashier,grant fund return line access to cashier,hiworth_construction.model_fund_return_line,hiworth_hr_attendance.group_cashier,1,1,1,1
+access_fund_return_admin,Grant to Fund Return admin,hiworth_construction.model_fund_return,hiworth_hr_attendance.group_admin,1,1,1,1
+access_fund_return_line_admin,Grant to Fund Return line admin,hiworth_construction.model_fund_return_line,hiworth_hr_attendance.group_admin,1,1,1,1
+access_planning_chart,access_planning_chart,hiworth_construction.model_planning_chart,hiworth_hr_attendance.group_supervisor,1,0,0,0
+access_dpr_status_super,access_dpr_status_super,hiworth_construction.model_dpr_status,hiworth_hr_attendance.group_supervisor,1,0,0,0
+access_dpr_supervisor_line,access_dpr_supervisor_line,hiworth_construction.model_dpr_supervisor_line,hiworth_hr_attendance.group_supervisor,1,1,1,0
+access_grading_abstract_super,access_grading_abstract_super,hiworth_construction.model_grading_abstract,hiworth_hr_attendance.group_supervisor,1,0,0,0
+access_grading_weekly_abstract_super,access_grading_weekly_abstract_super,hiworth_construction.model_grading_weekly_abstract,hiworth_hr_attendance.group_supervisor,1,0,0,0
+access_image_gallery_super,access_image_gallery_super,hiworth_construction.model_image_gallery,hiworth_hr_attendance.group_supervisor,1,0,0,0
+access_project_supervisor,Grant permission to supervisor project,project.model_project_project,hiworth_hr_attendance.group_supervisor,1,0,0,0
+access_next_day_supervisor_planning,Grant Permission to supervisor for next day planing,hiworth_construction.model_next_day_supervisor,hiworth_hr_attendance.group_supervisor,1,1,1,1
+access_next_day_supervisor_user, Grant permission to user for next day planning,hiworth_construction.model_next_day_supervisor,base.group_user,1,1,0,0
+access_next_day_supervisor_admin,Grant permission to admin,hiworth_construction.model_next_day_supervisor,base.group_erp_manager,1,1,1,1
+access_next_day_supervisor_project_task_line,Grant Permission to supervisor,hiworth_construction.model_project_task_line,hiworth_hr_attendance.group_supervisor,1,1,1,1
+access_project_task_line_supervisor,Grant Permission to user,hiworth_construction.model_project_task_line,base.group_user,1,1,1,1
+access_project_task_line_admin_super,Grant Permission to admin super,hiworth_construction.model_project_task_line,base.group_erp_manager,1,1,1,1
+access_fuel_report_driver_user,Grant permission to user,hiworth_construction.model_fuel_report,base.group_user,1,1,1,1
+access_material_issue_slip_user,grant permission to user,hiworth_construction.model_material_issue_slip,base.group_user,1,1,1,1
+access_debit_note_supplier_user,grant permission to user debit note,hiworth_construction.model_debit_note_supplier,base.group_user,1,1,1,1
+access_material_issue_slip_line_user,grant permission to user,hiworth_construction.model_material_issue_slip_line,base.group_user,1,1,1,1
+access_debit_note_supplier_line_user,grant permission to user debit note,hiworth_construction.model_debit_note_supplier_line,base.group_user,1,1,1,1
+access_goods_transfer_note_in_user,dsfdfd,hiworth_construction.model_goods_transfer_note_in,base.group_user,1,1,1,1
+access_goods_transfer_dummy_user,rgrg,hiworth_construction.model_goods_transfer_dummy,base.group_user,1,1,1,1
+access_account_journal_user,dfgfg,account.model_account_journal,base.group_user,1,1,1,1
+access_item_of_work_user,vmfnjbvjgnb,hiworth_construction.model_item_of_work,base.group_user,1,1,1,1
+access_subcontractor_work,fbgfbgf,hiworth_construction.model_subcontractor_work,base.group_user,1,1,1,1
+access_detailed_estimation_line,fgfg,hiworth_construction.model_detailed_estimation_line,base.group_user,1,1,1,1
+access_material_estimation_user,fgfg,hiworth_construction.model_material_estimation,base.group_user,1,1,1,1
+access_resource_material_user,dfgrdg,hiworth_construction.model_resource_details,base.group_user,1,1,1,1
+access_manpower_Estimation,dcvfv,hiworth_construction.model_manpower_estimation,base.group_user,1,1,1,1
+acess_site_purchase,acess_site_purchase,hiworth_construction.model_site_purchase,base.group_user,1,1,1,1
+
+
+acess_goods_recieve_report,acess_goods_receive_report,hiworth_construction.model_goods_recieve_report,base.group_user,1,1,1,0
+acess_goods_recieve_report_line,access_goods_recieve_report_line,hiworth_construction.model_goods_recieve_report_line,base.group_user,1,1,1,0
+acess_goods_recieve_report_project_manager,acess_goods_receive_report_project_manager,hiworth_construction.model_goods_recieve_report,hiworth_construction.project_manager,1,1,1,0
+acess_goods_recieve_report_line_project_manager,access_goods_recieve_report_line_project_manager,hiworth_construction.model_goods_recieve_report_line,hiworth_construction.project_manager,1,1,1,0
+acess_goods_recieve_report_store_incharge,acess_goods_receive_report_store_incharge,hiworth_construction.model_goods_recieve_report,hiworth_construction.store_incharge,1,1,1,0
+acess_goods_recieve_report_line_store_incharge,access_goods_recieve_report_line_store_incharge,hiworth_construction.model_goods_recieve_report_line,hiworth_construction.store_incharge,1,1,1,0
+acess_goods_recieve_report_store_incharge,acess_goods_receive_report_store_incharge,hiworth_construction.model_goods_recieve_report,hiworth_construction.manage_grr,1,1,1,1
+acess_goods_recieve_report_line_store_incharge,access_goods_recieve_report_line_store_incharge,hiworth_construction.model_goods_recieve_report_line,hiworth_construction.manage_grr,1,1,1,1
+
+access_stock_picking_user_stock_quant_manage_grr,Grant rw to warehouse stoke quant,stock.model_stock_quant,hiworth_construction.manage_grr,1,1,1,1
+access_stock_picking_user_stock_quant_manage_fuel_entry,Grant rw to warehouse stoke quant,stock.model_stock_quant,hiworth_construction.manage_fuel_entry,1,1,1,0
+access_model_diesel_pump_line_manage_fuel_entry,Grant rw to warehouse stoke quant,hiworth_construction.model_diesel_pump_line,hiworth_construction.manage_fuel_entry,1,1,1,0
+
+
+
+aceess_request_item_list_user,access_request_item_list_user,hiworth_construction.model_request_item_list,base.group_user,1,1,1,1
+acess_main_data_master_user,access_main_data_master_user,model_main_data_master,base.group_user,1,1,1,1
+acess_sub_data_master_user,access_sub_data_master_user,model_sub_data_master,base.group_user,1,1,1,1
+acess_pricelist_pricelist_user , access_pricelist_pricelist_user,model_pricelist_pricelist,base.group_user,1,1,1,1
+access_main_data_user,access_main_data_user,model_main_data,,base.group_user,1,1,1,1,
+access_purchase_comparison_user,access_purchase_comparison_user,model_purchase_comparison,base.group_user,1,1,1,1
+access_res_partner_family_user,access_res_partner_family_user,model_res_partner_family,base.group_user,1,1,1,1
+access_work_estimation_daily_work_user,access_work_estimation_daily_work_user,hiworth_construction.model_work_estimation_daily_work,base.group_user,1,1,1,1
+access_labour_activities_sheet_user,access_labour_activities_sheet_user,hiworth_construction.model_labour_activities_sheet,base.group_user,1,1,1,1
+access_workdone_labour_sheet_user,access_workdone_labour_sheet_user,hiworth_construction.model_workdone_labour_sheet,base.group_user,1,1,1,1
+access_bill_details_user,access_bill_details_user,hiworth_construction.model_bill_details,base.group_user,1,1,1,1
+access_labour_cost_project_user,access_labour_cost_project_user,hiworth_construction.model_labour_cost_project,base.group_user,1,1,1,1
+access_material_cost_user,access_material_cost_user,hiworth_construction.model_material_cost,base.group_user,1,1,1,1
+access_vehicle_category_cost_user,access_vehicle_category_cost_user,hiworth_construction.model_vehicle_category_cost,base.group_user,1,1,1,1
+access_costing_project_user,access_costing_project_user,hiworth_construction.model_costing_project,base.group_user,1,1,1,1
+access_genral_expense_project_user,access_genral_expense_project_user,hiworth_construction.model_genral_expense_project,base.group_user,1,1,1,1

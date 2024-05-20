@@ -1,0 +1,184 @@
+<?xml version="1.0"?>
+
+<openerp>
+		<data>
+
+			<record id="employee_advance_form" model="ir.ui.view">
+				<field name="name">employee.advance.entry</field>
+				<field name="model">employee.advance</field>
+				<field name="arch" type="xml">
+					<form string="Advance Payments">
+						<sheet>
+							<h1>
+								<label string ="Advance Payments"/>
+							</h1>
+							<group>
+								
+								<group>
+									<field name="employee_id" />
+								</group>
+								<group>
+									<field name="date" />
+								</group>
+							
+								<group>
+									<field name="advance_amount" />
+								</group>
+								<group>
+									<field name="current_user" />
+								</group>
+							
+							</group>
+						</sheet>
+					</form>
+				</field>
+			</record>
+			<record id="employee_advance_TREE" model="ir.ui.view">
+				<field name="name">employee.advance.entry</field>
+				<field name="model">employee.advance</field>
+				<field name="arch" type="xml">
+				<tree string="Advance Payments">
+					<field name="employee_id" />
+					<field name="date" />
+					<field name="advance_amount" />
+					<field name="current_user" />
+				</tree>
+				</field>
+			</record>
+
+			<menuitem id="advance_payment_menu" parent="hr.menu_hr_root" name="Advance Payments" sequence="20"/>
+
+			<record id="action_advance_payment" model="ir.actions.act_window">
+				<field name="name">employee.advance.entry</field>
+				<field name="res_model">employee.advance</field>
+				<field name="view_type">form</field>
+				<field name="view_mode">tree,form</field>
+			</record>
+
+			<menuitem id="employee_advance" parent="advance_payment_menu" name="Advance Payment Details" sequence="1" action="action_advance_payment"/>
+
+
+
+			<!-- ##################  loan form   ################### -->
+
+
+			<record id="employee_loan_form" model="ir.ui.view">
+				<field name="name">employee.loan.entry</field>
+				<field name="model">employee.loan</field>
+				<field name="arch" type="xml">
+					<form string="Loan Payments">
+
+						<header>
+						 <button string="Approved" type="object" name="approved_progressbar" class="oe_highlight" attrs="{'invisible': [('state','=','approved')]}"/>
+						 <button string="Payment" type="object" name="loan_payment_approve" class="oe_highlight" attrs="{'invisible': [('state','!=','approved')]}"/>
+						 <button name="action_cancel" type="object" states="cancel"
+							string="Cancel" attrs="{'invisible': [('state','!=','approved')]}" />
+						 <button name="action_close" type="object" states="close"
+						string="Close" attrs="{'invisible': [('state','!=','approved')]}" />
+						 <field name="state" widget="statusbar"/>
+
+						</header>  
+
+						<sheet>
+							<h1>
+								<label string ="Loan Management"/>
+							</h1>
+							<group>
+								<group>
+									<field name="loan_id" />
+								</group>
+								
+								<group>
+									<field name="date" />
+								</group>
+								<group>
+									<field name="employee_id" attrs="{'readonly': [('state', '=', 'approved')]}"/>
+								</group>
+								<group>
+									<field name="current_user" attrs="{'readonly': [('state', '=', 'approved')]}"/>
+								</group>
+							
+								<group>
+									<field name="loan_amount" attrs="{'readonly': [('state', '=', 'approved')]}"/>
+								</group>
+								
+								<group>
+									<field name="rate" attrs="{'readonly': [('state', '=', 'approved')]}"/>
+								</group>
+								<group>
+									<field name="duration" attrs="{'readonly': [('state', '=', 'approved')]}"/>
+								</group>
+								<group>
+									<field name="total_loan" />
+								</group>
+								<group>
+									<field name="balance_amount" />
+								</group>
+								<group>
+									<field name="total_paid" />
+								</group>
+							</group>
+							
+
+								<notebook>
+									<page string="Loan Payment Details">
+										<group >
+									<field name="loan_line" nolabel="1">
+									
+											<tree editable="bottom">
+												<field name="date" />
+												<field name="paid_amount"/>
+											</tree>
+										
+										
+									</field>
+
+										</group>
+									</page>
+								</notebook>
+							</sheet>
+					</form>
+				</field>
+			</record>
+			<record id="employee_loan_tree" model="ir.ui.view">
+				<field name="name">employee.loan.entry.tree</field>
+				<field name="model">employee.loan</field>
+				<field name="arch" type="xml">
+				<tree string=" Loan Management">
+					<field name="loan_id" />
+					<field name="employee_id" />
+					<field name="date" />
+					<field name="loan_amount" />
+					<field name="current_user" />
+					<field name="total_loan" />
+					<field name="balance_amount" />
+					<field name="total_paid" />
+
+
+					<!-- <field name="loan_id" /> -->
+					
+				</tree>
+			</field>
+		</record>
+
+		<menuitem id="advance_loan_menu" parent="hr.menu_hr_root" name="Loan Management" sequence="20"/>
+
+		<record id="action_loan_payment" model="ir.actions.act_window">
+			<field name="name">employee.loan.entry.iteam</field>
+			<field name="res_model">employee.loan</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<menuitem id="employee_loan" parent="advance_loan_menu" name="Loan Management Details" sequence="1" action="action_loan_payment"/>
+
+
+	</data>
+</openerp>
+
+
+
+
+
+
+	  

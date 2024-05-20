@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+
+
+
+
+        	<report id="report_tyre_purchase_register_re" model="tyre.purchase.register.wizard"
+			report_type="qweb-pdf" string="Tyre Purchase Register"
+			name="hiworth_tms.report_tyre_purchase_register" file="Tyre Purchase Register" />
+
+				<template id="report_tyre_purchase_register">
+			<t t-call="report.html_container">
+				<t t-foreach="docs" t-as="o">
+					<t t-call="report.external_layout">
+						<div class="page">
+
+							<center><b><h2>Tyre Purchase Register</h2></b></center>
+						    <div class="row">
+                                <span>Date From : <span t-field="o.date_from"/> To <span t-field="o.date_to"/> </span>
+                            </div>
+							<t t-set="sl_no" t-value="0" />
+
+
+
+							<table style="font-size:16px;width: 100%;border-bottom: outset;border-top: outset;margin-top:30px;">
+
+
+								<tr style="border-bottom: outset;border-right: outset;border-left: outset;">
+									<td style="width: 3%; border-right: outset;%" align="center"><h5><b>Sl No</b></h5></td>
+									<td style="width: 3%; border-right: outset;" align="center"><h5><b>Date</b></h5></td>
+
+									<td style="width: 15%; border-right: outset;" align="center"><h5><b>Tyre No</b></h5></td>
+                                    <td style="width: 15%; border-right: outset;" align="center"><h5><b>Supplier</b></h5></td>
+									<td style="width: 5%; border-right: outset;" align="center"><h5><b>Model</b></h5></td>
+
+									<td style="width: 7%; border-right: outset;" align="center"><h5><b>Type</b></h5></td>
+									<td style="width: 7%; border-right: outset;" align="center"><h5><b>Size</b></h5></td>
+									<td style="width: 7%; border-right: outset;" align="center"><h5><b>Quantity</b></h5></td>
+									<td style="width: 5%; border-right: outset;" align="center"><h5><b>Amount</b></h5></td>
+								</tr>
+								<t t-set="nos" t-value="0" />
+                                <t t-set="amt" t-value="0" />
+								<!-- <t t-set="nos2" t-value="0" /> -->
+								<t t-foreach="o.get_details()" t-as="l" style="border-left: outset;">
+									<tr style="border-right: outset;border-left: outset;" height="25">
+
+										<td style="width: 3%; border-right: outset;" align="center">
+											<t t-set="sl_no" t-value="sl_no+1" />
+											<t t-esc="sl_no" />
+
+										</td>
+										<td style="width: 3%; border-right: outset;" align="center" ><span t-field="l.purchase_date" /></td>
+										<td style="width: 15%; border-right: outset;" align="center" ><span t-field="l.name"/></td>
+										<td style="width: 15%; border-right: outset;" align="center" ><span t-field="l.supplier.name"/></td>
+                                        <td style="width: 15%; border-right: outset;" align="center" ><span t-field="l.tyre_model_id.name"/></td>
+										<td style="width: 7%; border-right: outset;" align="center" ><span t-field="l.tyre_type_id.name"/></td>
+										<td style="width: 7%; border-right: outset;" align="center" ><span t-field="l.tyre_size" /></td>
+										<td style="width: 7%; border-right: outset;" align="center" >1</td>
+										<td style="width: 7%; border-right: outset;" align="center" ><span t-field="l.tyre_cost" />
+                                        <t t-set="amt" t-value="amt+l.tyre_cost" /></td>
+
+
+
+
+										<t t-set="nos" t-value="nos+1" />
+									</tr>
+
+								</t>
+								 <tr>
+                                      <td style="width: 3%; border-right: outset;" align="center" colspan="7">
+											Total Tyres Purchased
+										</td>
+
+										<td style="width: 7%; border-right: outset;" align="center" ><span t-esc="sl_no" /></td>
+										<td style="width: 7%; border-right: outset;" align="center" ><span t-esc="amt" /></td>
+
+
+                                    </tr>
+							</table>
+						</div>
+					</t>
+				</t>
+			</t>
+		</template>
+	</data>
+</openerp>

@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>
+<record id="form_project_report_wizard_daily" model="ir.ui.view">
+			<field name="name">Project  Report</field>
+			<field name="model">project.wizard.report</field>
+			<field name="arch" type="xml">
+				<form>
+					<group>
+						<group>
+
+							<field name="project_id" string="Project"/>
+
+
+						</group>
+
+					</group>
+					<footer>
+
+						<button type="object" name="generate_xls_report"
+							string="Print" class="oe_highlight" />
+						<button special="cancel" string="Cancel" />
+					</footer>
+				</form>
+			</field>
+		</record>
+		<record id="action_report_project_wizard_report_daily" model="ir.actions.act_window">
+			<field name="name">Project  Report</field>
+			<field name="res_model">project.wizard.report</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form</field>
+			<field name="target">new</field>
+		</record>
+		<report
+            id="project_report"
+            model="project.wizard.report"
+            string="Project Report Excel"
+            report_type="xlsx"
+            name="Project Report.xlsx"
+            file="Project Report.xlsx"
+            menu="False"
+        />
+
+
+    <menuitem id="report_projectreport_daily" parent="hiworth_construction.menu_project_managemt_reports"
+				  name="Project Report"
+			  groups="project.group_project_manager"
+				  action="action_report_project_wizard_report_daily" sequence ="8"/>
+
+
+	</data>
+</openerp>

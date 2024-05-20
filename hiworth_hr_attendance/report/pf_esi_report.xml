@@ -1,0 +1,288 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>
+
+		<!-- Employee insurance Details -->
+
+		<record model="ir.ui.view" id="employee_pf_esi_wizard">
+			<field name="name">pf_esi.wizard</field>
+			<field name="model">pf_esi.wizard</field>
+			<field name="arch" type="xml">
+				<form string="PF &amp; ESI Report">
+					<group col="4">
+						<label for="month" string="Period"/>
+	                    <div>
+	                        <field name="month" class="oe_inline" required="1"/> - <field name="year" class="oe_inline" required="1"/>
+	                    </div>
+					</group>
+					
+					<footer>
+						<button name="action_employee_pf_esi_open_window" type="object" string="Print" class="oe_highlight" />
+						<button name="action_employee_pf_esi_open_window1" type="object" string="View" class="oe_highlight" />
+						<button string="Cancel" class="oe_link" special="cancel" />
+					</footer>
+				</form>
+			</field>
+		</record>
+
+		<record id="action_employee_pf_esi_wizard" model="ir.actions.act_window">
+			<field name="name">PF &amp; ESI Report</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">pf_esi.wizard</field>
+			<field name="target">new</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form</field>
+		</record>
+
+		
+		<menuitem id="menu_employee_pf_esi_wizard" parent="menu_hiworth_hr_report1" name="PF &amp; ESI Report" sequence="3" action="action_employee_pf_esi_wizard"/>
+
+	
+
+
+		<report id="report_employee_pf_esi_report" string="PF &amp; ESI Report"
+			model="pf_esi.wizard" report_type="qweb-pdf"
+			name="hiworth_hr_attendance.report_employee_pf_esi_template" />
+
+
+		<template id="report_employee_pf_esi_template">
+			<t t-call="report.html_container">
+				<t t-foreach="docs" t-as="o">
+					<t t-call="report.external_layout">
+						<div class="page">
+							<center><b><h1>Provident Fund &amp; ESI Report</h1></b></center>
+							
+
+							<t t-set="sl_no" t-value="1" />
+							
+							<div>
+								<center>
+
+									<table style="font-size:16px;width: 100%;border-bottom: outset;border-top: outset;margin-top:30px;">
+										<thead>
+
+											<tr style="border-bottom: outset;border-right: outset;border-left: outset;" t-foreach="docs.get_head()" t-as="ln">
+												<td style="width: 2%; border-right: outset;" align="center"><h5><b>SL.No</b></h5></td>
+												<td style="width: 5%; border-right: outset;" align="center"><h5><b>Name of Employee</b></h5></td>
+												<td style="width: 10%; border-right: outset;" align="center"><h5><b>Basic Pay</b></h5></td>
+												<td style="width: 5%; border-right: outset;" align="center"><h5><b>Attendance</b></h5></td>
+												<td style="width: 5%; border-right: outset;" align="center"><h5><b>Wages Due</b></h5></td>
+												<td style="width: 7%; border-right: outset;" align="center"><h5><b>PF Wages</b></h5></td>
+												<td style="width: 7%; border-right: outset;" align="center"><h5><b>EDLI @ <span t-esc="ln['edli']"/>%</b></h5></td>
+												<td style="width: 7%; border-right: outset;" align="center"><h5><b>EPF @ <span t-esc="ln['employee_epf']"/>%</b></h5></td>
+												<td style="width: 7%; border-right: outset;" align="center"><h5><b>EPF @ <span t-esc="ln['employer_epf']"/>%</b></h5></td>
+												<td style="width: 7%; border-right: outset;" align="center"><h5><b>EPS @ <span t-esc="ln['eps']"/>%</b></h5></td>
+												<td style="width: 7%; border-right: outset;" align="center"><h5><b>ESI @ <span t-esc="ln['employee_esi']"/>%</b></h5></td>
+												<td style="width: 7%; border-right: outset;" align="center"><h5><b>ESI @ <span t-esc="ln['employer_esi']"/>%</b></h5></td>
+												
+											</tr>
+										</thead>
+
+										<t t-set="basic_pay" t-value="0" />
+										<t t-set="wages_due" t-value="0" />
+										<t t-set="pf_wages" t-value="0" />
+										<t t-set="edli" t-value="0" />
+										<t t-set="employer_epf" t-value="0" />
+										<t t-set="employee_epf" t-value="0" />
+										<t t-set="eps" t-value="0" />
+										<t t-set="employer_esi" t-value="0" />
+										<t t-set="employee_esi" t-value="0" />
+
+										<tbody>
+
+											<t t-foreach="docs.get_esi_pf_details()" t-as="line">
+												<tr style="border-left: outset;">
+													<td style="border-right: outset;">
+														<span t-esc="sl_no" />
+														<t t-set="sl_no" t-value="sl_no+1" />
+													</td>
+												
+													<td style="border-right: outset;padding-left: 2px;">
+														<span t-esc="line['employee_name']"/>
+													</td>
+													<td style="border-right: outset;padding-right: 2px;" align="right">
+														<span t-esc="'{0:,.2f}'.format(line['basic_pay'])"/>
+														<t t-set="basic_pay" t-value="basic_pay+line['basic_pay']" />
+													</td>
+													<td style="border-right: outset;" align="center">
+														<span t-esc="int(float(line['attendance']))"/>
+													</td>
+													<td style="border-right: outset;padding-right: 2px;" align="right">
+														<span t-esc="'{0:,.2f}'.format(line['wages_due'])"/>
+														<t t-set="wages_due" t-value="wages_due+line['wages_due']" />
+													</td>
+													
+													<td style="border-right: outset;padding-right: 2px;" align="right">
+														<span t-esc="'{0:,.2f}'.format(line['pf_wages'])"/>
+													<t t-set="pf_wages" t-value="pf_wages+line['pf_wages']" />
+													</td>
+													<td style="border-right: outset;padding-right: 2px;" align="right">
+														<span t-esc="'{0:,.2f}'.format(line['edli'])"/>
+													<t t-set="edli" t-value="edli+line['edli']" />
+													</td>
+
+													<td style="border-right: outset;padding-right: 2px;" align="right">
+														<span t-esc="'{0:,.2f}'.format(line['employee_epf'])"/>
+													<t t-set="employee_epf" t-value="employee_epf+line['employee_epf']" />
+													</td>
+													<td style="border-right: outset;padding-right: 2px;" align="right">
+														<span t-esc="'{0:,.2f}'.format(line['employer_epf'])"/>
+													<t t-set="employer_epf" t-value="employer_epf+line['employer_epf']" />
+													</td>
+													<td style="border-right: outset;padding-right: 2px;" align="right">
+														<span t-esc="'{0:,.2f}'.format(line['eps'])"/>
+													<t t-set="eps" t-value="eps+line['eps']" />
+													</td>
+													<td style="border-right: outset;padding-right: 2px;" align="right">
+														<span t-esc="'{0:,.2f}'.format(line['employee_esi'])"/>
+													<t t-set="employee_esi" t-value="employee_esi+line['employee_esi']" />
+													</td>
+													<td style="border-right: outset;padding-right: 2px;" align="right">
+														<span t-esc="'{0:,.2f}'.format(line['employer_esi'])"/>
+													<t t-set="employer_esi" t-value="employer_esi+line['employer_esi']" />
+													</td>
+													
+												</tr>
+											</t>
+
+											<tr style="border-left: outset;border-top: outset;">
+												<td style="border-right: outset;">
+												</td>
+											
+												<td style="border-right: outset;padding-left: 2px;">
+													Total
+												</td>
+												<td style="border-right: outset;padding-right: 2px;" align="right">
+													<span t-esc="'{0:,.2f}'.format(basic_pay)"/>
+												</td>
+												<td style="border-right: outset;" align="center">
+												</td>
+												<td style="border-right: outset;padding-right: 2px;" align="right">
+													<span t-esc="'{0:,.2f}'.format(wages_due)"/>
+												</td>
+												
+												<td style="border-right: outset;padding-right: 2px;" align="right">
+													<span t-esc="'{0:,.2f}'.format(pf_wages)"/>
+												</td>
+												<td style="border-right: outset;padding-right: 2px;" align="right">
+													<span t-esc="'{0:,.2f}'.format(edli)"/>
+												</td>
+												<td style="border-right: outset;padding-right: 2px;" align="right">
+													<span t-esc="'{0:,.2f}'.format(employee_epf)"/>
+												</td>
+
+												<td style="border-right: outset;padding-right: 2px;" align="right">
+													<span t-esc="'{0:,.2f}'.format(employer_epf)"/>
+												</td>
+												<td style="border-right: outset;padding-right: 2px;" align="right">
+													<span t-esc="'{0:,.2f}'.format(eps)"/>
+												</td>
+												<td style="border-right: outset;padding-right: 2px;" align="right">
+													<span t-esc="'{0:,.2f}'.format(employee_esi)"/>
+												</td>
+												<td style="border-right: outset;padding-right: 2px;" align="right">
+													<span t-esc="'{0:,.2f}'.format(employer_esi)"/>
+												</td>
+												
+											</tr>
+										</tbody>
+									</table>
+
+									<table style="font-size:16px;width: 100%;margin-top:50px;">
+										<t t-foreach="docs.get_final_amount()" t-as="line1">
+
+										<tr>
+											<td style="height:30px;width: 35%;">
+												Employee Contribution to EPF :
+											</td>
+											<td style="height:30px;width: 15%;padding-right: 50px;" align="right">
+												<span t-esc="'{0:,.2f}'.format(line1['employee_epf'])" />
+											</td>
+											
+											<td style="height:30px;width: 35%;">
+												Employee Contribution to ESI :
+											</td>
+											<td style="height:30px;width: 15%;padding-right: 50px;" align="right">
+												<span t-esc="'{0:,.2f}'.format(line1['employee_esi'])" />
+											</td>
+											
+										</tr>
+										<tr>
+											
+											<td style="height:30px;">
+												Employer Contribution to EPF :
+											</td>
+
+											<td style="height:30px;padding-right: 50px;" align="right">
+												<span t-esc="'{0:,.2f}'.format(line1['employer_epf'])" />
+											</td>
+											
+											<td style="height:30px;">
+												Employer Contribution to ESI :
+											</td>
+											<td style="height:30px;padding-right: 50px;" align="right">
+												<span t-esc="'{0:,.2f}'.format(line1['employer_esi'])" />
+											</td>
+										</tr>
+										<tr>
+											<td style="height:30px;">
+												Employee Contribution to EPS :
+											</td>
+											<td style="height:30px;padding-right: 50px;" align="right">
+												<span t-esc="'{0:,.2f}'.format(line1['employer_eps'])" />
+											</td>
+											<td style="height:30px;">
+												Total amount payable ESI :
+											</td>
+											<td style="height:30px;padding-right: 50px;" align="right">
+												<span t-esc="'{0:,.2f}'.format(line1['net_esi'])" />
+											</td>
+										</tr>
+										<tr>
+											<td style="height:30px;">
+												Employer Contribution to EDLI : 
+											</td>
+											<td style="height:30px;padding-right: 50px;" align="right">
+												<span t-esc="'{0:,.2f}'.format(line1['edli'])" />
+											</td>
+											<td></td>
+											<td></td>
+										</tr>
+										<tr>
+											<td style="height:30px;">
+												Administrative Charges : 
+											</td>
+											<td style="height:30px;padding-right: 50px;" align="right">
+												<span t-esc="'{0:,.2f}'.format(line1['admin_charge'])" />
+											</td>
+											<td></td>
+											<td></td>
+											
+										</tr>
+										<tr>
+											<td style="height:30px;">
+												Total amount payable PF : 
+											</td>
+											<td style="height:30px;padding-right: 50px;" align="right">
+												<span t-esc="'{0:,.2f}'.format(line1['net_epf'])" />
+											</td>
+											<td></td>
+											<td></td>
+										</tr>
+										
+										</t>
+
+									</table>
+								</center>
+							</div>
+			               
+						</div>
+					</t>
+				</t>
+			</t>
+		</template>
+
+
+		
+	</data>
+</openerp>

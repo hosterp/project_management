@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data noupdate="0">
+
+
+		<record id="hr_holidays.hr_holidays_summary_employee_value" model="ir.values">
+		    <field name="key2" eval="''"/>
+		</record>
+
+		<record id="make_invisible" model="res.groups">
+			<field name="name">visible</field>
+		</record>
+		
+
+
+	
+
+		<!-- <record model="ir.ui.menu" id="hiworth_hr_attendance.menu_attendance_request_root">
+			<field name="groups_id" eval="[(6,0,[ref('make_invisible')])]" />
+		</record> -->
+
+	
+
+		<record model="ir.ui.menu" id="hr_payroll.menu_hr_payslip_run">
+			<field name="groups_id" eval="[(6,0,[ref('make_invisible')])]" />
+		</record>
+
+		<record model="ir.ui.menu" id="hr_payroll.menu_hr_payroll_structure_tree">
+			<field name="groups_id" eval="[(6,0,[ref('make_invisible')])]" />
+		</record>
+
+		<record model="ir.ui.menu" id="hr_payroll.menu_hr_salary_rule_category_tree_view">
+			<field name="groups_id" eval="[(6,0,[ref('make_invisible')])]" />
+		</record>
+
+		<record model="ir.ui.menu" id="hr_payroll.menu_action_hr_contribution_register_form">
+			<field name="groups_id" eval="[(6,0,[ref('make_invisible')])]" />
+		</record>
+
+		
+
+		<record model="ir.module.category" id="hr_management">
+			  <field name="name">HR</field>
+			  <field name="description">User access level</field>
+			  <field name="sequence">3</field>
+		</record>
+
+		<record id="group_admin" model="res.groups">
+		     <field name="name">Admin</field>
+		     <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+		     <field name="category_id" ref="hiworth_hr_attendance.hr_management"/>
+	    </record>
+    
+
+	    <record id="group_driver" model="res.groups">
+		     <field name="name">Driver</field>
+		     <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+		     <field name="category_id" ref="hiworth_hr_attendance.hr_management"/>
+	    </record>
+
+	    <record id="group_project_manager" model="res.groups">
+		     <field name="name">Project Manager</field>
+		     <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+		     <field name="category_id" ref="hiworth_hr_attendance.hr_management"/>
+	    </record>
+
+	    <record id="group_district_manager" model="res.groups">
+		     <field name="name">District Manager</field>
+		     <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+		     <field name="category_id" ref="hiworth_hr_attendance.hr_management"/>
+	    </record>
+
+	    <record id="group_eicher_driver" model="res.groups">
+		     <field name="name">Eicher Driver</field>
+		     <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+		     <field name="category_id" ref="hiworth_hr_attendance.hr_management"/>
+	    </record>
+
+	    <record id="group_pickup_driver" model="res.groups">
+		     <field name="name">Pick Up Driver</field>
+		     <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+		     <field name="category_id" ref="hiworth_hr_attendance.hr_management"/>
+	    </record>
+
+	    <record id="group_lmv_driver" model="res.groups">
+		     <field name="name">Light Motor Vehicle Driver</field>
+		     <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+		     <field name="category_id" ref="hiworth_hr_attendance.hr_management"/>
+	    </record>
+
+	    <record id="group_directors" model="res.groups">
+		     <field name="name">Directors</field>
+		     <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+		     <field name="category_id" ref="hiworth_hr_attendance.hr_management"/>
+	    </record>
+
+	    <record id="group_office_manger" model="res.groups">
+		     <field name="name">Office Manager</field>
+		     <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+		     <field name="category_id" ref="hiworth_hr_attendance.hr_management"/>
+	    </record>
+
+	    <record id="group_project_eng" model="res.groups">
+		     <field name="name">Project Engineer</field>
+		     <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+		     <field name="category_id" ref="hiworth_hr_attendance.hr_management"/>
+	    </record>
+
+	    <record id="group_cheif_acc" model="res.groups">
+		     <field name="name">Cheif Accountant</field>
+		     <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+		     <field name="category_id" ref="hiworth_hr_attendance.hr_management"/>
+	    </record>
+
+	    <record id="group_sen_acc" model="res.groups">
+		     <field name="name">Senior Accountant</field>
+		     <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+		     <field name="category_id" ref="hiworth_hr_attendance.hr_management"/>
+	    </record>
+
+	    <record id="group_jun_acc" model="res.groups">
+		     <field name="name">Junior Accountant</field>
+		     <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+		     <field name="category_id" ref="hiworth_hr_attendance.hr_management"/>
+	    </record>
+
+	    <record id="group_cashier" model="res.groups">
+		     <field name="name">Cashier</field>
+		     <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+		     <field name="category_id" ref="hiworth_hr_attendance.hr_management"/>
+	    </record>
+
+	    <record id="group_project_cordinator" model="res.groups">
+		     <field name="name">Project Cordinator</field>
+		     <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+		     <field name="category_id" ref="hiworth_hr_attendance.hr_management"/>
+	    </record>
+
+	    <record id="group_technical_team" model="res.groups">
+		     <field name="name">Technical Team</field>
+		     <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+		     <field name="category_id" ref="hiworth_hr_attendance.hr_management"/>
+	    </record>
+
+	    <record id="group_telecome_bill" model="res.groups">
+		     <field name="name">Telecome Billing</field>
+		     <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+		     <field name="category_id" ref="hiworth_hr_attendance.hr_management"/>
+	    </record>
+
+	    <record id="group_survey_team" model="res.groups">
+		     <field name="name">Survey Team</field>
+		     <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+		     <field name="category_id" ref="hiworth_hr_attendance.hr_management"/>
+	    </record>
+
+	    <record id="group_quality" model="res.groups">
+		     <field name="name">Quality</field>
+		     <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+		     <field name="category_id" ref="hiworth_hr_attendance.hr_management"/>
+	    </record>
+
+	    <record id="group_tendor" model="res.groups">
+		     <field name="name">Tendor</field>
+		     <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+		     <field name="category_id" ref="hiworth_hr_attendance.hr_management"/>
+	    </record>
+
+	    <record id="group_interlocks" model="res.groups">
+		     <field name="name">Interlocks</field>
+		     <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+		     <field name="category_id" ref="hiworth_hr_attendance.hr_management"/>
+	    </record>
+
+	    <record id="group_liaisoning" model="res.groups">
+		     <field name="name">Liaisoning</field>
+		     <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+		     <field name="category_id" ref="hiworth_hr_attendance.hr_management"/>
+	    </record>
+
+	    <record id="group_hr" model="res.groups">
+		     <field name="name">HR</field>
+		     <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+		     <field name="category_id" ref="hiworth_hr_attendance.hr_management"/>
+	    </record>
+
+	    <record id="group_site_eng" model="res.groups">
+		     <field name="name">Captain/Site Engineer</field>
+		     <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+		     <field name="category_id" ref="hiworth_hr_attendance.hr_management"/>
+	    </record>
+
+	    <record id="group_supervisor" model="res.groups">
+		     <field name="name">Supervisor(Civil)</field>
+		     <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+		     <field name="category_id" ref="hiworth_hr_attendance.hr_management"/>
+	    </record>
+
+	    <record id="group_super_telecome" model="res.groups">
+		     <field name="name">Supervisor(Telecome)</field>
+		     <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+		     <field name="category_id" ref="hiworth_hr_attendance.hr_management"/>
+	    </record>
+
+	    <record id="group_super_trainee" model="res.groups">
+		     <field name="name">Supervisor(Trainee)</field>
+		     <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+		     <field name="category_id" ref="hiworth_hr_attendance.hr_management"/>
+	    </record>
+
+	    <record id="group_operators" model="res.groups">
+		     <field name="name">Operators</field>
+		     <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+		     <field name="category_id" ref="hiworth_hr_attendance.hr_management"/>
+	    </record>
+
+	    <record id="group_helpers" model="res.groups">
+		     <field name="name">Helpers</field>
+		     <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+		     <field name="category_id" ref="hiworth_hr_attendance.hr_management"/>
+	    </record>
+
+	    <record id="group_vehicle_admin" model="res.groups">
+		     <field name="name">Vehicle Administration</field>
+		     <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+		     <field name="category_id" ref="hiworth_hr_attendance.hr_management"/>
+	    </record>
+
+        <record id="group_purchase" model="res.groups">
+		     <field name="name">Purchase</field>
+		     <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+		     <field name="category_id" ref="hiworth_hr_attendance.hr_management"/>
+	    </record>
+	    <record id="group_civil_store" model="res.groups">
+		     <field name="name">Civil Store</field>
+		     <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+		     <field name="category_id" ref="hiworth_hr_attendance.hr_management"/>
+	    </record>
+	    <record id="group_telecome_store" model="res.groups">
+		     <field name="name">Telecome Store</field>
+		     <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+		     <field name="category_id" ref="hiworth_hr_attendance.hr_management"/>
+	    </record>
+	    <record id="group_security" model="res.groups">
+		     <field name="name">Security</field>
+		     <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+		     <field name="category_id" ref="hiworth_hr_attendance.hr_management"/>
+	    </record>
+	    <record id="group_labour" model="res.groups">
+		     <field name="name">Labour</field>
+		     <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+		     <field name="category_id" ref="hiworth_hr_attendance.hr_management"/>
+	    </record>
+	    <record id="group_civil_workshop" model="res.groups">
+		     <field name="name">Civil Workshop</field>
+		     <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+		     <field name="category_id" ref="hiworth_hr_attendance.hr_management"/>
+	    </record>
+	    <record id="group_vehicle_workshop" model="res.groups">
+		     <field name="name">Vehicle Workshop</field>
+		     <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+		     <field name="category_id" ref="hiworth_hr_attendance.hr_management"/>
+	    </record>
+	    <record id="group_fuels" model="res.groups">
+		     <field name="name">Fuels</field>
+		     <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+		     <field name="category_id" ref="hiworth_hr_attendance.hr_management"/>
+	    </record>
+
+	    
+        
+	</data>
+</openerp>

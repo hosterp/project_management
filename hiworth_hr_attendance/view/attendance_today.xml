@@ -1,0 +1,107 @@
+<?xml version="1.0" ?>
+<openerp>
+    <data>
+        <record id="hiworth_hr_attendance_view_employee_attendance_form1" model="ir.ui.view">
+            <field name="name">Modified attendance tree view</field>
+            <field name="model">hiworth.hr.attendance</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="date"/>
+                            <field name="name"/>
+                            <field name="attendance" />
+                            <field name="state" invisible="1" />
+                            <field name="location" invisible="1"/>
+                            <field name="employee_type" invisible="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="hiworth_hr_attendance_view_employee_attendance_tree1" model="ir.ui.view">
+            <field name="name">Modified attendance tree view</field>
+            <field name="model">hiworth.hr.attendance</field>
+            <field name="arch" type="xml">
+                <tree create="false" colors="red:attendance == 'absent'">
+                    <field name="date"/>
+                    <field name="name" readonly="1" />
+                    <field name="attendance" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_employee_attendance_calendar" model="ir.ui.view">
+            <field name="name">hiworth.hr.attendance.calendar</field>
+            <field name="model">hiworth.hr.attendance</field>
+            <field name="arch" type="xml">
+                <calendar string="Attendance" color="attendance" date_start="date">
+                    <field name="name" readonly="1" />
+                    <field name="attendance" />
+                </calendar>
+            </field>
+        </record>
+
+        <record id="view_employee_attendance_search" model="ir.ui.view">
+            <field name="name">hiworth.hr.attendance.search</field>
+            <field name="model">hiworth.hr.attendance</field>
+            <field name="arch" type="xml">
+                <search string="Attendance">
+                    <field name="name" />
+                    <field name="attendance" />
+                    <group expand="0" string="group by">
+                        <filter name="groupby_name" string="Employee" 
+                            context="{'group_by':'name'}"/>  
+                        <filter name="groupby_attendance" string="attendance" 
+                            context="{'group_by':'attendance'}"/>
+                        <filter icon="terp-go-month" string="Today" name="today" domain="[('date','=',(datetime.date.today()).strftime('%Y-%m-%d'))]" help="Today"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="hiworth_hr_attendance_view_employee_attendance_action" model="ir.actions.act_window">
+            <field name="name">Attendance Entry List</field>
+            <field name="res_model">hiworth.hr.attendance</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="hiworth_hr_attendance_view_employee_attendance_tree1" />
+            <field name="search_view_id" ref="view_employee_attendance_search"/>
+            <field name="context">{"search_default_today":1}</field>
+        </record>
+
+        <!-- Modified employee tree view -->
+        <record id="hiworth_hr_attendance_view_employee_tree1" model="ir.ui.view">
+            <field name="name">hr.employee.hiworth.tree</field>
+            <field name="model">hr.employee</field>
+            <field name="priority">18</field>
+            <field name="arch" type="xml">
+                <tree string="Employees" create="false">
+                    <field name="name"/>
+                    <field name="employee_type"/>
+                    <field name="work_phone"/>
+                    <field name="work_email"/>
+                    <field name="location" invisible="1"/>
+                    <field name="coach_id" invisible="1"/>
+                    <button string="View Product" icon="gtk-redo" type="object" name="load_employee_attendance" context="{'employee_id':id}"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="hiworth_hr_attendance_view_employee_tree_action1" model="ir.actions.act_window">
+            <field name="name">Employees attendance Today </field>
+            <field name="res_model">hr.employee</field>
+            <field name="view_mode">tree</field>
+            <field name="domain">[('present','=',True)]</field>
+            <field name="view_id" ref="hiworth_hr_attendance_view_employee_tree1" />
+        </record>
+
+        <!-- <menuitem id="hiworth_hr_menu_attendance_view_employees11" parent="menu_attendance" name="Attendance Today" sequence="12" action="hiworth_hr_attendance_view_employee_tree_action1" /> -->
+
+
+        
+
+
+         <!-- <menuitem name="Level Hierarchy" id="employee_structure_hrs" parent="hr.menu_hr_main" action="hr.action2" sequence="1"/> -->
+
+    </data>
+</openerp>

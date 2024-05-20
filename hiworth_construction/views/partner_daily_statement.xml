@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+
+
+
+		<record id="form_partner_daily_statement" model="ir.ui.view">
+			<field name="name">form.partner.daily.statement</field>
+			<field name="model">partner.daily.statement</field>
+			<field name="arch" type="xml">
+				<form string="Daily Statement">
+					<header>
+						<button name="button_prepare" string="Prepare"
+								type="object" class="oe_highlight" states="draft" />
+
+						<button name="action_confirm" string="Confirm"
+								type="object" class="oe_highlight" states="request" />
+						<button name="approve_entry" string="Check" type="object" class="oe_highlight" states="confirmed" groups="project.group_project_manager" />
+						<button name="check_entry" string="Approve" type="object" class="oe_highlight" states="approved" groups="hiworth_construction.group_general_manager"/>
+						<button name="set_draft" string="Set To Draft" type="object" class="oe_highlight" states="cancelled" />
+						<button name="cancel_entry" string="Cancel" type="object" class="oe_highlight" states="confirmed,approved,checked" style="margin-left:40em;"/>
+						<field name="state" widget="statusbar" />
+					</header>
+					<div>
+						<h1>
+							<field name="name" readonly="1"/>
+						</h1>
+					</div>
+
+					<group col="6">
+						<group>
+							<field name="employee_id" required="True" string="Supervisor" options="{'no_create':True, 'no_create_edit':True}"/>
+
+							<field name="date" required="True" attrs="{'readonly':[('state','in',('confirmed','approved','checked','cancelled'))]}" />
+							<field name="project_id" required="True" options="{'no_create': True, 'no_create_edit':True}" attrs="{'readonly':[('state','in',('confirmed','approved','checked','cancelled'))]}"/>
+							<field name="location_ids" required="True" options="{'no_create': True, 'no_create_edit':True}" attrs="{'readonly':[('state','in',('confirmed','approved','checked','cancelled'))]}"/>
+
+						</group>
+
+					</group>
+					<notebook string="Today's Work">
+						<page>
+							<field name="work_estimation_daily_ids" context="{'project_id':project_id}">
+								<tree editable="bottom">
+									<field name="category_id" options="{'no_create': True}"/>
+									<field name="name"/>
+									<field name="location_id"/>
+									<field name="chain_from"/>
+									<field name="chain_to"/>
+									<field name="side"/>
+									<field name="unit_id"/>
+									<field name="nos"/>
+									<field name="length"/>
+									<field name="breadth"/>
+									<field name="depth"/>
+									<field name="qty"/>
+									<field name="contractor_id"/>
+									<field name="remarks"/>
+								</tree>
+							</field>
+						</page>
+					</notebook>
+					<notebook>
+						<page string="ManPower Expenses">
+							<group >
+								<newline />
+								<field name="line_ids" nolabel="1" attrs="{'readonly':[('state','in',('checked','cancelled'))]}" >
+								<tree editable="bottom">
+									<field name="category_id" options="{'no_create': True}"/>
+									 <field name="date"/>
+                    <field name="number"/>
+                    <field name="supervisor_id"/>
+                    <field name="lab_no"/>
+                    <field name="name"/>
+                    <field name="position" />
+                    <field name="project_id"/>
+                    <field name="time_in" />
+                    <field name="time_out"/>
+                    <field name="work_done" />
+                    <field name="rate"/>
+								</tree>
+								</field>
+							</group>
+						</page>
+
+					</notebook>
+
+
+
+
+					<notebook>
+						<page string="General Expenses">
+							<group >
+								<newline />
+								<field name="expense_line_ids" nolabel="1" attrs="{'readonly':[('state','in',('confirmed','approved','checked','cancelled'))]}">
+									<tree>
+										<field name="date"/>
+										<field name="item" string="Category"/>
+										<field name="quantity"/>
+										<field name="unit_id"/>
+										<field name="rate" />
+										<field name="total" sum="Total"/>
+										<field name="payment" sum="Total"/>
+										<field name="vr_no" />
+										<field name="remarks" />
+									</tree>
+									<form>
+										<sheet>
+											<group>
+												<group>
+													<field name="item" string="Category"/>
+													<field name="quantity"/>
+													<field name="rate" />
+												</group>
+												<group>
+													<field name="total"/>
+
+												</group>
+											</group>
+
+												<group>
+													<field name="vr_no"/>
+													<field name="payment"/>
+												</group>
+												<group>
+													<field name="remarks"/>
+												</group>
+
+										</sheet>
+
+									</form>
+								</field>
+							</group>
+						</page>
+					</notebook>
+
+
+					<group string="Machineries">
+						<notebook>
+							<page string="Operators Statements">
+								<group>
+									<field name="operator_daily_stmts" nolabel="1" attrs="{'readonly':[('state','in',('approved','cancelled'))]}">
+										<tree editable="bottom">
+											<field name="category_id" options="{'no_create': True, 'no_create_edit':True}"/>
+											<field name="employee_id"/>
+											<field name="machinery_id"/>
+											<field name="unit_id"/>
+											<field name="start_reading"/>
+											<field name="end_reading"/>
+											<field name="working_hours"/>
+											<field name="breakdown_hours"/>
+											<field name="quantity"/>
+											<field name="remarks"/>
+										</tree>
+									</field>
+								</group>
+							</page>
+
+						</notebook>
+
+					</group>
+					<notebook>
+							<page string="Material Received and Consumption">
+							<field name="received_ids" context="{'default_invoice_date':date}">
+								<tree editable="bottom">
+									<field name="category_id" options="{'no_create': True, 'no_create_edit':True}"/>
+									<field name="product_id"/>
+									<field name="name"/>
+									<field name="unit_id" readonly="1"/>
+									<field name="rate"/>
+									<field name="opening_balance" readonly="1"/>
+									<field name="qty" readonly="1"/>
+									<field name="total"/>
+									<field name="product_qty"/>
+									<field name="balance_qty"/>
+
+								</tree>
+							</field>
+					</page>
+
+						</notebook>
+					<notebook>
+							<page string="Material issue from Store">
+							<field name="material_issue_slip_ids" context="{'default_invoice_date':date}">
+								<tree>
+						<field name="date" invisible='1'/>
+					    <field name="item_id" />
+					    <field name="desc"/>
+					    <field name="unit_id" options="{'no_create':True, 'no_create_edit':True}"/>
+						<field name="stock"/>
+					    <field name="quantity"/>
+					    <field name="req_qty" string="Issued Quantity" sum="Total"/>
+					    <field name="rem_qty"/>
+					    <field name ="rate"/>
+					    <field name = "amount" sum="Total"/>
+						<field name="remarks"/>
+						<field name="project_id" invisible='1'/>
+
+					</tree>
+							</field>
+					</page>
+
+						</notebook>
+
+
+
+
+					<group>
+						<group>
+							<field name="approved_by" readonly="1" attrs="{'invisible':[('state','not in',('checked','approved'))]}" />
+							<field name="approved_sign" readonly="1" widget="image" class="oe_avatar" attrs="{'invisible':[('state','not in',('checked','approved'))]}" />
+						</group>
+						<group>
+							<field name="checked_by" readonly="1" attrs="{'invisible':[('state','!=','checked')]}"  />
+							<field name="checked_sign" readonly="1" widget="image" class="oe_avatar" attrs="{'invisible':[('state','!=','checked')]}" />
+						</group>
+					</group>
+				</form>
+			</field>
+		</record>
+
+		<record id="tree_partner_daily_statement" model="ir.ui.view">
+			<field name="name">tree.partner.daily.statement</field>
+			<field name="model">partner.daily.statement</field>
+			<field name="arch" type="xml">
+				<tree string="Daily Statement">
+					<field name="date" />
+					<field name="name" />
+					<field name="project_id"/>
+					<field name="employee_id" />
+					<field name="state" />
+				</tree>
+			</field>
+		</record>
+
+		<record id="search_partner_daily_statement" model="ir.ui.view">
+			<field name="name">search.partner.daily.statement</field>
+			<field name="model">partner.daily.statement</field>
+			<field name="arch" type="xml">
+				<search string="Daily Statement">
+					<field name="date" />
+					<field name="employee_id" />
+					<filter string="Today" name="filter_today" domain="[('date','=',current_date)]"/>
+					<group expand="0" string="Group By">
+						<filter string="Supervisor" icon="terp-stock_effects-object-colorize"
+								domain="[]" name="group_partner" context="{'group_by':'employee_id'}" />
+						<filter string="Month" icon="terp-go-month" domain="[]"
+								name="group_month" context="{'group_by':'date'}" />
+
+						<filter string="Date" icon="terp-stock_effects-object-colorize"
+								domain="[]" name="group_date" context="{'group_by':'date:day'}" />
+						<filter string="Project" icon="terp-stock_effects-object-colorize"
+								domain="[]" name="group_project" context="{'group_by':'project_id'}" />
+					</group>
+				</search>
+			</field>
+		</record>
+
+		<record id="action_partner_daily_statement" model="ir.actions.act_window">
+			<field name="name">Supervisor Daily Statement</field>
+			<field name="res_model">partner.daily.statement</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_id" ref="tree_partner_daily_statement" />
+			<field name="search_view_id" ref="search_partner_daily_statement"/>
+			<field name="context">{'search_default_group_date':1,'search_default_group_project':1,'search_default_filter_today':1}</field>
+		</record>
+
+		<menuitem id="menu_partner_daily_statement_in_activity_report" parent="root_activity_reports_menu"
+				  name="Supervisor Daily Statement" sequence="20"
+				  groups="hiworth_hr_attendance.group_project_manager,base.group_erp_manager,hiworth_hr_attendance.group_supervisor,hiworth_hr_attendance.group_admin" />
+
+		<menuitem id="menu_partner_daily_statement" parent="menu_partner_daily_statement_in_activity_report"
+				  action="action_partner_daily_statement" name="Supervisor Daily Statement" sequence="10"
+				  groups="hiworth_hr_attendance.group_project_manager,base.group_erp_manager,hiworth_hr_attendance.group_supervisor,hiworth_hr_attendance.group_admin"/>
+
+	</data>
+</openerp>

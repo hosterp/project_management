@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>
+
+    
+		<record id="form_utilization_report_daily" model="ir.ui.view">
+			<field name="name">Daily Utilization Report</field>
+			<field name="model">daily.utilization.report</field>
+			<field name="arch" type="xml">
+				<form>
+					<group>
+						<group>
+							<field name="date" />
+							<field name="project_id"/>
+							<field name="own_vehicle"/>
+							<field name="vehicle_id" attrs="{'invisible':[('own_vehicle','=',False)]}"/>
+							<field name="rent_vehicle"/>
+							<field name="rent_vehicle_owner_id" attrs="{'invisible':[('rent_vehicle','=',False)]}"/>
+							<field name="rent_vehicle_id" attrs="{'invisible':[('rent_vehicle','=',False)]}"/>
+
+							
+						</group>
+					</group>
+					<footer>
+						<button type="object" name="generate_xls_report"
+							string="Print Excel" class="oe_highlight" />
+						<button special="cancel" string="Cancel" />
+					</footer>
+				</form>
+			</field>
+		</record>
+		<report
+            id="daily_utilize_excel_report"
+            model="daily.utilization.report"
+            string="Daily Utilization Report"
+            report_type="xlsx"
+            name="custom.daily_utilization_report.xlsx"
+            file="custom.daily_utilization_report.xlsx"
+            menu="False"            
+        />
+
+		<record id="action_utilization_report_daily" model="ir.actions.act_window">
+			<field name="name">Utilization Report</field>
+			<field name="res_model">daily.utilization.report</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form</field>
+			<field name="target">new</field>
+		</record>
+
+		
+                   
+
+          <menuitem id = "menu_daily_utilization_report"
+					name="Log Sheet - Daily"
+
+					action = "action_utilization_report_daily"/>
+     </data>
+   </openerp>

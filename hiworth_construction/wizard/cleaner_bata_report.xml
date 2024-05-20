@@ -1,0 +1,163 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>
+<record id="form_driver_cleaner_report_daily" model="ir.ui.view">
+			<field name="name">Cleaner Bata Reort</field>
+			<field name="model">cleaner.bata.report</field>
+			<field name="arch" type="xml">
+				<form>
+					<group>
+						<group>
+							<field name="company_id" />
+							<field name="project_id" string="Project"/>
+							<!--<field name="location_id" string="Location" />-->
+							<!--field name="product_id" string="Product"/-->
+						</group>
+						<group>
+							<field name="from_date"/>
+							<field name="to_date" />
+							<field name="cleaner_id" string="Cleaner Name"/>
+						<!--	<field name="category" />-->
+						</group>
+					</group>
+					<footer>
+						<button type="object" name="print_report"
+							string="View" class="oe_highlight" />
+						<button type="object" name="generate_xls_report"
+							string="Print" class="oe_highlight" />
+						<button special="cancel" string="Cancel" />
+					</footer>
+				</form>
+			</field>
+		</record>
+		<record id="action_report_cleaner_beta_daily" model="ir.actions.act_window">
+			<field name="name">Cleaner Bata Report</field>
+			<field name="res_model">cleaner.bata.report</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form</field>
+			<field name="target">new</field>
+		</record>
+		<report
+            id="cleaner_beta_report_daily"
+            model="cleaner.bata.report"
+            string="Cleaner Bata Report"
+            report_type="xlsx"
+            name="cleaner_bata_report.xlsx"
+            file="cleaner_bata_report.xlsx"
+            menu="False"
+        />
+
+
+<!--    <menuitem id="report_purchase_cleaner_bata_view_daily" parent="hiworth_construction.fleet_report"-->
+<!--				  name="Cleaner Bata"-->
+<!--				  action="action_report_cleaner_beta_daily" sequence ="9"/>-->
+
+
+
+	<report id="report_cleaner_bata_weekly" model="cleaner.bata.report"
+		string="Cleaner Bata Report" report_type="qweb-html"
+		name="hiworth_construction.report_cleaner_bata_report_wise" file="hiworth_construction.report_cleaner_bata_report_wise"
+		menu="False" />
+
+	<template id="report_cleaner_bata_report_wise">
+			<t t-call="report.html_container">
+				<t t-call="report.external_layout">
+					<div class="page">
+
+						<div class="row">
+
+						</div>
+						<t t-set="debit_total" t-value="0" />
+						<t t-set="credit_total" t-value="0" />
+						<div class="row">
+							<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th>Date</th>
+										<th>Cleaner Name</th>
+										<th>Vehicle No</th>
+										<th>Name of Work</th>
+										<th>Starting Km</th>
+										<th>Ending KM</th>
+										<th>Total KM</th>
+										<th>Time IN</th>
+										<th>Time OUT</th>
+										<th>Site</th>
+										<th>From</th>
+										<th>To</th>
+										<th>Trip</th>
+										<th>Rent</th>
+										<th>OT</th>
+										<th>OT Amount</th>
+										<th>Deposit/Km</th>
+										<th>Subtotal</th>
+										<th>Total</th>
+
+
+									</tr>
+								</thead>
+								<tbody>
+									<tr t-foreach="docs.get_details()" t-as="o">
+										<t t-if="len(o.driver_stmt_line)!=0">
+										<tr t-foreach="o.driver_stmt_line" t-as="line">
+											<td><span t-field="o.date"/></td>
+											<td><span t-field="o.cleaners_name.name"/></td>
+											<td><span t-field="o.vehicle_no.name"/></td>
+											<td><span t-field="o.remark"/></td>
+											<td><span t-field="o.start_km"/></td>
+											<td><span t-field="o.actual_close_km"/></td>
+											<td><span t-field="o.running_km"/></td>
+											<td><span t-field="o.start_time"/></td>
+											<td><span t-field="o.end_time"/></td>
+											<td><span t-field="line.project_id.name"/></td>
+											<td><t t-if="line.from_id2"><span t-field="line.from_id2.name"/></t>
+											<t t-if="line.location_id"><span t-field="line.location_id.name"/></t></td>
+											<td><span t-field="line.to_id2.name"/></td>
+											<td>1</td>
+											<td><span t-field="line.bata_cleaner"/></td>
+											<td><span t-field="o.ot_time"/></td>
+											<td><span t-field="o.ot_amt"/></td>
+											<td><span t-field="line.km_deposit"/></td>
+											<td><span t-esc="line.bata_cleaner+o.ot_amt"/></td>
+											<td><span t-esc="line.bata_cleaner+o.ot_amt+line.km_deposit"/></td>
+											</tr>
+										</t>
+										<t t-if="len(o.driver_stmt_line)==0">
+
+											<td><span t-field="o.date"/></td>
+											<td><span t-field="o.cleaners_name.name"/></td>
+											<td><span t-field="o.vehicle_no.name"/></td>
+											<td><span t-field="o.remark"/></td>
+											<td><span t-field="o.start_km"/></td>
+											<td><span t-field="o.actual_close_km"/></td>
+											<td><span t-field="o.running_km"/></td>
+											<td><span t-field="o.start_time"/></td>
+											<td><span t-field="o.end_time"/></td>
+											<td><span t-field="o.project_id.name"/></td>
+											<td></td>
+											<td></td>
+											<td>0</td>
+											<td><span t-field="o.cleaner_bata"/></td>
+											<td><span t-field="o.ot_time"/></td>
+											<td><span t-field="o.ot_amt"/></td>
+											<td><span t-field="o.deposit"/></td>
+											<td><span t-esc="o.cleaner_bata+o.ot_amt"/></td>
+											<td><span t-esc="o.cleaner_bata+o.ot_amt+o.deposit"/></td>
+
+										</t>
+									</tr>
+
+								</tbody>
+							</table>
+						</div>
+				
+
+					</div>
+				</t>
+			</t>
+		</template>
+
+
+	</data>
+</openerp>
+

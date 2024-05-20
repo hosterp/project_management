@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>
+<record id="form_stoc_location_report_daily" model="ir.ui.view">
+			<field name="name">Stock Location Report</field>
+			<field name="model">stock.report.location.wizard</field>
+			<field name="arch" type="xml">
+				<form>
+					<group>
+
+						<group>
+							<field name="from_date"/>
+							<field name="to_date" />
+							<field name="category_id"/>
+
+
+						</group>
+					</group>
+					<footer>
+
+						<button type="object" name="generate_xls_report"
+							string="Export" class="oe_highlight" />
+						<button special="cancel" string="Cancel" />
+					</footer>
+				</form>
+			</field>
+		</record>
+		<record id="action_report_stock_location" model="ir.actions.act_window">
+			<field name="name">Stock Location Report</field>
+			<field name="res_model">stock.report.location.wizard</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form</field>
+			<field name="target">new</field>
+		</record>
+		<report
+            id="stock_location_report_wizard_daily"
+            model="stock.report.location.wizard"
+            string="Stock Location Report"
+            report_type="xlsx"
+            name="Stock Location Report.xlsx"
+            file="Stock Location Report.xlsx"
+            menu="False"
+        />
+
+
+    <menuitem id="report_stock_location_wizard" parent="hiworth_construction.menu_stock_warehouse_reports"
+				  name="Stock Location Report"
+				  action="action_report_stock_location" sequence ="8"/>
+
+
+
+
+	</data>
+</openerp>

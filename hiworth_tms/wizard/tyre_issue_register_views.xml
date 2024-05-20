@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>
+        <record id="form_report_tyre_issue_register_wizard" model="ir.ui.view">
+			<field name="name">Tyre Issue Register</field>
+			<field name="model">tyre.issue.register.wizard</field>
+			<field name="arch" type="xml">
+				<form>
+					<group>
+
+							<field name="date_from" />
+							<field name="date_to" />
+
+
+
+					</group>
+					<footer>
+
+						<button type="object" name="button_print_tyre_issue_register"
+							string="Print" class="oe_highlight" />
+						<button special="cancel" string="Cancel" />
+					</footer>
+				</form>
+			</field>
+		</record>
+
+        <record id="action_report_tyre_issue_register_wizard" model="ir.actions.act_window">
+			<field name="name">Tyre Issue Register</field>
+			<field name="res_model">tyre.issue.register.wizard</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form</field>
+			<field name="target">new</field>
+		</record>
+
+        	<menuitem id = "menu_tyre_issue_register_report"
+					name="Tyre Issue Register"
+					action = "action_report_tyre_issue_register_wizard"/>
+    </data>
+</openerp>

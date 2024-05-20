@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>
+<record id="form_rent_vehicles_reports_wizard" model="ir.ui.view">
+			<field name="name">Rent Vehicles Report</field>
+			<field name="model">rent.vehicles.report.wizard</field>
+			<field name="arch" type="xml">
+				<form>
+					<group>
+						<group>
+
+							<field name="project_id" string="Project"/>
+                            <field name="rent_vehicle_id"/>
+
+						</group>
+						<group>
+							<field name="from_date"/>
+							<field name="to_date" />
+							<field name="rent_vehicle_owner_id"/>
+
+						</group>
+					</group>
+					<footer>
+
+						<button type="object" name="generate_xls_report"
+							string="Export" class="oe_highlight" />
+						<button special="cancel" string="Cancel" />
+					</footer>
+				</form>
+			</field>
+		</record>
+		<record id="action_report_rent_vehicles" model="ir.actions.act_window">
+			<field name="name">Rent Vehicles Report</field>
+			<field name="res_model">rent.vehicles.report.wizard</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form</field>
+			<field name="target">new</field>
+		</record>
+		<report
+            id="rent_vehicles_report_daily"
+            model="rent.vehicles.report.wizard"
+            string="Rent Vehicles Report"
+            report_type="xlsx"
+            name="Rent Vehicle Report.xlsx"
+            file="Rent Vehicle Report.xlsx"
+            menu="False"
+        />
+
+
+    <menuitem id="report_rent_vehicle_report_daily" parent="hiworth_construction.fleet_report"
+				  name="Rent Vehicles Report"
+				  action="action_report_rent_vehicles" sequence ="8"/>
+
+
+
+
+	</data>
+</openerp>

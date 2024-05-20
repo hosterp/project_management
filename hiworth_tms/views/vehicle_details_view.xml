@@ -1,0 +1,960 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+<record model="ir.ui.view" id="fleet_vehicle_search_inherited">
+            <field name="name">fleet.vehicle.search.search</field>
+            <field name="model">fleet.vehicle</field>
+			<field name="inherit_id" ref="fleet.fleet_vehicle_search" />
+            <field name="arch" type="xml">
+				<xpath expr="//group/filter[@name='groupby_model']" position="after">
+            		<filter name="groupby_type" context="{'group_by' : 'vehicle_categ_id'}" string="Type"/>
+
+					<filter name="owner" context="{'group_by' : 'vehicle_under'}" string="Rent &amp; Machinery Owner"/>
+				</xpath>
+
+
+
+
+            </field>
+        </record>
+
+	<menuitem name="Plant &amp; Machinary" id="fleet.menu_root" sequence="110" groups="fleet.group_fleet_user,hiworth_hr_attendance.group_supervisor,base.group_erp_manager"/>
+
+
+	<record model="ir.ui.view" id="hiworth_fleet_vehicle_form">
+		<field name="name">hiworth.fleet.vehicle.form</field>
+		<field name="model">fleet.vehicle</field>
+		<field name="priority" eval="1"/>
+		<field name="arch" type="xml">
+		<form string="Véhicule">
+			<header>
+				<button name="action_confirm" string="Confirm" states= 'draft' type="object" class="oe_highlight"/>
+				<button name="action_approve" string="Authenticate" states= 'confirm' type="object" class="oe_highlight"/>
+				<field name="state"  widget="statusbar"  />
+				<field name="state_id"  widget="statusbar" invisible="1" clickable="True" />
+			</header>
+			<sheet> 
+
+				<div class="oe_title">
+					<label for="license_plate" string="Reg No" class="oe_edit_only"/>
+					<h2>
+						<field name="license_plate" class="oe_inline"/>
+					</h2>
+					<label for="fleet_no" class="oe_edit_only"/>
+					<field name="fleet_no"  />
+				</div>
+
+			<group colspan="4" col="6">
+				<group col="2">
+					<field name="name" invisible="1"/>
+					<field name="vehicle_categ_id" />
+					<field name="vehicle_owner"/>
+                	<field name="odometer" invisible="1" readonly="1" string="Compteur voyage" colspan="1"  />
+
+					<field name="vehicle_rate_per_km_ids" >
+						<tree editable="bottom">
+							<field name="rate"/>
+							<field name="with_efect"/>
+						</tree>
+					</field>
+
+					<field name="permit_date"/>
+					<field name="insurance_date" />
+					<field name="road_tax_date"/>
+					<field name="fitness_date" />
+					<field name="pollution_date" />
+					<field name="insured_by" />
+					<field name="premium_amt" />
+
+
+					<field name="vehicle_ok" />
+					<field name="machinery"/>
+					<field name="other"/>
+
+					<field name="tanker_bool"/>
+					<field name="location_id"/>
+				</group>
+
+			</group>
+			<group colspan="4">
+				<notebook colspan="4">
+				<page string="General Informations">
+					<group >
+						<group >
+							<field name="brand_id"  colspan="1" />
+							<field name="model_id"  colspan="1" domain="[('brand_id','=',brand_id)]" context="{'default_brand_id': brand_id}" required="False" string="Model"/>
+						   
+
+							<field name="chase_no" attrs="{'invisible':[('machinery','=',True)]}"/>
+							<field name="sl_no" attrs="{'invisible':[('vehicle_ok','=',True)]}"/>
+							<field name="engine_no"/>
+						</group>
+						<group >
+							<field name="year_of_manu"/>
+							<field name="purchase_value"/>
+							<field name="acquisition_date" string="Purchase Date" colspan="1" />
+
+						</group>
+					</group>
+				</page>
+				<page string="Installments">
+
+						<group col="4" string="EMI Details">
+							<field name="emi_no" string="Policy No" />
+							<field name="bank_id" />
+							<field name="emi_start_date" />
+							<field name="total_due" />
+							<field name="total_paid" />
+							<field name="balance_due" />
+							<field name="last_paid_date" />
+							<field name="next_payment_date" />
+						</group>
+						<group col="4" string="EMI Payment Details">
+							<notebook>
+								<page string="EMI Payment Details">
+									<field name="emi_lines" widget="one2many_list">
+										<tree editable="bottom">
+											<field name="date" />
+											<!-- <field name="name" /> -->
+											<field name="payment_mode" />
+											<field name="reference" />
+											<field name="receipt_no" />
+											<field name="amount" />
+
+										</tree>
+									</field>
+								</page>
+							</notebook>
+						</group>
+						<!-- </page> <page string="Insurance Details"> -->
+
+						<group col="4" string="Insurance Details">
+							<field name="ins_no" string="Insurance No" />
+							<field name="agent_id" />
+							<field name="last_paid_date_ins" />
+							<field name="next_payment_date_ins" string="Date of Expiry" />
+						</group>
+						<group col="4" string="Insurance Payment Details">
+							<notebook>
+								<page string="Insurance Payment Details">
+									<field name="ins_lines" widget="one2many_list">
+										<tree editable="bottom">
+											<field name="date" />
+											<!-- <field name="name" /> -->
+											<field name="payment_mode" />
+											<field name="reference" />
+											<field name="receipt_no" />
+											<field name="amount" />
+
+										</tree>
+									</field>
+								</page>
+							</notebook>
+						</group>
+
+						<group col="4" string="PUC Details">
+							<notebook>
+								<page string="PUC Details">
+									<field name="puc_lines" widget="one2many_list">
+										<tree editable="bottom">
+											<field name="name" string="Discription" />
+											<field name="date" />
+											<field name="exp_date" />
+											<field name="reference" />
+											<field name="receipt_no" />
+											<field name="amount" />
+
+										</tree>
+									</field>
+								</page>
+							</notebook>
+						</group>
+					</page>
+
+				</notebook>
+			</group>
+			</sheet>
+		</form>
+		</field>
+	</record>
+
+		<record model="ir.ui.view" id="tms_fleet_vehicle_form_altered">
+			<field name="name">tms.fleet.vehicle.form.altered</field>
+			<field name="model">fleet.vehicle</field>
+			<field name="inherit_id" ref="hiworth_tms.hiworth_fleet_vehicle_form" />
+			<field name="arch" type="xml">
+		
+
+				<!-- <xpath expr="//group/group/field[@name='gasoil_id']" position="before">
+				</xpath> -->
+
+
+
+
+				<xpath
+					expr="//group/notebook/page/group/group/field[@name='acquisition_date']"
+					position="replace">
+					<field name="acquisition_date" string="Purchase Date" colspan="1" />
+					<field name="mileage" colspan="1"  />
+					<field name="capacity"/>
+
+
+				</xpath>
+
+
+
+			</field>
+		</record>
+
+
+		<record model="ir.ui.view" id="fleet_vehicle_log_services_search_inherited">
+            <field name="name">fleet.vehicle.log.services.search</field>
+            <field name="model">fleet.vehicle.log.services</field>
+			<field name="inherit_id" ref="fleet.fleet_vehicle_log_services_search" />
+            <field name="arch" type="xml">
+
+            	<xpath expr="//field[@name='cost_subtype_id']" position="after">
+            		<filter name="group_by_project" context="{'group_by' : 'project_id'}" string="Project"/>
+            	</xpath>
+            </field>
+        </record>
+
+		<record model='ir.ui.view' id='fleet_vehicle_log_services_form_altered'>
+			<field name="name">fleet.vehicle.log.services.form.altered</field>
+			<field name="model">fleet.vehicle.log.services</field>
+			<field name="inherit_id" ref="fleet.fleet_vehicle_log_services_form" />
+			<field name="arch" type="xml">
+				<xpath expr="//group/group/field[@name='date']" position="replace">
+					<field name="date" invisible="True" />
+				</xpath>
+				<xpath expr="//group/group/field[@name='vehicle_id']"
+					position="before">
+					<field name="date_com" />
+				</xpath>
+				<xpath expr="//group/group/field[@name='amount']" position="replace">
+					<field name="amount" readonly="True" />
+				</xpath>
+				<xpath expr="//group/group/field[@name='amount']" position="before">
+					<field name="project_id"/>
+				</xpath>
+				<xpath expr="//group/group/field[@name='amount']" position="before">
+					<field name="maintenance_type_id" string="Service Period"/>
+				</xpath>
+				<xpath expr="//group/group/field[@name='amount']" position="before">
+					<field name="reg_code" invisible="1"/>
+				</xpath>
+				<xpath expr="//group/group/field[@name='amount']" position="after">
+					 <field name="works_done" string="Work Details" placeholder="Works Done"/>
+				</xpath>
+				<xpath expr="//group[@string='Odometer Details']" position="after">
+			
+					<field name="daily_maint_bool"/>
+
+					<field name="r_b_bool"/>
+					<field name="nature_breakdown" attrs="{'invisible':[('r_b_bool','=',False)]}"/>
+					<field name="date_of_rectification" attrs="{'invisible':[('r_b_bool','=',False)]}"/>
+						<field name="target_date_completion" attrs="{'invisible':[('r_b_bool','=',False)]}"/>
+					<field name="prev_main_bool"/>
+					<field name="tyre_bool"/>
+
+					<field name="tyre_fitting_date" attrs="{'invisible':[('tyre_bool','=',False)]}"/>
+					<field name="mileage" attrs="{'invisible':[('tyre_bool','=',False)]}"/>
+
+					<field name="other_bool"/>
+		
+
+				</xpath>
+				<xpath expr="//group[@string='Included Services']" position="replace">
+					<group string="Parts">
+						<field name="cost_ids" nolabel="1">
+							<tree string="Included Services" editable="bottom">
+
+								<field name="particular_id" string="Particular" />
+								<field name="qty" string="Qty" />
+								<field name="rate" string="Rate" />
+								<field name="taxes_ids" string="Taxes" widget="many2many_tags"/>
+								<field name="sub_total" string="Sub Total" />
+								<field name="sgst_amt" string="SGST Amt" />
+								<field name="cgst_amt" string="CGST Amt" />
+								<field name="igst_amt" string="IGST Amt" />
+								<field name="total" string="Total" />
+
+							</tree>
+						</field>
+					</group>
+				</xpath>
+
+			</field>
+		</record>
+
+		<record model='ir.ui.view' id='fleet_vehicle_log_services_tree_altered'>
+			<field name="name">fleet.vehicle.log.services.tree.altered</field>
+			<field name="model">fleet.vehicle.log.services</field>
+			<field name="inherit_id" ref="fleet.fleet_vehicle_log_services_tree" />
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='date']" position="replace">
+            		<field name = "date_com"/>
+            	</xpath>
+            </field>
+        </record>
+
+
+
+        <record model='ir.ui.view' id='fleet_vehicle_log_services_tree_prev_main'>
+			<field name="name">fleet.vehicle.log.services.prev.main</field>
+			<field name="model">fleet.vehicle.log.services</field>
+			<field name="arch" type="xml"> 
+				<tree>
+					<field name="vehicle_id" string="Plant &amp;Machinery"/>
+					<field name="odometer" string="Current SMR/KMS" />
+					<field name="odometer_end" string="Last PM SMR/KMS"/>
+					<field name="maintenance_type_id" string="Type Of PM attended"/>
+					<field name="works_done" string="Details"/>
+				</tree>
+            </field>
+        </record>
+
+        <record model='ir.actions.act_window' id='fleet_vehicle_log_services_prevention'>
+			<field name="name">Prevention Maintenance</field>
+			<field name="res_model">fleet.vehicle.log.services</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree</field>
+		</record>
+
+		<record id="action_fleet_vehicle_log_services_prevention" model="ir.actions.act_window.view">
+			<field name="view_mode">tree</field>
+			<field name="view_id" ref="fleet_vehicle_log_services_tree_prev_main" />
+			<field name="act_window_id" ref="fleet_vehicle_log_services_prevention" />
+		</record>
+
+        <record model='ir.ui.view' id='fleet_vehicle_log_services_daily_main'>
+			<field name="name">fleet.vehicle.log.services.daily.main</field>
+			<field name="model">fleet.vehicle.log.services</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="vehicle_id" string="Equipment"/>
+					<field name="odometer" string="Current SMR/KMS" />
+					<field name="greasing_bool"/>
+					<field name="inspec_bool"/>
+					<field name="oil_check_bool"/>
+					<field name="tyre_battery_bool"/>
+					<field name="works_done" string="Details of work"/>
+				</tree>
+            </field>
+        </record>
+
+        <record model='ir.actions.act_window' id='fleet_vehicle_log_services_daily_maintenance'>
+			<field name="name">Daily Maintenance</field>
+			<field name="res_model">fleet.vehicle.log.services</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree</field>
+		</record>
+
+		<record id="action_fleet_vehicle_log_services_daily_maintenance" model="ir.actions.act_window.view">
+			<field name="view_mode">tree</field>
+			<field name="view_id" ref="fleet_vehicle_log_services_daily_main" />
+			<field name="act_window_id" ref="fleet_vehicle_log_services_daily_maintenance" />
+		</record>
+
+		<record model='ir.ui.view' id='fleet_vehicle_log_services_repair_breakdown'>
+			<field name="name">fleet.vehicle.log.services.repair.breakdown</field>
+			<field name="model">fleet.vehicle.log.services</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="vehicle_id" string="Equipment"/>
+					<field name="odometer" string="Current SMR/KMS" />
+					<field name="nature_breakdown" string="Nature of Breakdown" />
+					<field name="works_done" string="Details of work"/>
+					<field name="complete_work" string="Completed"/>
+
+				</tree>
+            </field>
+        </record>
+
+        <record model='ir.actions.act_window' id='fleet_vehicle_log_services_repair_breakdown_daily'>
+			<field name="name">Repairs/Breakdown</field>
+			<field name="res_model">fleet.vehicle.log.services</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree</field>
+		</record>
+
+		<record id="action_fleet_vehicle_log_services_repair_breakdown_daily" model="ir.actions.act_window.view">
+			<field name="view_mode">tree</field>
+			<field name="view_id" ref="fleet_vehicle_log_services_repair_breakdown" />
+			<field name="act_window_id" ref="fleet_vehicle_log_services_repair_breakdown_daily" />
+		</record>
+		<record model='ir.ui.view' id='fleet_vehicle_log_services_tyre_repairs'>
+			<field name="name">fleet.vehicle.log.services.tyre.repairs</field>
+			<field name="model">fleet.vehicle.log.services</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="vehicle_id" string="Equipment"/>
+					<field name="odometer" string="Current SMR/KMS" />
+					<field name="works_done" string="Details of tyre Under Repairs"/>
+					<field name="taken_out_tyre" string="Tyre Number Taken Out" />
+					<field name="fitted_tyre" string="Tyre Number Fitted"/>
+					<field name="type_tyre_work" string="Rethread/New" />
+					<field name="mileage" string="Mileage" />
+
+				</tree>
+            </field>
+        </record>
+
+        <record model='ir.actions.act_window' id='fleet_vehicle_log_services_tyre_repairs_action'>
+			<field name="name">Tyre Repairs</field>
+			<field name="res_model">fleet.vehicle.log.services</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree</field>
+		</record>
+
+		<record id="action_fleet_vehicle_log_services_tyre_repairs_action" model="ir.actions.act_window.view">
+			<field name="view_mode">tree</field>
+			<field name="view_id" ref="fleet_vehicle_log_services_tyre_repairs" />
+			<field name="act_window_id" ref="fleet_vehicle_log_services_tyre_repairs_action" />
+		</record>
+
+
+		<record model='ir.actions.act_window' id='fleet_vehicle_log_services'>
+			<field name="name">Vehicles</field>
+			<field name="res_model">fleet.vehicle.log.services</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="help" type="html">
+			  <p class="oe_view_nocontent_create">
+				Click to create a new Record.
+
+			  </p>
+			</field>
+		</record>
+
+		<record id="action_fleet_vehicle_log_services" model="ir.actions.act_window.view">
+			<field name="view_mode">tree</field>
+			<field name="view_id" ref="fleet_vehicle_log_services_tree_altered" />
+			<field name="act_window_id" ref="fleet_vehicle_log_services" />
+		</record>
+
+
+
+	<menuitem action="fleet_vehicle_log_services"
+			  parent="fleet.fleet_vehicles"
+			  id="menu_vehicle_log_services"
+			  name="Vehicle Maintenace Details" />
+
+
+
+		<record model='ir.ui.view' id='vehicle_meter_form'>
+			<field name="name">vehicle.meter.form</field>
+			<field name="model">vehicle.meter</field>
+			<field name="arch" type="xml">
+				<form string="Vehicle Meter" create="false" edit="false">
+					<sheet>
+					<group>
+						<group>
+							<field name="date" />
+						</group>
+						<group>
+							<field name="vehicle_id" />
+						</group>
+					</group>
+					<group>
+						<group>
+							<field name="start_value" />
+							<field name="fuel_value" />
+						</group>
+						<group>
+							<field name="end_value" />
+						</group>
+					</group>
+				</sheet>
+				</form>
+			</field>
+		</record>
+
+
+
+		<!-- ################  search view ######################### -->
+
+		<record id="vehicle_meter_search_view" model="ir.ui.view">
+			<field name="name">vehicle.meter.search.view</field>
+			<field name="model">vehicle.meter</field>
+			<field name="arch" type="xml">
+				<search string="vehicle meter">
+					<field name="date" />
+					<field name="vehicle_id" />
+					<!-- <field name="department" /> -->
+					<group expand="0" string="group by">
+						<filter name="groupby_date" string="date" 
+							context="{'group_by':'date'}"/>
+						<filter name="groupby_vehicle" context="{'group_by': 'vehicle_id'}" string="vehicle"  />
+						<!-- <filter name="groupby_category" context="{'group_by': 'category_id'}" string="category"  /> -->
+					</group>
+				</search>
+			</field>
+		</record>
+
+		<record model='ir.ui.view' id='vehicle_meter_tree'>
+			<field name="name">vehicle.meter.tree</field>
+			<field name="model">vehicle.meter</field>
+			<field name="arch" type="xml">
+				<tree string="Vehicle Meter" create="false" edit="false">
+					<field name="date" />
+					<field name="vehicle_id" />
+					<field name="start_value" />
+					<field name="end_value" />
+				</tree>
+			</field>
+		</record>
+
+
+
+	<record id="action_vehicle_meter" model="ir.actions.act_window">
+		<field name="name">Vehicles Meter</field>
+		<field name="res_model">vehicle.meter</field>
+		<field name="type">ir.actions.act_window</field>        
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+	</record>
+
+
+	<!--<menuitem action="action_vehicle_meter"
+			  parent="fleet.fleet_vehicles"
+			  id="menu_vehicle_meter"
+			  name="Vehicle Meter" />
+-->
+
+	<record model='ir.ui.view' id='vehicle_fuel_voucher_form'>
+		<field name="name">vehicle.fuel.voucher.form</field>
+		<field name="model">vehicle.fuel.voucher</field>
+		<field name="arch" type="xml">
+			<form string="Vehicle Fuel Voucher" create="false" edit="false">
+				<sheet>
+				<group>
+					<group>
+						<field name="date" />
+						<field name="pump_id" />
+					</group>
+					<group>
+						<field name="vehicle_id" />
+					</group>
+				</group>
+				<group>
+					<group>
+						<field name="litre" />
+						<field name="per_litre" />
+						<field name="amount" />
+					</group>
+					<group>
+						<field name="odometer" />
+					</group>
+				</group>
+			</sheet>
+			</form>
+		</field>
+	</record>
+
+	<record model='ir.ui.view' id='vehicle_fuel_voucher_tree'>
+		<field name="name">vehicle.fuel.voucher.tree</field>
+		<field name="model">vehicle.fuel.voucher</field>
+		<field name="arch" type="xml">
+			<tree string="Vehicle Fuel Voucher" create="false" edit="false">
+				<field name="date" />
+				<field name="pump_id" />
+				<field name="vehicle_id" />
+				<field name="odometer" />
+				<field name="litre" />
+				<field name="per_litre" />
+				<field name="amount" />
+			</tree>
+		</field>
+	</record>
+
+
+	<record id="action_vehicle_fuel_voucher" model="ir.actions.act_window">
+		<field name="name">Vehicles Fuel Voucher</field>
+		<field name="res_model">vehicle.fuel.voucher</field>
+		<field name="type">ir.actions.act_window</field>        
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+	</record>
+
+
+
+
+
+	<record model='ir.ui.view' id='view_rent_vehicle_form'>
+		<field name="name">fleet.vehicle.form</field>
+		<field name="model">fleet.vehicle</field>
+		<field name="arch" type="xml">
+			<form>
+				   <header>
+				<button name="action_confirm" string="Confirm" states= 'draft' type="object" class="oe_highlight"/>
+				<button name="action_approve" string="Authenticate" states= 'confirm' type="object" class="oe_highlight"/>
+				<field name="state"  widget="statusbar"  />
+			</header>
+			<sheet>
+
+				<div class="oe_title">
+					<label for="license_plate" string="Reg No" class="oe_edit_only"/>
+					<h2>
+						<field name="license_plate" class="oe_inline"/>
+					</h2>
+
+				</div>
+
+			<group colspan="4" col="6">
+				<group col="2">
+					<field name="name" invisible="1"/>
+	<field name="vehicle_categ_id" />
+                	<field name="odometer" invisible="1" readonly="1" string="Compteur voyage" colspan="1"  />
+
+
+					<field name="vehicle_under" string="Rent Vehicles &amp; Machinery Owner" domain="[('is_rent_mach_owner','=',True)]" />
+
+					<field name="rent_vehicle" />
+					<field name="is_rent_mach"/>
+					<field name="rent_other"/>
+
+
+				</group>
+
+			</group>
+			<group colspan="4">
+				<notebook colspan="4">
+				<page string="General Informations">
+					<group >
+						<group >
+							<field name="brand_id"  colspan="1" />
+							<field name="model_id"  colspan="1" domain="[('brand_id','=',brand_id)]" context="{'default_brand_id': brand_id}" required="False" string="Model"/>
+
+
+							<field name="chase_no" attrs="{'invisible':[('is_rent_mach','=',True)]}"/>
+							<field name="sl_no" attrs="{'invisible':[('rent_vehicle','=',True)]}"/>
+							<field name="engine_no"/>
+						</group>
+						<group >
+
+							<field name="acquisition_date" string="Purchase Date" colspan="1" />
+							<field name="mileage"/>
+							<field name="capacity"/>
+						</group>
+					</group>
+
+				</page>
+
+				</notebook>
+
+			</group>
+			</sheet>
+			</form>
+		</field>
+	</record>
+
+		<record model='ir.ui.view' id='hiworth_fleet_vehicle_tree'>
+			<field name="name">fleet.vehicle.tree1</field>
+			<field name="model">fleet.vehicle</field>
+			<field name="inherit_id" ref="fleet.fleet_vehicle_tree" />
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='license_plate']" position="after">
+					<field name="vehicle_categ_id"/>
+
+
+
+				</xpath>
+
+				<xpath expr="//field[@name='driver_id']" position="attributes">
+					<attribute name="invisible">1</attribute>
+				</xpath>
+				<xpath expr="//field[@name='vin_sn']" position="attributes">
+					<attribute name="invisible">1</attribute>
+				</xpath>
+				<xpath expr="//field[@name='acquisition_date']" position="attributes">
+					<attribute name="invisible">1</attribute>
+				</xpath>
+				<xpath expr="//field[@name='state_id']" position="attributes">
+					<attribute name="invisible">1</attribute>
+				</xpath>
+
+				<xpath expr="//field[@name='odometer']" position="attributes">
+					<attribute name="invisible">1</attribute>
+				</xpath>
+				<xpath expr="//field[@name='odometer_unit']" position="attributes">
+					<attribute name="invisible">1</attribute>
+				</xpath>
+				<xpath expr="//field[@name='model_id']" position="attributes">
+					<attribute name="invisible">1</attribute>
+				</xpath>
+
+			</field>
+		</record>
+
+
+
+		<record model="ir.actions.act_window" id="action_fleet_rent_vehicless_112">
+			<field name="name">Rent Vehicles &amp; Machinery</field>
+			<field name="res_model">fleet.vehicle</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">kanban,tree,form,graph</field>
+			<field name="context">{'default_rent_vehicle':1,'default_is_rent_mach':1,'search_default_owner':1}</field>
+			<field name="domain">['|','|',('rent_vehicle','=',True),('is_rent_mach','=',True),('rent_other','=',True)]</field>
+		</record>
+
+		<record id="action_fleet_rent_vehicles_tree1" model="ir.actions.act_window.view">
+			<field name="view_mode">tree</field>
+			<field name="view_id" ref="fleet.fleet_vehicle_tree" />
+			<field name="act_window_id" ref="action_fleet_rent_vehicless_112" />
+		</record>
+
+		<record id="action_fleet_rent_vehicles_form1" model="ir.actions.act_window.view">
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="view_rent_vehicle_form" />
+			<field name="act_window_id" ref="action_fleet_rent_vehicless_112" />
+		</record>
+
+
+		<menuitem action="action_fleet_rent_vehicless_112" parent="fleet.fleet_vehicles" id="menu_rent_vehicless" sequence="6"  name="Rent Vehicles &amp; Machinery" />
+
+		<record id="view_machinery_form" model="ir.ui.view">
+			<field name="name">fleet.vehicle.form.hiworth</field>
+			<field name="model">fleet.vehicle</field>
+			<field name="inherit_id" ref="hiworth_tms.view_rent_vehicle_form" />
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='name']" position="replace">
+					<field name="name" invisible="1"/>
+				</xpath>
+
+
+				<!-- <xpath
+					expr="//field[@name='rate_per_km']"
+					position="attributes">
+					<attribute name="required">context.get("machine")</attribute>
+				</xpath> -->
+
+				<!-- <xpath
+					expr="//notebook//page//field[@name='barcode']"
+					position="attributes">
+					<attribute name="invisible">context.get("warehouse")</attribute>
+				</xpath> -->
+			</field>
+		</record>
+
+
+		<record model='ir.actions.act_window' id='action_fleet_machinery'>
+			<field name="name">Machinery</field>
+			<field name="res_model">fleet.vehicle</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="context">{'default_machinery':1,'machine':1}</field>
+			<field name="domain">[('machinery','=',True)]</field>
+		</record>
+
+		<record id="action_fleet_machinery_tree" model="ir.actions.act_window.view">
+			<field name="view_mode">tree</field>
+			<field name="view_id" ref="fleet.fleet_vehicle_tree" />
+			<field name="act_window_id" ref="action_fleet_machinery" />
+		</record>
+
+
+
+
+
+
+
+		<record model='ir.actions.act_window' id='action_fleet_rent_machinery'>
+			<field name="name">Rent Machinery</field>
+			<field name="res_model">fleet.vehicle</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="context">{'default_is_rent_mach':1}</field>
+			<field name="domain">[('is_rent_mach','=',True)]</field>
+		</record>
+
+		<record id="action_fleet_rent_machinery_tree" model="ir.actions.act_window.view">
+			<field name="view_mode">tree</field>
+			<field name="view_id" ref="fleet.fleet_vehicle_tree" />
+			<field name="act_window_id" ref="action_fleet_rent_machinery" />
+		</record>
+
+		<record id="action_fleet_rent_machinery_form" model="ir.actions.act_window.view">
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="view_machinery_form" />
+			<field name="act_window_id" ref="action_fleet_rent_machinery" />
+		</record>
+		<record model='ir.ui.view' id='rent_vehicle_owner_tree'>
+			<field name="name">res.partner.tree</field>
+			<field name="model">res.partner</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="name" />
+					<field name="email" />
+					<field name="phone" />
+				</tree>
+			</field>
+		</record>
+
+
+
+ 		<record model="ir.actions.act_window" id="action_rent_machinery_owner_actions">
+			<field name="name">Rent Machinery &amp; Vehicles Owners</field>
+			<field name="res_model">res.partner</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="context">{'default_is_rent_mach_owner':1,'default_customer':0}</field>
+			<field name="domain">[('is_rent_mach_owner','=',True)]</field>
+		</record>
+
+		<record id="action_fleet_rent_machinery_owner_tree" model="ir.actions.act_window.view">
+			<field name="view_mode">tree</field>
+			<field name="view_id" ref="rent_vehicle_owner_tree" />
+			<field name="act_window_id" ref="action_rent_machinery_owner_actions" />
+		</record>
+
+		<record id="action_fleet_rent_vehicles_owner_forms" model="ir.actions.act_window.view">
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="base.view_partner_form" />
+			<field name="act_window_id" ref="action_rent_machinery_owner_actions" />
+		</record>
+
+
+
+		<record model='ir.actions.act_window' id='fleet.fleet_vehicle_act'>
+			<field name="name">Own Vehicles &amp; Machinery</field>
+			<field name="res_model">fleet.vehicle</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">kanban,tree,form</field>
+			<field name="domain">['|','|',('machinery','=',True),('vehicle_ok','=',True),('other','=',True)]</field>
+			<field name="context">{'default_machinery':1,'default_vehicle_ok':1,}</field>
+			<field name="help" type="html">
+			  <p class="oe_view_nocontent_create">
+				Click to create a new vehicle.
+			  </p><p>
+				You will be able to manage your fleet by keeping track of the
+				contracts, services, fixed and recurring costs, odometers and
+				fuel logs associated to each vehicle.
+			</p><p>
+				Odoo will warn you when services or contract have to be
+				renewed.
+			  </p>
+			</field>
+		</record>
+
+		 <menuitem action="fleet.fleet_vehicle_act" parent="fleet.fleet_vehicles" id="fleet.fleet_vehicle_menu" sequence="1" groups="fleet.group_fleet_user" string="Own Vehicles &amp; Machinery /"/>
+
+
+
+		<record model="ir.actions.act_window" id="action_vehicle_owner_actions">
+			<field name="name">Rent Vehicle &amp; Machinery Owners</field>
+			<field name="res_model">res.partner</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="context">{'default_is_rent_mach_owner':1,'default_customer':0}</field>
+			<field name="domain">[('is_rent_mach_owner','=',True)]</field>
+		</record>
+
+		<record id="action_fleet_rent_vehicles_owner_trees" model="ir.actions.act_window.view">
+			<field name="view_mode">tree</field>
+			<field name="view_id" ref="rent_vehicle_owner_tree" />
+			<field name="act_window_id" ref="action_vehicle_owner_actions" />
+		</record>
+
+		<record id="action_fleet_rent_vehicles_owner_forms" model="ir.actions.act_window.view">
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="base.view_partner_form" />
+			<field name="act_window_id" ref="action_vehicle_owner_actions" />
+		</record>
+
+
+		<menuitem action="action_vehicle_owner_actions" parent="fleet.fleet_vehicles" id="menu_rent_vehicle_owner" sequence="3"  name="Rent Vehicle &amp; Machinery Owners" groups="base.group_erp_manager" />
+
+		<record model='ir.ui.view' id='vehicle_preventive_maintenance_tree'>
+			<field name="name">vehicle.preventive.maintenance.tree</field>
+			<field name="model">vehicle.preventive.maintenance</field>
+			<field name="arch" type="xml">
+				<tree string="Vehicle Meter">
+
+					<field name="vehicle_id" />
+
+				</tree>
+			</field>
+		</record>
+		<record model='ir.ui.view' id='vehicle_preventive_maintenance_form'>
+			<field name="name">vehicle.preventive.maintenance.form</field>
+			<field name="model">vehicle.preventive.maintenance</field>
+			<field name="arch" type="xml">
+				<form string="Vehicle Meter" >
+					<group>
+						<field name="vehicle_id" />
+					</group>
+					<notebook>
+						<page string="Maintenance">
+							<field name="vehicle_preventive_maintenance_line_ids" context="{'default_vehicle_id':vehicle_id}">
+								<tree editable="bottom">
+									<field name="vehicle_id"/>
+									<field name="date"/>
+									<field name="last_service_km"/>
+									<field name="service_period"/>
+									<field name="next_service_km"/>
+									<field name="remarks"/>
+								</tree>
+							</field>
+						</page>
+					</notebook>
+
+
+				</form>
+			</field>
+		</record>
+
+		<record model="ir.actions.act_window" id="action_vehicle_preventive_maintenance">
+			<field name="name">Preventive Maintenance</field>
+			<field name="res_model">vehicle.preventive.maintenance</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+
+		</record>
+		<menuitem action="action_vehicle_preventive_maintenance"
+				  parent="fleet.fleet_vehicles"
+				  id="menu_vehicle_preventive_maintenance"
+				  sequence="10" name="Preventive Maintenance"  />
+		<!-- 
+		####################  Vehicle Status Report ##############################
+
+		<record id="vehicle_status" model="ir.ui.view">
+			<field name="name">vehicle.status.form</field>
+			<field name="model">fleet.vehicle</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form editable="bottom" string="Vehicle Status">
+					<sheet >
+						 <h1>
+							<label string="Vehicle Status"/>
+						</h1>
+						<group >
+							<group>
+								<field name="from_date_status"/>
+
+							</group>
+							<group >
+								<field name="to_date_status" />
+
+							</group>
+						</group >
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record id="action_vehicle_status_report_details" model="ir.actions.act_window">
+		<field name="name">vehicle.status.form</field>
+		<field name="res_model">fleet.vehicle</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">form</field>
+		</record> -->
+
+
+		<!-- <menuitem action="action_vehicle_status_report_details" parent="fleet.fleet_vehicles" id="menu_vehicle_status" sequence="10" name="Vehicle Status Report"  />
+
+ -->
+		
+
+	</data>
+</openerp>

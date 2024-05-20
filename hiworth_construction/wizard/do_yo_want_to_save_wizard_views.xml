@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    	<record model='ir.ui.view' id='view_do_yo_want_to_save'>
+    		<field name="name">view.do.you.want.to.save</field>
+    		<field name="model">do.you.want.to.save.wizard</field>
+    		<field name="arch" type="xml">
+				<form>
+
+    		    <p>Do You Want to Save?</p>
+				</form>
+    		</field>
+    	</record>
+    	<record  id='action_view_do_you_want_to_save' model='ir.actions.act_window'>
+    		<field name="name">do.you.want.to.save.wizard</field>
+    		<field name='res_model'>do.you.want.to.save.wizard</field>
+    		<field name='type'>ir.actions.act_window</field>
+    		<field name='view_id' ref='view_do_yo_want_to_save'/>
+    		<field name='view_type'>form</field>
+    		<field name='target'>new</field>
+    	</record>
+
+
+    </data>
+</openerp>

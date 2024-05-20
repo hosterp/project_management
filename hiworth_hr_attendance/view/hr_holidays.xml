@@ -1,0 +1,272 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+
+        <record model="ir.ui.view" id="view_holiday_new">
+            <field name="name">hr.holidays.tree1</field>
+            <field name="model">hr.holidays</field>
+            <field name="inherit_id" ref="hr_holidays.view_holiday" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='number_of_days']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='holiday_status_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='holiday_type']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='date_to']" position="after">
+                    <field name="nos"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_holiday_simple_new">
+            <field name="name">hr.holidays.tree.new</field>
+            <field name="model">hr.holidays</field>
+            <field name="inherit_id" ref="hr_holidays.view_holiday_simple" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='number_of_days']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='holiday_status_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='date_to']" position="after">
+                    <field name="nos"/>
+                </xpath>
+            </field>
+        </record>
+
+
+        <record model="ir.ui.view" id="view_holiday_allocation_tree_new">
+            <field name="name">hr.holidays.allocation.tree1</field>
+            <field name="model">hr.holidays</field>
+            <field name="inherit_id" ref="hr_holidays.view_holiday_allocation_tree" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='number_of_days']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='category_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='holiday_status_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='holiday_type']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+
+            </field>
+        </record>
+
+        
+        <record model="ir.ui.view" id="edit_holiday_new_inherited">
+            <field name="name">Leave request inherited</field>
+            <field name="model">hr.holidays</field>
+            <field name="inherit_id" ref="hr_holidays.edit_holiday_new" />
+            <field name="arch" type="xml">
+                <!-- <field name="type" position="replace">
+                    <field name="type" />
+                </field> -->
+                <!-- <field name="holiday_type" position="attributes">
+                    <attribute name="attrs">{}</attribute>
+                </field> -->
+                <field name="holiday_type" position="replace">
+                    <field name="holiday_type" attrs="{'invisible':[('type', '=', 'remove')]}" string="Mode" context="{'employee_id':employee_id}" />
+                </field>
+
+                <xpath expr="//header//field[@name='state']" position="replace">
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirm,validated,validate" attrs="{'invisible':[('type','=','add')]}"/>    
+                </xpath>
+
+
+                <xpath expr="//header//field[@name='state']" position="replace">
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirm,validate" />
+                </xpath>
+
+
+                <xpath expr="//group//group//field[@name='name']" position="after">
+                    <field name="status" invisible="1"/>
+                    <!-- <field name="admin" invisible="1"/> -->
+                </xpath>
+
+                <xpath expr="//header//button[@name='refuse']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+
+                 <xpath expr="//header//button[@name='reset']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+
+               <!--  <xpath expr="//header//button[@name='confirm']" position="after">
+                    <button name="validate_leave" string="Validate" type="object" class="oe_highlight" attrs="{'invisible':['|',('state','in',['validated','validate']),('type','=','add')]}"/>
+                </xpath> -->
+                <xpath expr="//group" position="after">
+                    <group attrs="{'invisible':[('type','=','add')]}">
+                        <group>
+                            <field name="leave_id" attrs="{'required':[('type','=','remove')]}"/>
+                            <field name="attendance"/>
+                            <field name="remaining"/>
+                        </group>
+                        <group>
+                            <field name="next_approver" string="Next Approver" invisible="1"/>
+                        </group>
+                    </group>
+
+
+                    <!-- <group attrs="{'invisible':[('type','=','add')]}">
+                        <field name="approved_persons" nolabel="1">
+                            <tree>
+                                <field name="name"/>
+                                <field name="date_today"/>
+                            </tree>
+                        </field>
+                    </group> -->
+                </xpath>
+
+                <field name="holiday_status_id" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <!-- <xpath expr="//group[1]//group[1]/label[@for='number_of_days_temp']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath> -->
+
+                <xpath expr="//sheet/group/group/div/div" position="replace">
+                    <div attrs="{'invisible':[('type','=','add')]}">
+                        <field name="nos" attrs="{'invisible':[('type','=','add')]}"/>days
+                    </div>
+                </xpath>
+
+                <field name="notes" position="before">
+                    <!-- <field name="leave_ids" nolabel="1" attrs="{'invisible':[('type','=','remove')]}"  context="{'default_employee_id':employee_id}"> -->
+                    <field name="leave_ids" nolabel="1" attrs="{'invisible':[('type','=','remove')]}">
+                        <tree editable="botom" >
+                            <field name="leave_id" required="1"/>
+                            <field name="nos" required="1"/>
+                            <field name="employee_id" invisible="1"/>
+                        </tree>
+                    </field>
+                    
+                </field>
+
+
+
+                <xpath expr="//header/button[@name='validate']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                 <xpath expr="//header/button[@name='validate']" position="after">
+                    <button string="Approve" name="action_validate" states="confirm" type="object" groups="base.group_hr_user" class="oe_highlight"/>                    
+                </xpath>
+                <xpath expr="//sheet/group/group/div" position="after">
+                    <!-- <label for="allocation_date_from" string="Duration"/> -->
+                    <div></div>
+                    <div attrs="{'invisible': [('type', '=', 'remove')]}">
+                        <group col="3" attrs="{'invisible': [('type', '=', 'remove')]}">
+                            <field name="allocation_date_from" nolabel="1" attrs="{'required':[('type', '=', 'add')]}" class="oe_inline"/><label string="-" class="oe_inline"/>
+                            <field name="allocation_date_to" nolabel="1" attrs="{'required':[('type', '=', 'add')]}" class="oe_inline"/>
+                        </group>
+                        <!-- <div>
+                            <field name="number_of_days_temp" class="oe_inline"/> days
+                        </div> -->
+                    </div>                    
+                </xpath>
+
+
+            </field>
+        </record>
+
+        <!-- <report
+            id="hr_attendance.action_report_hrattendanceerror"
+            model="hr.employee"
+            string="111Attendance Error Report"
+            report_type="qweb-pdf"
+            name="hr_attendance.report_attendanceerrors"
+            file="hr_attendance.report_attendanceerrors"
+            menu="False"
+        /> -->
+
+         <record model="ir.actions.act_window.view" id="hr_holidays.action_open_ask_holidays_calendar">
+            <field name="sequence" eval="10"/>
+            <field name="view_mode">calendar</field>
+            <field name="view_id" ref="hr_holidays.view_holiday_new_calendar"/>
+            <field name="act_window_id" eval="False"/>
+        </record>
+
+        <!-- <delete model="ir.actions.report.xml" id="hr_attendance.action_report_hrattendanceerror"/>
+        <delete model="ir.actions.act_window" id="hr_attendance.action_hr_attendance_error"/>
+        <delete model="ir.actions.act_window" id="hr_holidays.action_hr_holidays_summary_employee"/> -->
+
+
+        <record model="ir.ui.view" id="edit_holiday_status_form_hiworth">
+            <field name="name">hr.holidays.status.form</field>
+            <field name="model">hr.holidays.status</field>
+            <field name="inherit_id" ref="hr_holidays.edit_holiday_status_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//group/group/field[@name='color_name']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                 <xpath expr="//group/group/field[@name='double_validation']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//group/group/field[@name='double_validation']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//group/group/field[@name='double_validation']" position="after">
+                    <field name="effective_monthly_leave"/>
+                </xpath>
+                <xpath expr="//group/field[@name='categ_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+            </field>
+        </record>
+
+
+        <record model="ir.ui.view" id="public_holiday_form">
+            <field name="name">public.holiday.form</field>
+            <field name="model">public.holiday</field>
+            <field name="arch" type="xml">
+                <form string="Public holiday">
+                    <sheet>
+                        <group>
+                            <!-- <h2> -->
+                                <!-- <label for="date" class="oe_inline"/> -->
+                                <field name="date" class="oe_inline" required="1"/>
+                                <!-- <label for="name" class="oe_inline"/> -->
+                                <field name="name" class="oe_inline" required="1"/>
+                            <!-- </h2> -->
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <record model="ir.ui.view" id="public_holiday_tree">
+            <field name="name">public.holiday.tree</field>
+            <field name="model">public.holiday</field>
+            <field name="arch" type="xml">
+                <tree string="Public holiday">
+                    <field name="name"  />
+                    <field name="date"  />
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="action_public_holidays" model="ir.actions.act_window">
+            <field name="name">Public Holidays</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">public.holiday</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+       <menuitem name="Public Holidays" id="menu_public_holidays" parent="hr.menu_hr_configuration" 
+        action="action_public_holidays" sequence="20"/>
+
+
+
+    </data>
+</openerp>

@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>
+
+
+		<record id="form_utilization_report_vehicle" model="ir.ui.view">
+			<field name="name">Utilization Report</field>
+			<field name="model">vehicle.utilization.report</field>
+			<field name="arch" type="xml">
+				<form>
+					<group>
+						<group>
+							<field name ="month"/>
+							<field name="project_id"/>
+							<field name="vehicle_id"/>
+						</group>
+						<group>
+							<field name="from_date" />
+							<field name="to_date" />
+
+						</group>
+					</group>
+					<footer>
+						<button type="object" name="print_monthly_utilization_report"
+							string="Print" class="oe_highlight" />
+						<button type="object" name="generate_xls_report"
+							string="Print Excel" class="oe_highlight" />
+						<button special="cancel" string="Cancel" />
+					</footer>
+				</form>
+			</field>
+		</record>
+
+		<!-- Material request wizard action-->
+		<record id="action_vehicle_utilization_report_monthly" model="ir.actions.act_window">
+			<field name="name">Utilization Report</field>
+			<field name="res_model">vehicle.utilization.report</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form</field>
+			<field name="target">new</field>
+		</record>
+
+
+
+
+     </data>
+   </openerp>

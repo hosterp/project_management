@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>
+        <record id="form_report_vehicle_maintenance_wizard" model="ir.ui.view">
+			<field name="name">Vehicle Maintenance Report</field>
+			<field name="model">vehicle.maintenance.wizard</field>
+			<field name="arch" type="xml">
+				<form>
+					<group>
+
+							<field name="date_from" />
+							<field name="date_to" />
+						<field name="vehicle_id"/>
+
+
+
+					</group>
+					<footer>
+
+						<button type="object" name="button_print_vehicle_maintenance_wizard"
+							string="Print" class="oe_highlight" />
+						<button special="cancel" string="Cancel" />
+					</footer>
+				</form>
+			</field>
+		</record>
+
+        <record id="action_report_vehicle_maintenance_wizard" model="ir.actions.act_window">
+			<field name="name">Vehicle Maintenance Report</field>
+			<field name="res_model">vehicle.maintenance.wizard</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form</field>
+			<field name="target">new</field>
+		</record>
+
+        <report
+            id="vehicle_maintenance_report_xlsx"
+            model="vehicle.maintenance.wizard"
+            string="Vehicle Maintenance Report"
+            report_type="xlsx"
+            name="vehicle.maintenance.report.xlsx"
+            file="vehicle.maintenance.report.xlsx"
+            menu="False" />
+
+        	<menuitem id = "menu_vehicle_maintenance_report"
+					name="Vehicle Maintenance Report"
+					action = "action_report_vehicle_maintenance_wizard"/>
+    </data>
+</openerp>

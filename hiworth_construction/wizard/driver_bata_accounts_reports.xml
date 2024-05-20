@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>
+<record id="form_driver_beta_report_accounts_daily" model="ir.ui.view">
+			<field name="name">Driver Bata Reort</field>
+			<field name="model">driver.bata.accounts.report</field>
+			<field name="arch" type="xml">
+				<form>
+					<group>
+
+						<group>
+							<field name="from_date"/>
+							<field name="to_date" />
+
+
+						<!--	<field name="category" />-->
+						</group>
+					</group>
+					<footer>
+
+						<button type="object" name="generate_xls_report"
+							string="Print" class="oe_highlight" />
+						<button special="cancel" string="Cancel" />
+					</footer>
+				</form>
+			</field>
+		</record>
+		<record id="action_report_driver_beta_accounts_daily" model="ir.actions.act_window">
+			<field name="name">Driver Bata Report</field>
+			<field name="res_model">driver.bata.accounts.report</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form</field>
+			<field name="target">new</field>
+		</record>
+		<report
+            id="driver_beta_report_accounts_daily"
+            model="driver.bata.accounts.report"
+            string="Driver Bata Accounts Report"
+            report_type="xlsx"
+            name="Driver Bata Accounts.xlsx"
+            file="Driver Bata Accounts.xlsx"
+            menu="False"
+        />
+
+
+<!--    <menuitem id="report_purchase_driver_bata__accounts_view_daily" parent="hiworth_construction.fleet_report"-->
+<!--				  name="Driver Bata Accounts"-->
+<!--				  action="action_report_driver_beta_accounts_daily" sequence ="8"/>-->
+
+
+
+
+
+
+	</data>
+</openerp>

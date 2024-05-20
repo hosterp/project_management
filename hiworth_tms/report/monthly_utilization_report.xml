@@ -1,0 +1,155 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>
+
+    
+		<record id="form_utilization_report_monthly" model="ir.ui.view">
+			<field name="name">Utilization Report</field>
+			<field name="model">monthly.utilization.report</field>
+			<field name="arch" type="xml">
+				<form>
+					<group>
+						<group>
+
+							<field name="project_id"/>
+							<field name="own_vehicle"/>
+							<field name="vehicle_id" attrs="{'invisible':[('own_vehicle','=',False)]}"/>
+							<field name="rent_vehicle"/>
+							<field name="rent_vehicle_owner_id" attrs="{'invisible':[('rent_vehicle','=',False)]}"/>
+							<field name="rent_vehicle_id" attrs="{'invisible':[('rent_vehicle','=',False)]}"/>
+
+						</group>
+						<group>
+							<field name="from_date" />
+							<field name="to_date" />
+							
+						</group>
+					</group>
+					<footer>
+						<button type="object" name="print_monthly_utilization_report"
+							string="Print" class="oe_highlight" />
+						<button type="object" name="generate_xls_report"
+							string="Print Excel" class="oe_highlight" />
+						<button special="cancel" string="Cancel" />
+					</footer>
+				</form>
+			</field>
+		</record>
+		<report
+            id="monthly_utilize_excel_report"
+            model="monthly.utilization.report"
+            string="Monthly Utilization Report"
+            report_type="xlsx"
+            name="custom.monthly_utilization_report.xlsx"
+            file="custom.monthly_utilization_report.xlsx"
+            menu="False"            
+        />
+		<!-- Material request wizard action-->
+		<record id="action_utilization_report_monthly" model="ir.actions.act_window">
+			<field name="name">Utilization Report</field>
+			<field name="res_model">monthly.utilization.report</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form</field>
+			<field name="target">new</field>
+		</record>
+
+		<report id="report_utilization_report_monthly" string="Utilization Report"
+				model="monthly.utilization.report" report_type="qweb-pdf"
+				name="hiworth_tms.monthly_utilization_report_template_view" />
+
+		<record id="paper_format_utilization_report" model="report.paperformat">
+				<field name="name">A3</field>
+				<field name="default" eval="True" />
+				<field name="format">A3</field>
+				<field name="orientation">Landscape</field>
+				<field name="margin_top">10</field>
+				<field name="margin_bottom">10</field>
+				<field name="margin_left">7</field>
+				<field name="margin_right">7</field>
+				<field name="header_line" eval="True" />
+				<field name="header_spacing">35</field>
+				<field name="dpi">90</field>
+			</record>
+
+			<record id="hiworth_tms.report_utilization_report_monthly" model="ir.actions.report.xml">
+				<field name="paperformat_id" ref="hiworth_tms.paper_format_utilization_report" />
+			</record>
+
+
+	<template id = "monthly_utilization_report_template_view">
+			<t t-call="report.html_container">
+                <t t-call="report.external_layout">
+                    <div class="page">
+                        <t t-foreach="docs" t-as="o">
+ 
+                        <div class="row">
+                            <div class="col-xs-12" align="center">
+                      
+                            		UTILIZATION REPORT - <span  t-field = "o.month"/>-<span t-field = "o.year"/>
+                            	
+                            </div>
+                        </div>
+
+                                <table style="width:100%;border-bottom: 1px solid black;border-top: 1px solid black;border-left: 1px solid black;border-right: 1px solid black;margin-top:50px;">
+                                    <tr><td><strong>SL.NO</strong></td>
+                                    	<td style="border-left: 1px solid black;"><strong>TYPE OF EQUIPMENT/VEHICLE</strong></td>
+                                    	<td style="border-left: 1px solid black;"><strong>FLEET NO</strong></td>
+                                    	<td style="border-left: 1px solid black;"><strong>REG.No.</strong> </td>
+                                    	<td style="border-left: 1px solid black;"><strong>PROJECT</strong> </td>
+                                    	<td style="border-left: 1px solid black;"><strong>START</strong> </td>
+                                    	<td style='font-size:10px;border-left: 1px solid black;'><strong>CLOSE</strong> </td>
+                                    	<td style="border-left: 1px solid black;"><strong>TOTAL</strong></td>
+                                    	<td style="border-left: 1px solid black;"><strong>HRS WORKED</strong></td>
+                                    	<td style="border-left: 1px solid black;"><strong>IDLE HRS</strong></td>
+                                    	<td style="border-left: 1px solid black;"><strong>B/D HRS</strong></td>
+                                    	<td style="border-left: 1px solid black;"><strong>FUEL</strong></td>
+                                    	<td style="border-left: 1px solid black;"><strong>FUEL CUNSUMPTION RATE</strong></td>
+                                    	<td style="border-left: 1px solid black;"><strong>EXPENSE ON FUEL</strong></td>
+                                    	<td style="border-left: 1px solid black;"><strong>EXPENSE OF SPARES</strong></td>
+                                    	<td style="border-left: 1px solid black;"><strong>EXPENSE ON LUB</strong></td>
+                                    	<td style="border-left: 1px solid black;"><strong>EXPENSE ON TYRES</strong></td>
+                                    	<td style="border-left: 1px solid black;"><strong>EXPENSE ON BATTERY</strong></td>
+                                    	<td style="border-left: 1px solid black;"><strong>OTHER EXPENSE</strong></td>
+
+                                    </tr>
+									<t t-set="sl_no" t-value="1"/>
+									<t t-if="o.get_details()!=False">
+									<tr t-foreach="o.get_details()" t-as="line">
+
+										<td><strong><span t-esc="sl_no"/></strong></td>
+										<t t-set="sl_no" t-value="sl_no+1"/>
+                                    	<td style="border-left: 1px solid black;"><strong><span t-field="line.vehicle_no.vehicle_categ_id.name" /></strong></td>
+                                    	<td style="border-left: 1px solid black;"><strong><span t-field="line.vehicle_no.model_id.name" /></strong></td>
+                                    	<td style="border-left: 1px solid black;"><strong><span t-field="line.vehicle_no.license_plate" /></strong> </td>
+                                    	<td style="border-left: 1px solid black;"><strong></strong> </td>
+                                    	<td style="border-left: 1px solid black;"><strong><span t-field="line.start_km" /></strong> </td>
+                                    	<td style='font-size:10px;border-left: 1px solid black;'><strong><span t-field="line.actual_close_km" /></strong> </td>
+                                    	<td style="border-left: 1px solid black;"><strong><span t-field="line.running_km" /></strong></td>
+                                    	<td style="border-left: 1px solid black;"><strong><span t-field="line.hrs_worked" /></strong></td>
+                                    	<td style="border-left: 1px solid black;"><strong><span t-field="line.idle_hrs" /></strong></td>
+
+
+                                    	<td style="border-left: 1px solid black;"><strong><span t-field="line.bd_hrs" /></strong></td>
+                                    	<td style="border-left: 1px solid black;"><strong><span t-field="line.fuel" /></strong></td>
+                                    	<td style="border-left: 1px solid black;"><strong><span t-field="line.consumption_rate" /></strong></td>
+                                    	<td style="border-left: 1px solid black;"><strong><span t-field="line.expense_fuel" /></strong></td>
+                                    	<td style="border-left: 1px solid black;"><strong><span t-field="line.expense_spares" /></strong></td>
+                                    	<td style="border-left: 1px solid black;"><strong><span t-field="line.expense_lub" /></strong></td>
+                                    	<td style="border-left: 1px solid black;"><strong><span t-field="line.expense_tyre" /></strong></td>
+                                    	<td style="border-left: 1px solid black;"><strong><span t-field="line.expense_battery" /></strong></td>
+                                    	<td style="border-left: 1px solid black;"><strong><span t-field="line.expense_other" /></strong></td>
+									</tr>
+									</t>
+
+                                   </table>
+                         </t>
+                    </div>
+                </t>
+             </t>
+         </template>
+
+          <menuitem id = "menu_monthly_utilization_report"
+					name="Log Sheet - Monthly"
+					action = "action_utilization_report_monthly"/>
+     </data>
+   </openerp>

@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>
+
+    
+		<record id="form_daily_progress_report_report" model="ir.ui.view">
+			<field name="name">Daily Progress Report</field>
+			<field name="model">report.daily.progress.report</field>
+			<field name="arch" type="xml">
+				<form>
+					<group>
+						<group>
+							<field name="from_date" />
+							<field name="to_date" />
+							<field name="project_id"/>
+							<field name="company_id"/>
+						</group>
+					</group>
+					<footer>
+						<button type="object" name="generate_xls_report"
+							string="Print Excel" class="oe_highlight" />
+						<button special="cancel" string="Cancel" />
+					</footer>
+				</form>
+			</field>
+		</record>
+		<report
+            id="daily_progress_excel_report"
+            model="report.daily.progress.report"
+            string="Daily Progress Report"
+            report_type="xlsx"
+            name="custom.daily_progress_report.xlsx"
+            file="custom.daily_progress_report.xlsx"
+           	menu="False"            
+        />
+
+		<record id="action_form_daily_progress_report_report" model="ir.actions.act_window">
+			<field name="name">Daily Progress Report</field>
+			<field name="res_model">report.daily.progress.report</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form</field>
+			<field name="target">new</field>
+		</record>
+
+		<menuitem id="menu_dpr_report"
+				  parent="menu_partner_daily_statement_in_activity_report"
+				  action="action_form_daily_progress_report_report"
+				  name="DPR Report" sequence="27" />
+
+	
+
+                            
+                   
+
+        
+     </data>
+   </openerp>

@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>
+
+
+        <record id="form_report_diesel_vehicle_daily" model="ir.ui.view">
+			<field name="name">Diesel Vehicle daily</field>
+			<field name="model">report.diesel.vehicle.daily</field>
+			<field name="arch" type="xml">
+				<form>
+					<group>
+						<group>
+							<field name="company_id" options='{"no_create": 1, "no_create_edit": 1}'/>
+							<field name="project_id" options='{"no_create": 1, "no_create_edit": 1}'/>
+							<field name="product_id" options='{"no_create": 1, "no_create_edit": 1}'/>
+						</group>
+						<group>
+							<field name="date_today"/>
+
+						</group>
+					</group>
+					<footer>
+						<!--button type="object" name="view_report_location_stock"
+							string="View" class="oe_highlight" /-->
+						<button type="object" name="generate_xls_report_daily"
+							string="Print" class="oe_highlight" />
+						<button special="cancel" string="Cancel" />
+					</footer>
+				</form>
+			</field>
+		</record>
+
+		<record id="action_report_diesel_vehicle_daily" model="ir.actions.act_window">
+			<field name="name">Diesel Issue Report Daily</field>
+			<field name="res_model">report.diesel.vehicle.daily</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form</field>
+			<field name="target">new</field>
+		</record>
+
+		<report
+            id="diesel_vehicle_report_daily"
+            model="report.diesel.vehicle.daily"
+            string="Diesel Issue Report Daily"
+            report_type="xlsx"
+            name="custom.diesel.vehicle.report.daily.xlsx"
+            file="custom.diesel.vehicle.report.daily.xlsx"
+            menu="False" />
+
+
+		<menuitem id = "menu_daily_vehicle_report_diesel"
+					name="Diesel Issue Daily Report"
+					action = "action_report_diesel_vehicle_daily"/>
+
+
+
+
+	</data>
+</openerp>

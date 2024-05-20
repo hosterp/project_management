@@ -1,0 +1,475 @@
+<openerp>
+	<data>
+
+		
+		<!-- Fleet Documents Renewal -->
+
+		<record model="ir.ui.view" id="fleet_documents_renewal_wizard">
+			<field name="name">fleet.documents.wizard</field>
+			<field name="model">fleet.documents.wizard</field>
+			<field name="arch" type="xml">
+				<form string="Documents Renewal Report">
+					<group col="4">
+						<field name="date_from" required="1"/>
+						<field name="date_to" required="1"/>
+						<field name="document_type" required="1"/>
+					</group>
+					
+					<footer>
+						<button name="action_fleet_documents_open_window" type="object" string="Print" class="oe_highlight" />
+						<button name="action_fleet_documents_open_window1" type="object" string="View" class="oe_highlight" />
+						<button string="Cancel" class="oe_link" special="cancel" />
+					</footer>
+				</form>
+			</field>
+		</record>
+
+		<record id="action_fleet_documents_renewal_wizard" model="ir.actions.act_window">
+			<field name="name">Documents Renewal Report</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">fleet.documents.wizard</field>
+			<field name="target">new</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form</field>
+		</record>
+
+		
+		<menuitem id="fleet_documents_renewal_report"  name="Documents Renewal" sequence="3" action="action_fleet_documents_renewal_wizard"/>
+
+	
+
+
+		<report id="report_fleet_documents_renewal_report" string="Documents Renewal"
+			model="fleet.documents.wizard" report_type="qweb-pdf"
+			name="hiworth_tms.report_fleet_documents_renewal_template" />
+
+
+		<template id="report_fleet_documents_renewal_template">
+			<t t-call="report.html_container">
+				<t t-foreach="docs" t-as="o">
+					<t t-call="report.external_layout">
+						<div class="page">
+							<center><b><h1><span t-field="o.document_type"/>&#160;Documents Renewal Report</h1></b></center>
+							
+
+							<t t-set="sl_no" t-value="1" />
+							
+							<div>
+								<center>
+
+									<table style="font-size:16px;width: 100%;border-bottom: outset;border-top: outset;margin-top:30px;">
+										<thead>
+
+											<tr style="border-bottom: outset;border-right: outset;border-left: outset;">
+												<td style="width: 10%; border-right: outset;" align="center"><h5><b>SL.No</b></h5></td>
+												<td style="width: 50%; border-right: outset;" align="center"><h5><b>Vehicle Name</b></h5></td>
+												<td style="width: 50%; border-right: outset;" align="center"><h5><b>Vehicle Type</b></h5></td>
+												<td style="width: 50%; border-right: outset;" align="center"><h5><b>Present Insurance Company</b></h5></td>
+												<td style="width: 40%; border-right: outset;" align="center"><h5><b>Renewal Date</b></h5></td>
+												<td style="width: 50%; border-right: outset;" align="center"><h5><b>Last Premium Amount</b></h5></td>
+												<td style="width: 40%; border-right: outset;" align="center"><h5><b>Amount</b></h5></td>
+												<td style="width: 50%; border-right: outset;" align="center"><h5><b>Remarks</b></h5></td>
+											</tr>
+										</thead>
+										<tbody>
+											<t t-foreach="docs.get_details123()" t-as="line">
+												<tr style="border-left: outset;">
+													<td style="border-right: outset;" align="center">
+														<span t-esc="sl_no" />
+														<t t-set="sl_no" t-value="sl_no+1" />
+													</td>
+											
+													<td style="border-right: outset;padding-left: 10px;">
+														<span t-esc="line['vehicle_name']"/>
+													</td>
+													<td style="border-right: outset;padding-left: 10px;">
+														<span t-esc="line['vehicle_type']"/>
+													</td>
+													<td style="border-right: outset;padding-left: 10px;">
+														<span t-esc="line['present_insurance']"/>
+													</td>
+													<td style="border-right: outset;" align="center">
+														<span t-esc="line['renewal_date']"/>
+													</td>
+													<td style="border-right: outset;" align="center">
+														<span t-esc="line['amount']"/>
+													</td>
+													<td style="border-right: outset;" align="center">
+														<span t-esc="line['renewal_premeium']"/>
+													</td>
+												</tr>
+											</t>
+										</tbody>
+									</table>
+								</center>
+							</div>
+			               
+						</div>
+					</t>
+				</t>
+			</t>
+		</template>
+
+
+		<record id="fleet_all_documents_form" model="ir.ui.view">
+			<field name="name">fleet.documents.all.form</field>
+			<field name="model">fleet.documents.all</field>
+			<field name="arch" type="xml">
+				<form string="Document Renewal" create="false" edit="false">
+					<group>
+						<field name="document_ids" nolabel="1">
+							<tree create="false" delete="false">
+								<field name="vehicle_id"/>
+								<field name="pollution_date" widget="vehicle_documents_widget"/>
+								<field name="road_tax_date" widget="road_tax_date_widget"/>
+								<field name="fitness_date" widget="fitness_date_widget"/>
+								<field name="insurance_date" widget="insurance_date_widget"/>
+							</tree>
+						</field>
+					</group>
+					<button name="open_report_documents_all" type="object" class="oe_highlight" string="Print"/>
+				</form>
+			</field>
+		</record>
+
+
+
+		<record id="action_fleet_all_documents" model="ir.actions.act_window">
+			<field name="name">Documents Renewal</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">fleet.documents.all</field>
+			<field name="target">inline</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form</field>
+		</record>
+
+	
+		<menuitem id="menu_fleet_all_documents11" name="Renewal Summary" action="action_fleet_all_documents"  sequence="4"/>
+
+
+
+
+
+		<report id="action_print_documents_all" model="fleet.documents.all"
+			report_type="qweb-pdf" string="Documents Renewal"
+			name="hiworth_tms.report_fleet_documents_all" file="hiworth_tms.report_fleet_documents_all" />
+
+		<template id="report_fleet_documents_all">
+			<t t-call="report.html_container">
+				<t t-foreach="docs" t-as="o">
+					<t t-call="report.external_layout">
+						<div class="page">
+							<center><b><h2>Documents Renewal</h2></b></center>
+
+							<t t-set="sl_no" t-value="1" />
+							<t t-set="today" t-value="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d')" />
+
+							<table style="font-size:16px;width: 100%;border-bottom: outset;border-top: outset;">
+
+								<thead>
+							
+							
+									<tr style="border-bottom: outset;border-right: outset;border-left: outset;">
+										<td style="width: 5%; border-right: outset;%" align="center"><h5><b>Sl No</b></h5></td>
+										<td style="width: 35%; border-right: outset;" align="center"><h5><b>Vehicle</b></h5></td>
+										<td style="width: 15; border-right: outset;" align="center"><h5><b>Pollution Renewal Date</b></h5></td>
+										<td style="width: 15%; border-right: outset;" align="center"><h5><b>Road Tax Renewal Date</b></h5></td>
+										<td style="width: 15%; border-right: outset;" align="center"><h5><b>Fitness Renewal Date</b></h5></td>
+										<td style="width: 15%; border-right: outset;" align="center"><h5><b>Insurance Renewal Date</b></h5></td>
+									</tr>
+								</thead>
+								<tbody>
+									<t t-foreach="o.document_ids" t-as="l" style="border-left: outset;">
+										<tr style="border-right: outset;border-left: outset;" height="25">
+											
+											<td style="width: 5%; border-right: outset;" align="center">
+												<t t-esc="sl_no" />
+												<t t-set="sl_no" t-value="sl_no+1" />
+											</td>
+											<td style="width: 35%; border-right: outset;padding-left: 10px;" align="left" >
+												<span t-field="l.vehicle_id" />
+											</td>
+											<t t-if="l.pollution_date == today">
+												<td style="width: 15%; border-right: outset;color:green;" align="center" >
+													<span t-field="l.pollution_date" t-field-options='{"format": "dd-MM-yyyy"}'/>
+												</td>
+											</t>
+											<t t-if="l.pollution_date != today">
+												<td style="width: 15%; border-right: outset;" align="center" >
+													<span t-field="l.pollution_date" t-field-options='{"format": "dd-MM-yyyy"}'/>
+												</td>
+											</t>
+											<t t-if="l.road_tax_date == today">
+												<td style="width: 15%; border-right: outset;color:green;" align="center" >
+													<span t-field="l.road_tax_date" t-field-options='{"format": "dd-MM-yyyy"}'/>
+												</td>
+											</t>
+											<t t-if="l.road_tax_date != today">
+												<td style="width: 15%; border-right: outset;" align="center" >
+													<span t-field="l.road_tax_date" t-field-options='{"format": "dd-MM-yyyy"}'/>
+												</td>
+											</t>
+											<t t-if="l.fitness_date == today">
+												<td style="width: 15%; border-right: outset;color:green;" align="center" >
+													<span t-field="l.fitness_date" t-field-options='{"format": "dd-MM-yyyy"}'/>
+												</td>
+											</t>
+											<t t-if="l.fitness_date != today">
+												<td style="width: 15%; border-right: outset;" align="center" >
+													<span t-field="l.fitness_date" t-field-options='{"format": "dd-MM-yyyy"}'/>
+												</td>
+											</t>
+											<t t-if="l.insurance_date == today">
+												<td style="width: 15%; border-right: outset;color:green;" align="center" >
+													<span t-field="l.insurance_date" t-field-options='{"format": "dd-MM-yyyy"}'/>
+												</td>
+											</t>
+											<t t-if="l.insurance_date != today">
+												<td style="width: 15%; border-right: outset;" align="center" >
+													<span t-field="l.insurance_date" t-field-options='{"format": "dd-MM-yyyy"}'/>
+												</td>
+											</t>
+										</tr>
+									</t>
+								</tbody>
+							</table>
+						</div>
+					</t>
+				</t>
+			</t>
+		</template>
+
+
+
+		<!-- Mileage Report -->
+
+
+		<record model="ir.ui.view" id="fleet_vehicle_mileage_wizard">
+			<field name="name">vehicle.mileage.wizard</field>
+			<field name="model">vehicle.mileage.wizard</field>
+			<field name="arch" type="xml">
+				<form string="Mileage Report">
+					<group col="4">
+						<field name="date_from" required="1"/>
+						<field name="date_to" required="1"/>
+					</group>
+					
+					<footer>
+						<button name="action_vehicle_mileage_open_window" type="object" string="Print" class="oe_highlight" />
+						<button name="action_vehicle_mileage_open_window1" type="object" string="View" class="oe_highlight" />
+						<button string="Cancel" class="oe_link" special="cancel" />
+					</footer>
+				</form>
+			</field>
+		</record>
+
+		<record id="action_fleet_vehicle_mileage_wizard" model="ir.actions.act_window">
+			<field name="name">Mileage Report</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">vehicle.mileage.wizard</field>
+			<field name="target">new</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form</field>
+		</record>
+
+		
+		
+	
+
+
+		<report id="report_fleet_vehicle_mileage_report" string="Mileage"
+			model="vehicle.mileage.wizard" report_type="qweb-pdf"
+			name="hiworth_tms.report_fleet_vehicle_mileage_template" />
+
+
+		<template id="report_fleet_vehicle_mileage_template">
+			<t t-call="report.html_container">
+				<t t-foreach="docs" t-as="o">
+					<t t-call="report.external_layout">
+						<div class="page">
+							<center><b><h1>Mileage Report</h1></b></center>
+							
+
+							<t t-set="sl_no" t-value="1" />
+							
+							<div>
+								<center>
+
+									<table style="font-size:16px;width: 100%;border-bottom: outset;border-top: outset;margin-top:30px;">
+										<thead>
+
+											<tr style="border-bottom: outset;border-right: outset;border-left: outset;">
+												<td style="width: 10%; border-right: outset;" align="center"><h5><b>SL.No</b></h5></td>
+												<td style="width: 30%; border-right: outset;" align="center"><h5><b>Vehicle Name</b></h5></td>
+												<td style="width: 20%; border-right: outset;" align="center"><h5><b>Distance for calculation</b></h5></td>
+												<td style="width: 20%; border-right: outset;" align="center"><h5><b>Fuel for calculation</b></h5></td>
+												<td style="width: 20%; border-right: outset;" align="center"><h5><b>Mileage</b></h5></td>
+											</tr>
+										</thead>
+										<tbody>
+											<t t-foreach="docs.get_details()" t-as="line">
+												<tr style="border-left: outset;">
+													<td style="border-right: outset;" align="center">
+														<span t-esc="sl_no" />
+														<t t-set="sl_no" t-value="sl_no+1" />
+													</td>
+											
+													<td style="border-right: outset;padding-left: 10px;">
+														<span t-esc="line['vehicle_name']"/>
+													</td>
+													<td style="border-right: outset;padding-right: 10px;" align="right">
+														<span t-esc="'{0:,.2f}'.format(line['km'])" />
+													</td>
+													<td style="border-right: outset;padding-right: 10px;" align="right">
+														<span t-esc="'{0:,.2f}'.format(line['litre'])" />
+													</td>
+													<td style="border-right: outset;padding-right: 10px;" align="right">
+														<span t-esc="'{0:,.2f}'.format(line['mileage']) " />
+													</td>
+												</tr>
+											</t>
+										</tbody>
+									</table>
+								</center>
+							</div>
+			               
+						</div>
+					</t>
+				</t>
+			</t>
+		</template>
+
+
+		<record model="ir.ui.view" id="fleet_documents_tyre_retreading">
+			<field name="name">fleet.documents.wizard</field>
+			<field name="model">fleet.documents.retread</field>
+			<field name="arch" type="xml">
+				<form string="Documents Renewal Report">
+					<group col="4">
+						<field name="date_from" required="1"/>
+						<field name="date_to" required="1"/>
+						<field name="tyre_id" />
+					</group>
+
+					<footer>
+						<button name="action_fleet_documents_open_window" type="object" string="Print" class="oe_highlight" />
+						<button name="action_fleet_documents_open_window1" type="object" string="View" class="oe_highlight" />
+						<button string="Cancel" class="oe_link" special="cancel" />
+					</footer>
+				</form>
+			</field>
+		</record>
+
+		<record id="action_fleet_documents_tyre_retreading_wizard" model="ir.actions.act_window">
+			<field name="name">Tyre Mileage Vehicle Wise Report</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">fleet.documents.retread</field>
+			<field name="target">new</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form</field>
+		</record>
+
+
+		<menuitem id="fleet_vehicle_tyre_retrading_report"  name="Tyre Mileage Vehicle Wise" sequence="4" action="action_fleet_documents_tyre_retreading_wizard"/>
+
+
+
+
+		<report id="report_fleet_vehicle_tyre_retard_report" string="Tyre Retrading Report"
+			model="fleet.documents.retread" report_type="qweb-pdf"
+			name="hiworth_tms.report_fleet_vehicle_retrading_template" />
+
+
+		<template id="report_fleet_vehicle_retrading_template">
+			<t t-call="report.html_container">
+				<t t-foreach="docs" t-as="o">
+					<t t-call="report.external_layout">
+						<div class="page">
+							<center><b><h1>Tyre Retreading Report</h1></b></center>
+							<span><center><b><h4>Tyre No: <span t-field="o.vehicle_id"/></h4></b></center></span>
+							<span><center><b><h4> <span t-field="o.date_from"/> To <span t-field="o.date_to"/></h4></b></center></span>
+							<t t-set="sl_no" t-value="1" />
+
+							<div>
+								<center>
+
+									<table style="font-size:16px;width: 100%;border-bottom: outset;border-top: outset;margin-top:30px;">
+										<thead>
+
+											<tr style="border-bottom: outset;border-right: outset;border-left: outset;">
+												<td style="width: 10%; border-right: outset;" align="center"><h5><b>SL.No</b></h5></td>
+												<td style="width: 30%; border-right: outset;" align="center"><h5><b>Tyre Name</b></h5></td>
+
+												<td style="width: 20%; border-right: outset;" align="center"><h5><b>Retreading Manufactuer/Vendor</b></h5></td>
+												<td style="width: 20%; border-right: outset;" align="center"><h5><b>Retreading Type</b></h5></td>
+												<td style="width: 20%; border-right: outset;" align="center"><h5><b>Vehicle No</b></h5></td>
+												<td style="width: 20%; border-right: outset;" align="center"><h5><b>Fitting KM</b></h5></td>
+												<td style="width: 20%; border-right: outset;" align="center"><h5><b>Fitting Date</b></h5></td>
+												<td style="width: 20%; border-right: outset;" align="center"><h5><b>Removing KM</b></h5></td>
+												<td style="width: 20%; border-right: outset;" align="center"><h5><b>Removed Date</b></h5></td>
+												<td style="width: 20%; border-right: outset;" align="center"><h5><b>Retreading Cost</b></h5></td>
+												<td style="width: 20%; border-right: outset;" align="center"><h5><b>Total Mileage(KM)</b></h5></td>
+												<td style="width: 20%; border-right: outset;" align="center"><h5><b>CUM(KM)</b></h5></td>
+												<td style="width: 20%; border-right: outset;" align="center"><h5><b>Remarks</b></h5></td>
+											</tr>
+										</thead>
+										<tbody>
+											<t t-foreach="docs.get_details()" t-as="line">
+												<tr style="border-left: outset;">
+													<td style="border-right: outset;" align="center">
+														<span t-esc="sl_no" />
+														<t t-set="sl_no" t-value="sl_no+1" />
+													</td>
+													<td style="border-right: outset;padding-left: 10px;">
+														<span t-esc="line.tyre_id.name"/>
+													</td>
+
+													<td style="border-right: outset;padding-left: 10px;">
+														<span t-esc="line.manufacture_id.name"/>
+													</td>
+													<td style="border-right: outset;padding-right: 10px;" align="right">
+														<span t-esc="line.tyre_retrading_type.name" />
+													</td>
+													<td style="border-right: outset;padding-right: 10px;" align="right">
+														<span t-esc="line.vehicle_id.name" />
+													</td>
+													<td style="border-right: outset;padding-right: 10px;" align="right">
+														<span t-esc="line.fitting_km" />
+													</td>
+													<td style="border-right: outset;padding-right: 10px;" align="right">
+														<span t-esc="line.fitting_date" />
+													</td>
+													<td style="border-right: outset;padding-right: 10px;" align="right">
+														<span t-esc="line.removing_km" />
+													</td>
+													<td style="border-right: outset;padding-right: 10px;" align="right">
+														<span t-esc="line.removed_date" />
+													</td>
+													<td style="border-right: outset;padding-right: 10px;" align="right">
+														<span t-esc="line.retrading_cost" />
+													</td>
+													<td style="border-right: outset;padding-right: 10px;" align="right">
+														<span t-esc="line.total_km" />
+													</td>
+													<td style="border-right: outset;padding-right: 10px;" align="right">
+														<span t-esc="line.cum_km" />
+													</td>
+													<td style="border-right: outset;padding-right: 10px;" align="right">
+														<span t-esc="line.remarks" />
+													</td>
+												</tr>
+											</t>
+										</tbody>
+									</table>
+								</center>
+							</div>
+
+						</div>
+					</t>
+				</t>
+			</t>
+		</template>
+
+
+	</data>
+</openerp>

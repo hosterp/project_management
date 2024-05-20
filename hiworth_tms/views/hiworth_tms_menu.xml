@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+
+		<menuitem name="Purchases" id="base.menu_purchase_root"
+  			sequence="60" />
+
+
+
+		<menuitem id="base.menu_tms_root" name="Logistics"
+			web_icon="data/transport_logo.png" web_icon_hover="data/transport_logo-hover.png"
+			groups="hiworth_tms.tms_fleet_vehicle"
+			icon="terp-mrp"  sequence="50" />
+
+
+		<menuitem action="stock_account.action_history_tree" id="menu_action_history_tree_sales"
+			parent="base.menu_product" groups="stock.group_locations"
+			sequence="20" />
+			
+			<menuitem id="menu_procurement_management_product" name="Products"
+          parent="base.menu_purchase_root"  sequence="8"/>
+          
+          
+          <menuitem action="stock_account.action_history_tree" id="menu_action_history_tree_purchase"
+            parent="menu_procurement_management_product" groups="stock.group_locations"
+            sequence="20" />
+
+           <menuitem id="menu_site_purchase_purchase"
+				  parent="fleet.fleet_vehicles"
+				  name="Material Procurement Requistion"
+				  sequence="0"
+				  />
+
+<!--		<menuitem action="fleet.fleet_vehicle_odometer_act" parent="fleet.fleet_vehicles" id="fleet.fleet_vehicle_odometer_menu" groups="hiworth_tms.make_invisible"/>-->
+
+<!--		  <menuitem action="fleet.fleet_vehicle_log_fuel_act" parent="fleet.fleet_vehicles" id="fleet.fleet_vehicle_log_fuel_menu" groups="hiworth_tms.make_invisible"/>-->
+
+      <!-- <menuitem action="fleet_vehicle_odometer_act2" parent="fleet.fleet_vehicles" id="fleet.fleet_vehicle_odometer_menu"  name="test" groups="fleet.group_fleet_user"/> -->
+
+<!--      <delete model="ir.ui.menu" id="fleet.fleet_vehicle_odometer_menu" />-->
+
+
+	</data>
+</openerp>

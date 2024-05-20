@@ -1,0 +1,583 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+      <record model="ir.ui.view" id="edit_hr_contract">
+        <field name="name">Hr Contract</field>
+        <field name="model">hr.contract</field>
+        <field name="inherit_id" ref="hr_contract.hr_contract_view_form" />
+        <field name="arch" type="xml">
+          
+            <xpath expr="/form/*" position="before">
+                <header>
+                    <button name="action_active" string="Activate" type="object" 
+                    states="draft" class="oe_highlight"></button>
+                    <button name="action_deactive" string="Deactivate" type="object" states="active"  class="oe_highlight"></button>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,active" />
+                </header>
+            </xpath>
+            <field name="advantages" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            
+            <xpath expr="//notebook/page/group[1]" position="after">
+                <group string="Salary Rules">
+                    <field name="rule_lines" nolabel="1">
+                        <tree >
+                            <field name="rule_id" required="1"/>
+                            <!-- <field name="account_id" /> -->
+                        </tree>
+                        <form>
+                        <group>
+                            <group>
+                                <field name="rule_id" required="1"/>
+                                <field name="related_type" invisible="1"/>
+                            
+                            </group>
+                            <group>
+                                <!-- <field name="account_id"/> -->
+                            </group>
+                        </group>
+                        <!-- attrs="{'invisible':[('related_type','!=',False)]}" -->
+                        <group >
+                            <group>
+                                <field name="is_related"/>
+                                <field name="per_day_amount" attrs="{'invisible':[('is_related','=',False)], 'required':[('related_type','=',False)], 'readonly':[('related_type','=','canteen')]}" />
+
+                                <field name="rule_type" attrs="{'invisible':['|',('is_related','=',True),('related_type','!=',False)], 'required':[('related_type','=',False),('is_related','!=',True)]}"/>
+
+                                <field name="amount" attrs="{'invisible':['|','|',('is_related','=',True),('related_type','!=',False),('rule_type','!=','fixed')], 'required':[('related_type','=',False),('is_related','!=',True),('rule_type','not in',['manual','percent'])]}" widget="char"/>
+                                <field name="percentage" attrs="{'invisible':['|','|',('is_related','=',True),('related_type','!=',False),('rule_type','!=','percent')], 'required':[('related_type','=',False),('is_related','!=',True),('rule_type','not in',['manual','fixed'])]}" widget="char"/>
+                                <field name="employer_amt_paid_by" attrs="{'invisible':[('related_type','!=','pf')]}"/>
+                            </group>
+                            <group>
+                            </group>
+                        </group>
+                      </form>
+                  </field>
+                </group>
+                <!-- <tree name="rule_id" required="1"/> -->
+            </xpath>
+
+            <xpath expr="//notebook/page[1]/group/group[2]/label" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//notebook/page[1]/group/group[2]/div" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//notebook/page[1]/group/group[2]/field[@name='working_hours']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+        </field>
+      </record>
+
+
+      <record id="hr_salary_rule_form_hiworth" model="ir.ui.view">
+        <field name="name">hr.salary.rule.form</field>
+        <field name="model">hr.salary.rule</field>
+        <field name="inherit_id" ref="hr_payroll.hr_salary_rule_form" />
+        <field name="arch" type="xml">
+           <xpath expr="//notebook[1]" position="attributes">
+            <attribute name="invisible">1</attribute>
+          </xpath>
+
+          <xpath expr="//notebook[1]" position="before">
+            
+            <group>
+              <group>
+                <field name="rule_nature" required="1"/>
+                <field name="related_type" />
+                <field name="policy_id" attrs="{'invisible':[('related_type','!=','insurance')],'required':[('related_type','=','insurance')]}"/>
+                <field name="salary_limit" attrs="{'invisible':[('related_type','!=','esi')]}"/>
+                <field name="pf_sealing_limit" attrs="{'invisible':[('related_type','!=','pf')]}"/>
+                <field name="emloyee_ratio" attrs="{'invisible':[('related_type','not in',['esi','pf'])]}"/>
+                <field name="emloyer_ratio" attrs="{'invisible':[('related_type','not in',['esi','pf'])]}"/>
+                <field name="employer_epf_ratio" attrs="{'invisible':[('related_type','!=','pf')]}"/>
+                <field name="eps_ratio" attrs="{'invisible':[('related_type','!=','pf')]}"/>
+                <field name="edli_ratio" attrs="{'invisible':[('related_type','!=','pf')]}"/>
+                <!-- <field name="emp_percent_limit" attrs="{'invisible':[('related_type','!=','pf')], 'required':[('related_type','=','pf')]}"/> -->
+                
+              </group>
+              <group>
+              </group>
+            </group>
+          </xpath>
+
+        </field>
+      </record>
+
+
+       <record id="view_partner_tree2_canteen2" model="ir.ui.view">
+          <field name="name">hr.canteen.list</field>
+          <field name="model">hr.employee</field>
+          <field name="arch" type="xml">
+            <tree create="false" edit="false">
+              <field name="name"/>
+              <field name="emp_code"/>
+              <field name="work_phone"/>
+              <field name="joining_date"/>
+              <field name="department_id"/>
+              <field name="status1"/>             
+            </tree>
+
+          </field>
+        </record>
+
+
+
+       <record id="open_view_employee_list_canteen" model="ir.actions.act_window">
+            <field name="name">Employees</field>
+            <field name="res_model">hr.employee</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_partner_tree2_canteen2"></field>
+            <field name="domain">[('cost_type','=','permanent'),('canteen','=',True)]</field>
+        </record>
+       <menuitem name="Canteen" id="menu_canteen" parent="hr.menu_hr_root" groups="base.group_erp_manager,hiworth_hr_attendance.group_hr" sequence="45" />
+
+       <menuitem name="Employees" id="employee_canteen11" parent="menu_canteen" 
+        action="open_view_employee_list_canteen" groups="base.group_erp_manager,group_hr" sequence="1"/>
+
+        <record id="hiworth_canteen_entry" model="ir.ui.view">
+            <field name="name">employee.canteen.entry</field>
+            <field name="model">canteen.entry.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Canteen Entry">
+                  <sheet>
+                  <group>
+                    <group>
+                      <field name="date" required="1"/>
+                    </group>
+                    <group>
+                      <field name="user_id" required="1"/>
+                    </group>
+                  </group>
+                  <group>
+                    <field name="line_ids" nolabel="1" readonly="1">
+                      <tree editable="bottom">
+                        <field name="employee_id" required="1"/>
+                        <field name="amount"/>
+                      </tree>
+                    </field>
+                  </group>
+                  <footer>
+                      <button type="object" name="do_mass_update"
+                          string="Submit" class="oe_highlight" />
+                      <button special="cancel" string="Cancel"/>
+                  </footer>
+                </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <act_window id="hiworth_hr_canteen_entry"
+            name="Canteen Entry" res_model="canteen.entry.wizard"
+            view_mode="form" target="new" multi="True"
+            view_id="hiworth_canteen_entry"
+            src_model="hr.employee"
+            context="{'employee_ids': active_ids}"/>
+
+
+
+        <record id="view_employee_canteen_tree" model="ir.ui.view">
+          <field name="name">employee.canteen.tree</field>
+          <field name="model">canteen.daily</field>
+          <field name="arch" type="xml">
+            <tree string="Canteen Attendance" create="false">
+              <field name="date"/>
+              <field name="employee_id"/>
+              <field name="amount"/>
+            </tree>
+
+          </field>
+        </record>
+
+
+        <record id="view_employee_canteen_search" model="ir.ui.view">
+          <field name="name">employee.canteen.search</field>
+          <field name="model">canteen.daily</field>
+          <field name="arch" type="xml">
+            <search string="Canteen Attendance">
+              <field name="date"/>
+              <field name="employee_id"/>
+              <field name="amount"/>
+              <group expand="0" string="Group By">
+                <filter name="group_by_employee" string="Employee" context="{'group_by':'employee_id'}"/>
+                  <separator/>
+                  <filter string="Date" context="{'group_by':'date'}"/>
+              </group>
+            </search>
+
+          </field>
+        </record>
+
+
+
+        <record id="action_employee_canteen2" model="ir.actions.act_window">
+            <field name="name">Canteen Attendance</field>
+            <field name="res_model">canteen.daily</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+            <!-- <field name="view_id" ref="view_employee_canteen_tree"></field> -->
+        </record>
+
+       <menuitem name="Canteen Attendance" id="menu_employee_canteen" parent="menu_canteen" 
+        action="action_employee_canteen2" groups="base.group_erp_manager,group_hr" sequence="10"/>
+
+
+        <!-- ESI -->
+
+       
+       <menuitem name="ESI &amp; EPF" id="menu_esi" parent="hr.menu_hr_root" sequence="46" groups="base.group_erp_manager,group_hr"/>
+
+       
+
+        <record id="view_esi_payment_new_tree1" model="ir.ui.view">
+          <field name="name">hr.esi.payment.tree</field>
+          <field name="model">hr.esi.payment</field>
+          <field name="arch" type="xml">
+            <tree string="ESI Payment">
+              <field name="date"/>
+              <field name="month"/>
+              <field name="year"/>
+              <field name="journal_id"/>
+              <field name="employee_amount"/>
+              <field name="employer_amount"/>
+              <field name="amount_total"/>
+            </tree>
+
+          </field>
+        </record>
+
+        <record id="view_esi_payment_new_form" model="ir.ui.view">
+          <field name="name">hr.esi.payment.form</field>
+          <field name="model">hr.esi.payment</field>
+          <field name="arch" type="xml">
+            <form string="ESI Payment">
+              <header>
+                <button name="button_payment" string="Payment" type="object" 
+                    states="draft" class="oe_highlight"></button>
+                <field name="state" widget="statusbar" statusbar_visible="draft,paid" />
+              </header>
+              <sheet>
+                <group>
+                    <group>
+                    <field name="date" required="1"/>
+                    <field name="user_id" required="1"/>
+                  </group>
+                  <group>
+                    <label for="month" string="Period"/>
+                    <div>
+                        <field name="month" class="oe_inline" required="1"/> - <field name="year" class="oe_inline" required="1"/>
+                    </div>
+                    <field name="journal_id" required="1"/>
+                  </group>
+                </group>
+                <group>
+                  <field name="line_ids" nolabel="1">
+                    <tree editable="false" create="false">
+                      <field name="employee_id"/>
+                      <field name="attendance"/>
+                      <field name="basic" sum="Total"/>
+                      <field name="wages_due" sum="Total"/>
+                      <field name="employee_amount" sum="Total"/>
+                      <field name="employer_amount" sum="Total"/>
+                    </tree>
+                  </field>
+                </group>
+
+                <group>
+                  <group>
+                      <field name="employee_amount" widget="monetary" class="oe_inline"/>
+                      <field name="employer_amount" widget="monetary" class="oe_inline"/>
+                      <field name="amount_total" class="oe_inline"/>
+                  </group>
+                  <group>
+                  </group>
+                </group>
+                <!-- <group>
+                  <div style="float: right;text-align: right;font-size: 100%">
+                    <label for="employee_amount" string="Employee Amount"/>
+                    :
+                    <field name="employee_amount" widget="monetary" class="oe_inline"/>
+                    <br/>
+                    <label for="employer_amount" string="Employer Amount"/>
+                    :
+                    <field name="employer_amount" widget="monetary" class="oe_inline"/>
+                    <br/>
+                    <label for="amount_total" string="Amount Total"/>
+                    :
+                    <field name="amount_total" class="oe_inline"/>
+                    <br/>
+                    
+                  </div>
+                </group> -->
+              </sheet>
+            </form>
+
+          </field>
+        </record>
+
+        <record id="action_employee_esi_payment_new" model="ir.actions.act_window">
+            <field name="name">ESI Payment</field>
+            <field name="res_model">hr.esi.payment</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+       <menuitem name="ESI Payment" id="menu_employee_esi_payment_new" parent="menu_esi" 
+        action="action_employee_esi_payment_new" groups="base.group_erp_manager,group_hr" sequence="10"/>
+
+
+        <record id="view_esi_payment_new_tree" model="ir.ui.view">
+          <field name="name">pf.payment.tree</field>
+          <field name="model">pf.payment</field>
+          <field name="arch" type="xml">
+            <tree string="PF Payment">
+              <field name="date"/>
+              <field name="user_id" />
+              <field name="month" />
+              <field name="year" />
+              <field name="journal_id"/>
+              <field name="employee_amount"/>
+              <field name="employer_amount"/>
+              <field name="eps_amount"/>
+              <field name="edli_amount"/>
+              <field name="admin_amount"/>
+              <field name="amount_total"/>
+            </tree>
+
+          </field>
+        </record>
+
+        <record id="view_pf_payment_new_form" model="ir.ui.view">
+          <field name="name">pf.payment.form</field>
+          <field name="model">pf.payment</field>
+          <field name="arch" type="xml">
+            <form string="PF Payment">
+              <header>
+                <button name="button_payment" string="Payment" type="object" 
+                    states="draft" class="oe_highlight"></button>
+                <field name="state" widget="statusbar" statusbar_visible="draft,paid" />
+
+              </header>
+              <sheet>
+                <group>
+                    <group>
+                    <field name="date" required="1"/>
+                    <field name="user_id" required="1"/>
+                  </group>
+                  <group>
+                    <label for="month" string="Period"/>
+                    <div>
+                        <field name="month" class="oe_inline" required="1"/> - <field name="year" class="oe_inline" required="1"/>
+                    </div>
+                    <field name="journal_id" required="1"/>
+                  </group>
+                </group>
+                <group>
+                  <field name="line_ids" nolabel="1">
+                    <tree editable="false" create="false">
+                      <field name="employee_id"/>
+                      <field name="attendance"/>
+                      <field name="basic" sum="Total"/>
+                      <field name="wages_due" sum="Total"/>
+                      <field name="pf_wages" sum="Total"/>
+                      <field name="edli" sum="Total"/>
+                      <field name="employee_epf" sum="Total"/>
+                      <field name="employer_epf" sum="Total"/>
+                      <field name="employer_eps" sum="Total"/>
+                      <field name="employer_amt_paid_by" invisible="1"/>
+                    </tree>
+                  </field>
+                </group>
+                <group>
+                  <group>
+                    <field name="employee_amount"/>
+                    <field name="employer_amount"/>
+                    <field name="eps_amount"/>
+                    <field name="edli_amount"/>
+                    <field name="admin_amount"/>
+                    <field name="amount_total"/>
+                  </group>
+                  <group>
+                  </group>
+                </group>
+              </sheet>
+            </form>
+
+          </field>
+        </record>
+
+        <record id="action_employee_pf_payment_new" model="ir.actions.act_window">
+            <field name="name">PF Payment</field>
+            <field name="res_model">pf.payment</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+       <menuitem name="PF Payment" id="menu_employee_pf_payment_new" parent="menu_esi" 
+        action="action_employee_pf_payment_new" groups="base.group_erp_manager,group_hr" sequence="10"/>
+
+
+
+        <!-- Employee Welfare Fund -->
+
+        <menuitem name="Employee Welfare Society" id="menu_employee_welfare" parent="hr.menu_hr_root" groups="base.group_erp_manager,group_hr" sequence="48" />
+
+       
+
+        <record id="view_welfare_fund_tree1" model="ir.ui.view">
+          <field name="name">employee.welfare.fund.tree</field>
+          <field name="model">employee.welfare.fund</field>
+          <field name="arch" type="xml">
+            <tree string="Welfare Fund Release">
+              <field name="date"/>
+              <field name="user_id"/>
+              <field name="employee_id"/>
+              <field name="amount"/>
+              <field name="journal_id"/>
+              <field name="state"/>
+            </tree>
+
+          </field>
+        </record>
+
+        <record id="view_welfare_fund_form" model="ir.ui.view">
+          <field name="name">employee.welfare.fund.form</field>
+          <field name="model">employee.welfare.fund</field>
+          <field name="arch" type="xml">
+            <form string="Welfare Fund Release">
+              <header>
+                <button name="button_release" string="Release" type="object" 
+                    states="draft" class="oe_highlight"></button>
+                <field name="state" widget="statusbar" statusbar_visible="draft,active,closed" />
+              </header>
+              <sheet>
+                <group>
+                  <group>
+                    <field name="employee_id" attrs="{'readonly':[('state','!=','draft')]}" required="1"/>
+                    <field name="amount"  attrs="{'readonly':[('state','!=','draft')]}" required="1"/>
+                    <field name="repay_amount" readonly="1"/>
+                  </group>
+                  <group>
+                    <field name="date" attrs="{'readonly':[('state','!=','draft')]}" required="1"/>
+                    <field name="user_id" readonly="1"/>
+                    <field name="journal_id" attrs="{'readonly':[('state','!=','draft')]}" required="1"/>
+                  </group>
+                </group>
+                <group>
+                    <field name="remarks"  attrs="{'readonly':[('state','!=','draft')]}" required="1"/>
+                </group>
+              </sheet>
+            </form>
+          </field>
+        </record>
+
+        <record id="action_employee_welfare_fund" model="ir.actions.act_window">
+            <field name="name">Welfare Fund Release</field>
+            <field name="res_model">employee.welfare.fund</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+       <menuitem name="Fund Release" id="menu_employee_welfare_fund" parent="menu_employee_welfare" 
+        action="action_employee_welfare_fund" groups="base.group_erp_manager,group_hr" sequence="1"/>
+
+
+
+
+
+
+
+
+        <record id="view_general_configuration_tree" model="ir.ui.view">
+          <field name="name">general.hr.configuration.wizard.tree</field>
+          <field name="model">general.hr.configuration.wizard</field>
+          <field name="arch" type="xml">
+            <form string="General Configurations">
+              <header>
+                <button string="Apply" type="object" name="excecute" class="oe_highlight"/>
+                or
+                <button string="Cancel" type="object" name="cancel" class="oe_link"/>
+              </header>
+
+              <group string="Canteen Details">
+                <group>
+                  <field name="canteen_account" />
+                  <field name="canteen_amount" />
+                </group>
+                <group>
+                </group>
+              </group>
+
+              <group string="ESI Details">
+                <group>
+                  <label for="fin1_start" string="1"/>
+                  <div>
+                    <field name="fin1_start" style="width:40%%"/>-<field name="fin1_end" style="width:40%%"/>
+                  </div>
+                  <label for="fin2_start" string="2"/>
+                  <div>
+                    <field name="fin2_start" style="width:40%%"/>-<field name="fin2_end" style="width:40%%"/>
+                  </div>
+                  <field name="esi_account" />
+                  <field name="esi_payment_date" />
+                </group>
+                <group>
+                </group>
+              </group>
+
+              <group string="EPF Details">
+                <group>
+                  <field name="epf_account" />
+                  <field name="pf_payment_date" />
+                </group>
+                <group>
+                </group>
+              </group>
+              <group>
+                <group>
+                  <field name="pf_extra_ids" nolabel="1">
+                    <tree editable="top">
+                      <field name="name"/>
+                      <field name="percent"/>
+                    </tree>
+                  </field>
+                </group>
+                <group>
+                </group>
+              </group>
+
+              <group string="Employee Welfare Society">
+                <group>
+                  <field name="welfare_account" />
+                </group>
+                <group>
+                </group>
+              </group>
+
+            </form>
+          </field>
+        </record>
+
+
+         <record id="action_cateen_configuration_tree5" model="ir.actions.act_window">
+            <field name="name">General Configuration</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">general.hr.configuration.wizard</field>
+            <field name="target">inline</field>
+            <field name="view_mode">form</field>
+        </record>
+
+       <menuitem name="General" id="menu_cateen_configuration_tree2" parent="hr.menu_hr_configuration" 
+        action="action_cateen_configuration_tree5" groups="base.group_hr_manager,group_hr" sequence="50"/>
+
+
+
+
+
+      </data>
+</openerp>

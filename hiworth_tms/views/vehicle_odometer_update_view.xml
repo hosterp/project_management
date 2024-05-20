@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+
+
+		<record model="ir.ui.view" id="vehicle_odometer_update_form">
+			<field name="name">vehicle.odometer.update.form</field>
+			<field name="model">fleet.vehicle.odometer.update</field>
+			<field name="arch" type="xml">
+				<form string="Vehicle Details Upadte">
+					<sheet>
+						<group string="Update Odometer Values" col="2">
+							<field name="vehicle_id" string="Vehicle" readonly="True" />
+							<field name="date" required="True"/>
+						    <field name="odometer_old" readonly="True"/> 
+							<field name="odometer_new" required="True"/>
+						    <field name="fuel_old" readonly="True"/> 
+							<field name="fuel_new" required="True"/>						 	
+							<field name="remarks" nolabel="1" colspan="2" placeholder="Remarks..."/>
+							<field name="is_updated" invisible="True"/>
+
+						</group>
+						<group col="5">
+					 	<seperator/> 
+						
+						<button name="update_vehicle" type="object"  attrs="{'invisible': [('is_updated','=',True)]}" 
+							string="Update" class="oe_center oe_highlight"/>
+						</group>
+					</sheet>
+				</form>
+
+			</field>
+		</record>
+
+
+		<record id="vehicle_odometer_update_action" model="ir.actions.act_window">
+			<field name="name">Vehicle Update</field>
+			<field name="res_model">fleet.vehicle.odometer.update</field>
+		 	<field name="type">ir.actions.act_window</field> 
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_id" ref="vehicle_odometer_update_form" />
+		</record>
+
+
+	</data>
+</openerp>

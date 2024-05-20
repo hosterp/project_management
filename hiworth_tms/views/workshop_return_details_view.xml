@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+
+
+
+
+	<record model="ir.ui.view" id="hiworth_workshop_return_details_form">
+		<field name="name">workshop.issue</field>
+		<field name="model">workshop.return</field>
+		<field name="priority" eval="1"/>
+		<field name="arch" type="xml">
+		<form string="Workshop Return Details">
+			<header>
+				<button name="action_confirm" type="object" class="oe_highlight"
+				string="Confirm" states="draft"/>
+				<field name="state" widget="statusbar"/>
+			</header>
+				<sheet>
+						<field name="name" nolabel="1" readonly="1"/>
+					<group>
+
+
+					<field name="workshop_id" attrs="{'readonly':[('state','=','confirm')]}"/>
+						<field name="date_order" attrs="{'readonly':[('state','=','confirm')]}"/>
+						<field name="project_id" attrs="{'readonly':[('state','=','confirm')]}"/>
+					</group>
+					<notebook>
+						<page string="Issue Details">
+							<field name="return_line_ids" widget="one2many_list" attrs="{'readonly':[('state','=','confirm')]}">
+								<tree editable="bottom">
+
+									<field name="item_id" />
+									<field name="unit_id" />
+									<field name="available_qty" />
+									<field name="quantity" />
+									<field name="rem_qty" />
+									<field name="price" />
+									<field name="total" />
+
+								</tree>
+							</field>
+						</page>
+					</notebook>
+
+
+				</sheet>
+		</form>
+		</field>
+	</record>
+
+        <record model="ir.ui.view" id="hiworth_workshop_return_details_tree">
+		<field name="name">workshop.return.tree</field>
+		<field name="model">workshop.return</field>
+		<field name="priority" eval="1"/>
+		<field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="workshop_id"/>
+                <field name="date_order"/>
+				<field name="state"/>
+            </tree>
+        </field>
+        </record>
+
+        <record id="action_workshop_return_details_form" model="ir.actions.act_window">
+		<field name="name">Workshop Return Details</field>
+		<field name="res_model">workshop.return</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+	</record>
+
+        <menuitem action="action_workshop_return_details_form"
+			  parent="fleet.fleet_vehicles"
+			  id="menu_workshop_return_details"
+			  name="Workshop Return Details" />
+    </data>
+</openerp>

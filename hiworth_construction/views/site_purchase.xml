@@ -1,0 +1,421 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+
+
+		<record id="form_site_purchase_view" model="ir.ui.view">
+			<field name="name">form.site.purchase</field>
+			<field name="model">site.purchase</field>
+			<field name="arch" type="xml">
+				<form>
+					<header>
+						<button name="confirm_purchase" type="object" class="oe_highlight" string="Request"
+								states="draft"
+								/>
+						<button name="%(action_view_stock_history)d" states="draft,confirm,approved1,processing"
+                            	string="View Stock history" type="action" />
+						<button name="approve_purchase1" type="object" class="oe_highlight" string="Approve"
+								states="confirm"
+								groups="hiworth_construction.project_manager,hiworth_construction.group_plannig_user_plant_mac,hiworth_construction.group_general_manager"/>
+						<button name="verified_planning" type="object" class="oe_highlight" string="Verify"
+								states="approved1"
+								groups="hiworth_construction.group_plannig_user"/>
+						<button name="approve_purchase2" type="object" class="oe_highlight" string="Approve"
+								states="verified"
+								groups="hiworth_construction.group_general_manager"/>
+
+						<!--button name="generate_po_stock" type="object" class="oe_highlight" string="Process"
+								states="approved2"
+								groups="hiworth_construction.group_admin_user,hiworth_hr_attendance.group_admin,base.group_erp_manager,purchase.group_purchase_manager,hiworth_hr_attendance.group_purchase"/-->
+						<button name="cancel_process" type="object" class="oe_highlight" string="Cancel"
+								states="confirm,approved1,verified,approved2,order,stock"/>
+						<button name="set_draft" type="object" class="oe_highlight" string="Set Draft" states="cancel"/>
+						<field name="state" widget="statusbar"/>
+					</header>
+					<sheet>
+						<div class="oe_title">
+							<h1>
+								<field name="name"/>
+							</h1>
+						</div>
+						<group>
+							<group>
+								<field name="supervisor_id"
+									   attrs="{'readonly':[('state','in',['confirm','approved1','verified', 'approved2','processing','purchase','confirm_purchase','received'])]}"/>
+								<field name="responsible" invisible="1"/>
+								<field name="project_id" required="1"
+									   attrs="{'readonly':[('state','in',['confirm','approved1','verified', 'approved2','processing','purchase','confirm_purchase','received'])]}"/>
+								<field name="site" required="1" domain="[('usage','=','internal')]"
+									   attrs="{'readonly':[('state','in',['confirm','approved1','verified', 'approved2','processing','purchase','confirm_purchase','received'])]}"/>
+								<field name="general_purchase" invisible="1"/>
+								<field name="vehicle_purchase" attrs="{'readonly':[('state','in',['confirm','approved1','verified', 'approved2','processing','purchase','confirm_purchase','received'])]}"/>
+								<field name="vehicle_id" attrs="{'invisible':[('vehicle_purchase','=',False)],'readonly':[('state','in',['confirm','approved1','verified', 'approved2','processing','purchase','confirm_purchase','received'])]}"/>
+								<field name="brand_id" attrs="{'invisible':[('vehicle_purchase','=',False)],'readonly':[('state','in',['confirm','approved1','verified', 'approved2','processing','purchase','confirm_purchase','received'])]}"/>
+								<field name="model_id" attrs="{'invisible':[('vehicle_purchase','=',False)],'readonly':[('state','in',['confirm','approved1','verified', 'approved2','processing','purchase','confirm_purchase','received'])]}"/>
+								<field name="chase_no" attrs="{'invisible':[('vehicle_purchase','=',False)],'readonly':[('state','in',['confirm','approved1','verified', 'approved2','processing','purchase','confirm_purchase','received'])]}"/>
+								<field name="engine_no" attrs="{'invisible':[('vehicle_purchase','=',False)],'readonly':[('state','in',['confirm','approved1','verified', 'approved2','processing','purchase','confirm_purchase','received'])]}"/>
+
+
+							</group>
+							<group>
+
+								<field name="order_date"
+									   attrs ="{'readonly':[('state','in',['confirm','approved1','verified', 'approved2','processing','purchase','confirm_purchase','received'])]}" />
+								<field name="min_expected_date"
+									   attrs="{'readonly':[('state','in',['confirm','approved1','verified', 'approved2','processing','purchase','confirm_purchase','received'])]}"/>
+								<field name="max_expected_date"
+									   attrs="{'readonly':[('state','in',['confirm','approved1','verified', 'approved2','processing','purchase','confirm_purchase','received'])]}"/>
+								<field name="remarks"/>
+							</group>
+						</group>
+						<group>
+							<notebook>
+								<page string="Request Item List">
+									<field name="req_list" nolabel="1"
+										   attrs="{'readonly':[('state','in',['processing','purchase','confirm_purchase','received'])]}">
+										<tree editable="bottom">
+											<field name="item_id" required="1" 
+												   />
+
+											<field name="desc"/>
+											<field name="part_no_spec" />
+											<field name="unit" required="1" options="{ 'no_create_edit':True}" />
+											<field name="available_quantity"  sum="Total" />
+											<field name="requested_quantity" sum="R-total" required="1"
+												   attrs="{'readonly':[('request_not_in_draft', '=', True)]}"/>
+											<field name="quantity"  sum="A-Total" required="True"/>
+											<field name="remarks"/>
+
+											<field name="request_not_in_draft" invisible="1"/>
+										</tree>
+									</field>
+								</page>
+							</notebook>
+						</group>
+
+						<group string="Approvals" attrs="{'invisible':[('state','in',('draft','confirm'))]}">
+							<group>
+								<field name="project_manager" readonly="1"
+									   attrs="{'invisible':[('state','in',('draft','confirm'))]}"/> 
+								<field name="approved_date"
+									   attrs="{'invisible':[('state','in',('draft','confirm'))],
+									   			'readonly':[('state','not in',('draft','confirm'))]}"/> 
+
+								<!--field name="purchase_manager" readonly="1"
+									   attrs="{'invisible':[('state','in',('draft','confirm','approved1'))]}"/-->
+							</group>
+							<group>
+								 <field name="planning_manager" readonly="1"
+									   attrs="{'invisible':[('state','in',('draft','confirm','approved1'))]}"/>
+								 <field name="verified_date" readonly="1" 
+								 		attrs="{'invisible':[('state','in',('draft','confirm','approved1'))],
+								 				'readonly':[('state','not in',('draft','confirm'))]}"/>
+							</group>
+							<group>
+								 <field name="dgm_id" readonly="1"
+									   attrs="{'invisible':[('state','in',('draft','confirm','approved1','verified'))]}"/>
+								 <field name="approved_date1" readonly="1" 
+								 		attrs="{'invisible':[('state','in',('draft','confirm','approved1','verified'))],
+								 		'readonly':[('state','not in',('draft','confirm'))]}"/>
+							</group>
+
+						</group>
+					</sheet>
+					 <div class="oe_chatter">
+						  <label for="decalration" string="Read and Understood below message"/>
+						 <field name="status"/>
+						 <field name="decalration" attrs="{'required':[('status','!=',False)]}"/>
+                    	<field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    	<field name="message_ids" widget="mail_thread"/>
+                	</div>
+				</form>
+
+			</field>
+		</record>
+
+		<record id="tree_site_purchase_statements" model="ir.ui.view">
+			<field name="name">tree.site.purchase</field>
+			<field name="model">site.purchase</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="name"/>
+					<field name="vehicle_id"/>
+					<field name="supervisor_id"/>
+					<field name="responsible" invisible="1"/>
+					<field name="order_date"/>
+					<field name="min_expected_date"/>
+					<field name="project_id"/>
+
+					<field name="state"/>
+					<!--<field name="status"/>-->
+				</tree>
+			</field>
+		</record>
+
+		<record id="tree_site_purchase_statements_search" model="ir.ui.view">
+			<field name="name">tree.site.purchase</field>
+			<field name="model">site.purchase</field>
+			<field name="arch" type="xml">
+				<search>
+					<field name="name"/>
+					<field name="supervisor_id"/>
+					<field name="responsible" invisible="1"/>
+					<field name="order_date"/>
+					<field name="min_expected_date"/>
+					<field name="project_id"/>
+					<field name="vehicle_id"/>
+
+					<field name="state"/>
+
+					<group>
+						<filter string="Supervisor" name="supervisor" domain="[]" context="{'group_by':'supervisor_id'}"/>
+						<filter string="Order Date" name="order_date" domain="[]" context="{'group_by':'order_date'}"/>
+						<filter string="Min Expected Date" name="min_expected_date" domain="[]" context="{'group_by':'min_expected_date'}"/>
+						<filter string="Project" name="project_id" domain="[]" context="{'group_by':'project_id'}"/>
+						<filter string="State" name="state" domain="[]" context="{'group_by':'state'}"/>
+
+					</group>
+				</search>
+			</field>
+		</record>
+
+		<record id="action_site_purchase2" model="ir.actions.act_window">
+			<field name="name">Material Procurement Requistion</field>
+			<field name="res_model">site.purchase</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="view_type">form</field>
+			<field name="search_view_id" ref="tree_site_purchase_statements_search"/>
+			<!-- <field name="context">{'default_general_purchase':1}</field> -->
+			<!-- <field name="domain">[('general_purchase','=',True)]</field> -->
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<record id="action_site_purchase_fleet" model="ir.actions.act_window">
+			<field name="name">Material Procurement Requistion</field>
+			<field name="res_model">site.purchase</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="view_type">form</field>
+			<field name="search_view_id" ref="tree_site_purchase_statements_search"/>
+			<field name="context">{'default_vehicle_purchase':1}</field>
+			<field name="domain">[('vehicle_purchase','=',True)]</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+
+		<record id="action_site_purchase_approve_gm_plant_meach" model="ir.actions.act_window">
+			<field name="name">Material Procurement Requistion</field>
+			<field name="res_model">site.purchase</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="view_type">form</field>
+			<field name="search_view_id" ref="tree_site_purchase_statements_search"/>
+
+			<field name="domain">[('vehicle_purchase','=',True)]</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<record id="action_site_purchase_approve_gm" model="ir.actions.act_window">
+			<field name="name">Material Procurement Requistion</field>
+			<field name="res_model">site.purchase</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="view_type">form</field>
+			<field name="search_view_id" ref="tree_site_purchase_statements_search"/>
+
+			<field name="domain">[('vehicle_purchase','=',False)]</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<record id="action_site_purchase_planning_pm" model="ir.actions.act_window">
+			<field name="name">Material Procurement Requistion</field>
+			<field name="res_model">site.purchase</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="view_type">form</field>
+			<field name="search_view_id" ref="tree_site_purchase_statements_search"/>
+
+			<field name="domain">[('vehicle_purchase','=',False)]</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<menuitem id="hiworth_tms.menu_site_purchase_purchase"
+				  parent="fleet.fleet_vehicles"
+				  action="hiworth_construction.action_site_purchase_fleet"
+				  name="Material Procurement Requistion"
+				  sequence="0"
+				  groups="hiworth_construction.group_plannig_user_plant_mac"
+				  />
+
+		<menuitem id="menu_site_purchase_purchase_gm"
+				  parent="fleet.fleet_vehicles"
+				  action="hiworth_construction.action_site_purchase_approve_gm_plant_meach"
+				  name="Material Procurement Requistion"
+				  sequence="0"
+				  groups="hiworth_construction.group_plant_mach_gm"
+				  />
+
+		<menuitem id="menu_site_purchase_purchase_planning"
+				  parent="project.menu_project_management"
+				  action="hiworth_construction.action_site_purchase_planning_pm"
+				  name="Material Procurement Requistion"
+				  groups="hiworth_construction.group_plannig_user"
+				  sequence="0"
+				  />
+
+		<menuitem id="menu_site_purchase_purchase_approve_gm"
+				  parent="project.menu_project_management"
+				  action="hiworth_construction.action_site_purchase_approve_gm"
+				  name="Material Procurement Requistion"
+				  groups="hiworth_construction.group_general_manager"
+				  sequence="0"
+				  />
+		
+
+		<menuitem id="menu_site_purchase_purchase"
+				  parent="hiworth_construction.menu_procurement_management"
+				  action="action_site_purchase2"
+				  name="Material Procurement Requistion"
+				  sequence="0"
+				  groups="base.group_erp_manager,hiworth_hr_attendance.group_admin,hiworth_hr_attendance.group_supervisor"/>
+
+
+		<menuitem id="menu_site_purchase"
+				  parent="hiworth_construction.menu_warehouse_transaction"
+				  action="action_site_purchase2"
+				  name="Material Procurement Requistion"
+				  sequence="0"
+				  groups="base.group_erp_manager,hiworth_hr_attendance.group_admin,hiworth_construction.group_warehouse_user"/>
+
+		<menuitem id="menu_all_depts_accounts" parent="account.menu_finance"
+				  name="Purchase" sequence="1"/>
+
+		<!--        <menuitem id="menu_all_depts_accounts_sub1" parent="menu_all_depts_accounts" action="action_all_depts_to_accounts_approve31"-->
+		<!--            name="Purchase To Approve" sequence="10" />-->
+
+		<!--        <menuitem name="Purchase Receipts" id="menu_all_depts_accounts_warehouse1"-->
+		<!--          action="action_all_depts_to_accounts_approve31" parent="stock.menu_stock_warehouse_mgmt"-->
+		<!--          sequence="30" />-->
+
+		<record id="form_current_inventory_valuation_dept" model="ir.ui.view">
+			<field name="name">form.inventory.department</field>
+			<field name="model">inventory.department</field>
+			<field name="arch" type="xml">
+				<form>
+					<sheet>
+						<group>
+							<field name="department"/>
+							<field name="name"/>
+							<field name="date"/>
+							<field name="location_id"/>
+							<field name="qty"/>
+							<field name="rate"/>
+							<field name="inventory_value"/>
+							<field name="site_purchase_id" invisible="1"/>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record id="tree_inventory_dept" model="ir.ui.view">
+			<field name="name">tree.inventory.department</field>
+			<field name="model">inventory.department</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="department"/>
+					<field name="name"/>
+					<field name="date"/>
+					<field name="location_id"/>
+					<field name="qty" sum="QTY"/>
+					<field name="rate" sum="RATE"/>
+					<field name="inventory_value" sum="INVENTORY VALUE"/>
+					<field name="site_purchase_id" invisible="1"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="action_current_inventory_department" model="ir.actions.act_window">
+			<field name="name">Current Inventory Valuation</field>
+			<field name="res_model">inventory.department</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="context">{'group_by':'department'}</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+
+		<menuitem id="menu_current_inventory_department" parent="hiworth_construction.menu_procurement_management"
+				  action="action_current_inventory_department"
+				  name="Inventory Valuation" groups="unwanted_purchases" sequence="30"
+		/>
+
+		<record id="site_purchase_group" model="ir.ui.view">
+			<field name="name">Merge Site Purchases</field>
+			<field name="model">site.purchase.group</field>
+			<field name="arch" type="xml">
+				<form string="Merge orders">
+					<group>
+						<separator string="Are you sure you want to merge these requests?"/>
+						<label string="
+Please note that: &#10; &#10;
+Orders will only be merged if: &#10;
+*Purchase requests are in approved state and the same supplier &#10;" colspan="4"/>
+					</group>
+
+					<footer>
+						<button name="merge_orders" string="Merge Requests" type="object" class="oe_highlight"/>
+						or
+						<button string="Cancel" class="oe_link" special="cancel"/>
+					</footer>
+				</form>
+			</field>
+		</record>
+
+		<act_window name="Create Purchase order"
+					context="{'search_default_draft': 1, 'search_default_approved': False}"
+					res_model="site.purchase.group"
+					src_model="site.purchase"
+					view_mode="form"
+					target="new"
+					multi="True"
+					key2="client_action_multi"
+					id="action_site_purchase_group"/>
+
+		<record id="site_purchase_report_wizard_form" model="ir.ui.view">
+			<field name="name">Goods Transfer Report</field>
+			<field name="model">site.purchase.report</field>
+			<field name="arch" type="xml">
+				<form string="Goods Transfer Report">
+					<group>
+						<group>
+							<field name="date_from" required="1"/>
+							<field name="date_to" required="1"/>
+							<field name="report_type" required="1"/>
+						</group>
+						<group>
+							<field name="requested_site_id"/>
+							<field name="project_id"/>
+						</group>
+					</group>
+					<footer>
+						<button type="object" name="print_report" class="oe_highlight" string="Print"/>
+						<button type="object" name="print_report_html" class="oe_highlight" string="View"/>
+						<button string="Cancel" class="oe_link" special="cancel"/>
+					</footer>
+				</form>
+			</field>
+		</record>
+
+		<record id="site_purchase_report_wizard_action" model="ir.actions.act_window">
+			<field name="name">Goods Transfer Report</field>
+			<field name="res_model">site.purchase.report</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form</field>
+			<field name="target">new</field>
+		</record>
+
+		<menuitem id="site_purchase_report_wizard_menu" parent="hiworth_construction.menu_procurement_management"
+				  action="site_purchase_report_wizard_action"
+				  name="Goods Transfer/Receive Reports" groups="unwanted_purchases" sequence="30"
+		/>
+
+	</data>
+</openerp>

@@ -1,0 +1,624 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<record id="form_goods_tranfer_note" model="ir.ui.view">
+			<field name="name">form.goods.tranfer.note</field>
+			<field name="model">goods.transfer.note.in</field>
+			<field name="arch" type="xml">
+				<form create="false" delete="false">
+					<header>
+
+						<button name="confirm_purchase" type="object" class="oe_highlight" string="Request"
+								states="draft"
+								/>
+						<button name="approve_purchase1" type="object" class="oe_highlight" string="First Approval"
+								states="confirm"
+								groups="hiworth_construction.group_general_manager"/>
+
+
+						<button name="action_transfer" type="object" class="oe_highlight" string="Transfer"
+								states="approved1"
+
+								/>
+
+						<button name="action_cancel" string="Cancel" type="object" />
+
+						<field name="state" widget="statusbar" statusbar_visible="draft,confirm,approved1,transfer,recieve"/>
+
+					</header>
+					<div class="oe_title">
+
+                        
+                        	<group col="4">
+                        		<field name="gtn_no" readonly="1" string='GTN NO'/>
+                        		<field name='date' attrs="{'readonly':[('state','in',['transfer','recieve'])]}"/>
+								<!-- <field name="rece_date" /> -->
+								<field name="goods_transfer_bool" invisible="1"/>
+                        	</group>
+                    </div>
+
+					<group col="4">
+						<field name="user_id" attrs="{'readonly':[('state','in',['transfer','recieve'])]}" options="{'no_create':True, 'no_create_edit':True}"/>
+						<field name="store_manager_id" attrs="{'readonly':[('state','in',['transfer','recieve'])]}" options="{'no_create':True, 'no_create_edit':True}"/>
+						<field name="transfer_gtn_id" invisible="1"/>
+					</group>
+					<group col='4'>
+							<field name='project_id' attrs="{'readonly':[('state','in',['transfer','recieve'])]}" string='From Project Name' options="{'no_create':True, 'no_create_edit':True}"/>
+							<field name='to_project_id' attrs="{'readonly':[('state','in',['transfer','recieve'])]}" string='To Project Name' options="{'no_create':True, 'no_create_edit':True}"/>
+							<field name="current_project_id" invisible="1" attrs="{'readonly':[('state','in',['transfer','recieve'])]}"/>
+
+
+					</group>
+					
+						<group col='4'>
+							<field name='site_from' attrs="{'readonly':[('state','in',['transfer','recieve'])]}" domain="[('usage','=','internal')]" options="{'no_create':True, 'no_create_edit':True}"/>
+							<field name='site_to' attrs="{'readonly':[('state','in',['transfer','recieve'])]}" domain="[('usage','=','internal')]"  options="{'no_create':True, 'no_create_edit':True}"/>
+						<field name="vehicle_id" attrs="{'readonly':[('state','in',['transfer','recieve'])]}" options="{'no_create':True, 'no_create_edit':True}"/>
+							<field name="model_id" attrs="{'readonly':[('state','in',['transfer','recieve'])]}" options="{'no_create':True, 'no_create_edit':True}"/>
+							<field name="brand_id" attrs="{'readonly':[('state','in',['transfer','recieve'])]}" options="{'no_create':True, 'no_create_edit':True}"/>
+							<field name="chase_no" attrs="{'readonly':[('state','in',['transfer','recieve'])]}"/>
+							<field name="engine_no" attrs="{'readonly':[('state','in',['transfer','recieve'])]}"/>
+
+						</group>
+
+
+
+						
+							<field name='transfer_list_ids' attrs="{'readonly':[('state','in',['transfer','recieve'])]}">
+								<tree editable="bottom">
+									<field name='item_id'/>
+									<field name='desc'/>
+									<field name='specs'/>
+									<field name="unit_id"/>
+									<field name='stock_balance'/>
+									<field name='qty'/>
+									<field name='rate'/>
+									<field name='value' sum="Total"/>
+									<field name='remarks'/>
+								</tree>
+							</field>
+						<group string="Approvals" attrs="{'invisible':[('state','in',('draft'))]}">
+							<group>
+								<field name="user_created" readonly="1"
+										attrs="{'invisible':[('state','in','draft')]}"/>
+								<field name="project_manager" readonly="1"
+									   attrs="{'invisible':[('state','in',('draft','confirm'))]}"/> 
+								<field name="purchase_manager" readonly="1"
+									   attrs="{'invisible':[('state','in',('draft','confirm','approved1'))]}"/>
+							</group>
+							<group>
+								 <field name="dgm_id" readonly="1"
+									   attrs="{'invisible':[('state','in',('draft','confirm','approved1','transfer'))]}"/>
+							</group>
+						</group>
+					<!--/sheet-->
+						 <div class="oe_chatter">
+                    		<field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    		<field name="message_ids" widget="mail_thread"/>
+                		</div>
+				</form>
+			</field>
+		</record>
+		<record id="form_goods_tranfer_note_out_tran" model="ir.ui.view">
+			<field name="name">form.goods.tranfer.note</field>
+			<field name="model">goods.transfer.note.in</field>
+			<field name="arch" type="xml">
+				<form create="false">
+					<header>
+						<button name="action_approve" string="Approve" type="object" states='recieve' class="oe_highlight" groups="hiworth_construction.project_manager"/>
+						<button name="button_transfer" string="Transfer/Recive" type="object" invisible="1"/>
+						<button name="approve_purchase3" type="object" class="oe_highlight" string="Receive Products"
+
+								attrs="{'invisible':[('state','in',[ 'recieve'])],'readonly':[('state','=','transfer')]}"
+								/>
+
+						<button name="action_cancel" string="Cancel" type="object" />
+						<field name="state" widget="statusbar"  />
+
+					</header>
+					<div class="oe_title">
+
+
+                        	<group col="4">
+                        		<field name="gtn_no" readonly="1" context="{'state':state}" string='GTN NO'/>
+                        		<field name='date' attrs="{'readonly':[('state','in',['transfer','recieve','approved'])]}"/>
+								<field name="rece_date" attrs="{'readonly':[('state','in',['recieve'])]}"/>
+
+								<field name="goods_transfer_bool" readonly="1" invisible="0"/>
+								<field name="transfer_gtn_id" readonly="1"/>
+                        	</group>
+                    </div>
+
+					<group col="4">
+						<field name="user_id" attrs="{'readonly':[('state','in',['transfer','recieve','approved'])]}" options="{'no_create':True, 'no_create_edit':True}"/>
+						<field name="store_manager_id" attrs="{'readonly':[('state','in',['transfer','recieve','approved'])]}" options="{'no_create':True, 'no_create_edit':True}"/>
+						<field name="transfer_gtn_id" readonly="1" invisible="0"/>
+					</group>
+					<group col='4'>
+							<field name='project_id' attrs="{'readonly':[('state','in',['transfer','recieve','approved'])]}" string='From Project Name' options="{'no_create':True, 'no_create_edit':True}"/>
+							<field name='to_project_id' attrs="{'readonly':[('state','in',['transfer','recieve','approved'])]}" string='To Project Name' options="{'no_create':True, 'no_create_edit':True}"/>
+							<field name="current_project_id" invisible="1"/>
+
+						</group>
+
+						<group col='4'>
+							<field name='site_from' attrs="{'readonly':[('state','in',['transfer','recieve','approved'])]}" domain="[('usage','=','internal')]" options="{'no_create':True, 'no_create_edit':True}"/>
+							<field name='site_to' attrs="{'readonly':[('state','in',['transfer','recieve','approved'])]}" domain="[('usage','=','internal')]"  options="{'no_create':True, 'no_create_edit':True}"/>
+
+							<field name="vehicle_id" attrs="{'readonly':[('state','in',['transfer','recieve','approved'])]}" options="{'no_create':True, 'no_create_edit':True}"/>
+							<field name="model_id" attrs="{'readonly':[('state','in',['transfer','recieve','approved'])]}" options="{'no_create':True, 'no_create_edit':True}"/>
+							<field name="brand_id" attrs="{'readonly':[('state','in',['transfer','recieve','approved'])]}" options="{'no_create':True, 'no_create_edit':True}"/>
+							<field name="chase_no" attrs="{'readonly':[('state','in',['transfer','recieve','approved'])]}" />
+							<field name="engine_no" attrs="{'readonly':[('state','in',['transfer','recieve','approved'])]}"/>
+						</group>
+
+							<field name='transfer_list_ids' attrs="{'readonly':[('state','in',['recieve','approved'])]}">
+								<tree editable="bottom">
+									<field name='item_id'/>
+									<field name='desc'/>
+									<field name="unit_id"/>
+									<field name='specs'/>
+
+									<field name='qty'/>
+									<field name='rate'/>
+									<field name='value' sum="Total"/>
+									<field name='remarks'/>
+								</tree>
+							</field>
+						<group string="Approvals" attrs="{'invisible':[('state','in',('draft'))]}">
+							<group>
+								<field name="user_created" readonly="1"
+										attrs="{'invisible':[('state','in','draft')]}"/>
+								<field name="project_manager" readonly="1"
+									   attrs="{'invisible':[('state','in',('draft','confirm'))]}"/>
+								<field name="purchase_manager" readonly="1"
+									   attrs="{'invisible':[('state','in',('draft','confirm','approved1'))]}"/>
+							</group>
+							<group>
+								 <field name="dgm_id" readonly="1"
+									   attrs="{'invisible':[('state','in',('draft','confirm','approved1','transfer'))]}"/>
+							</group>
+						</group>
+					<!--/sheet-->
+						 <div class="oe_chatter">
+                    		<field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    		<field name="message_ids" widget="mail_thread"/>
+                		</div>
+				</form>
+			</field>
+		</record>
+		<record id="tree_goods_transfer_note" model="ir.ui.view">
+			<field name="name">tree.goods.transfer.note.in</field>
+			<field name="model">goods.transfer.note.in</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="gtn_no" string='GTN NO'/>
+					<field name="project_id"/>
+					<field name="to_project_id"/>
+					<field name="current_project_id" invisible="1"/>
+					<field name="date"/>
+					<field name="state"/>
+					<field name="goods_transfer_bool" invisible="1"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="tree_goods_transfer_note_in" model="ir.ui.view">
+			<field name="name">tree.goods.transfer.note.in</field>
+			<field name="model">goods.transfer.note.in</field>
+			<field name="arch" type="xml">
+				<tree create="false">
+					<field name="gtn_no" string='GTN NO'/>
+					<field name="project_id"/>
+					<field name="to_project_id"/>
+					<field name="current_project_id" invisible="1"/>
+
+					<!--<field name="project_id"/>-->
+					<field name="date"/>
+					<field name="state"/>
+					<field name="goods_transfer_bool" invisible="1"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="goods_transfer_note_in_search" model="ir.ui.view">
+			<field name="name">tree.goods.transfer.note.in</field>
+			<field name="model">goods.transfer.note.in</field>
+			<field name="arch" type="xml">
+				<search>
+					<field name="site_from" domain="[('usage','=','internal')]"/>
+					<field name="site_to" domain="[('usage','=','internal')]"/>
+
+					<field name="date"/>
+					<field name="current_project_id" />
+
+
+					<group>
+						<filter string="Site From" name="site_from" domain="[]" context="{'group_by':'site_from'}"/>
+						<filter string="Site To" name="site_to" domain="[]" context="{'group_by':'site_to'}"/>
+						<filter string="Date" name="date" domain="[]" context="{'group_by':'date'}"/>
+						<filter string="Project" name="project_id" domain="[]" context="{'group_by':'project_id'}"/>
+
+					</group>
+				</search>
+			</field>
+		</record>
+		<record id="action_goods_transfer_note_in" model="ir.actions.act_window">
+			<field name="name">Goods Transfer Note</field>
+			<field name="res_model">goods.transfer.note.in</field>
+			<!--field name="type">ir.actions.act_window</field-->
+			<field name="view_type">form</field>
+			<field name="search_view_id" ref="goods_transfer_note_in_search"/>
+			<field name="context">{'form_view_ref':'form_goods_tranfer_note','tree_view_ref':'tree_goods_transfer_note_in','default_goods_transfer_bool':True}</field>
+			<field name="domain">[('goods_transfer_bool','=',True)]</field>
+			<field name="view_id" ref="tree_goods_transfer_note_in"/>
+			<field name="view_mode">tree,form</field>
+		</record>
+		<record id="action_goods_transfer_note_in_out_tree" model="ir.actions.act_window.view">
+			<field name="view_mode">tree</field>
+			<field name="sequence" eval="0"/>
+			<field name="view_id" ref="tree_goods_transfer_note_in" />
+			<field name="act_window_id" ref="action_goods_transfer_note_in" />
+		</record>
+		<record id="action_goods_transfer_note" model="ir.actions.act_window">
+			<field name="name">Goods Transfer Note</field>
+			<field name="res_model">goods.transfer.note.in</field>
+			<!--field name="type">ir.actions.act_window</field-->
+			<field name="view_type">form</field>
+			<field name="search_view_id" ref="goods_transfer_note_in_search"/>
+			<field name="context">{'form_view_ref':'form_goods_tranfer_note','tree_view_ref':'tree_goods_tranfer_note',}</field>
+			<!--field name="domain">[('general_purchase','=',True)]</field-->
+			<field name="view_id" ref="action_goods_transfer_note_in_out_tree"/>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+
+
+
+
+		<record id="action_gform_goods_tranfer_note_out_tran" model="ir.actions.act_window.view">
+			<field name="view_mode">form</field>
+			<field name="sequence" eval="1"/>
+			<field name="view_id" ref="form_goods_tranfer_note_out_tran" />
+
+			<field name="act_window_id" ref="action_goods_transfer_note_in" />
+		</record>
+
+
+		<record id="action_goods_transfer_note_out" model="ir.actions.act_window">
+			<field name="name">Goods Transfer Note</field>
+			<field name="res_model">goods.transfer.note.in</field>
+			<!--field name="type">ir.actions.act_window</field-->
+			<field name="view_type">form</field>
+			<field name="search_view_id" ref="goods_transfer_note_in_search"/>
+			<field name="context">{'form_view_ref':'form_goods_tranfer_note','tree_view_ref':'tree_goods_tranfer_note','default_goods_transfer_bool':False}</field>
+			<field name="domain">[('goods_transfer_bool','=',False)]</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_id" ref="tree_goods_transfer_note"/>
+		</record>
+
+		<record id="action_gform_goods_tranfer_note_out_t" model="ir.actions.act_window.view">
+			<field name="view_mode">form</field>
+			<field name="sequence" eval="1"/>
+			<field name="view_id" ref="form_goods_tranfer_note" />
+			<field name="act_window_id" ref="action_goods_transfer_note_out" />
+		</record>
+		<record id="action_goods_transfer_note_in_out_tr" model="ir.actions.act_window.view">
+			<field name="view_mode">tree</field>
+			<field name="sequence" eval="0"/>
+			<field name="view_id" ref="tree_goods_transfer_note" />
+			<field name="act_window_id" ref="action_goods_transfer_note_out" />
+		</record>
+
+
+
+		<menuitem id="menu_goods_transfer_note"
+				  parent="hiworth_construction.menu_warehouse_transaction"
+				  name="Goods Transfer Note"
+				  groups="base.group_erp_manager,hiworth_construction.group_warehouse_user"/>
+		<menuitem id="menu_goods_transfer_note_in"
+				  parent="menu_goods_transfer_note"
+				  action="action_goods_transfer_note_in"
+				  name="IN"
+				  groups="base.group_erp_manager,hiworth_construction.store_incharge"/>
+		<menuitem id="menu_goods_transfer_note_out"
+				  parent="menu_goods_transfer_note"
+				  action="action_goods_transfer_note_out"
+				  name="OUT"
+				  groups="base.group_erp_manager,hiworth_construction.store_incharge"/>
+
+
+
+
+<!--		<record id="form_goods_recieve_report" model="ir.ui.view">-->
+<!--			<field name="name">form.goods.recieve.report</field>-->
+<!--			<field name="model">goods.recieve.report</field>-->
+<!--			<field name="arch" type="xml">-->
+<!--				<form delete="false">-->
+<!--					<header>-->
+<!--						<button name="action_done" string="Request" type="object" invisible="1"/>-->
+<!--						<button name="action_cancel" string="Cancel" type="object" states="approved,draft"/>-->
+<!--					 <field name="state" widget="statusbar"/>-->
+<!--					</header>-->
+<!--					<div>-->
+<!--						<group col="4" >-->
+<!--							<field name="grr_no" readonly="1" string="GRR NO"/>-->
+<!--							<field name="Date" string="Invoice Date" attrs="{'readonly':[('state','in',['cancel'])]}"/>-->
+<!--						</group>-->
+<!--						<group col="4">-->
+
+<!--							<field name="mpr_id" options="{'no_create':True, 'no_create_edit':True}"  domain="[('state','=','confirm_purchase')]" attrs="{'readonly':[('state','in',['cancel'])]}"/>-->
+<!--							<field name="invoice_date" string="Date" attrs="{'readonly':[('state','=','cancel')]}"/>-->
+<!--							<field name="purchase_id" options="{'no_create':True, 'no_create_edit':True}" attrs="{'readonly':[('state','in',['cancel'])]}"/>-->
+<!--							<field name="supplier_id" options="{'no_create':True, 'no_create_edit':True}" attrs="{'readonly':[('state','in',['cancel'])]}"/>-->
+<!--							<field name="invoice_no"/>-->
+
+<!--							<field name="mr_slip" attrs="{'readonly':[('state','=','cancel')]}"/>-->
+<!--							<field name="supplier_location_id" string ='Supplier Store' invisible="1" domain="[('usage','=','supplier')]" attrs="{'readonly':[('state','in',['cancel'])]}"/>-->
+<!--							<field name="project_id" string="Project Name" options="{'no_create':True, 'no_create_edit':True}" force_save="True" attrs="{'readonly':[('state','in',['cancel'])]}"/>-->
+<!--							<field name="project_location_id" string='Project Store' domain="[('usage','=','internal')]" options="{'no_create':True, 'no_create_edit':True}" attrs="{'readonly':[('state','in',['cancel'])]}"/>-->
+
+<!--							<field name="own_vehicle" attrs="{'readonly':[('state','=','cancel')]}"/>-->
+<!--							<field name="rent_vehicle" attrs="{'readonly':[('state','=','cancel')]}"/>-->
+<!--							<field name="supplier_vehicle" attrs="{'readonly':[('state','=','cancel')]}"/>-->
+<!--							<field name="rent_vehicle_owner_id" attrs="{'invisible':[('rent_vehicle','=',False)],'readonly':[('state','in',['cancel'])]}" options="{'no_create':True, 'no_create_edit':True}"/>-->
+<!--							<field name="rent_vehicle_id" attrs="{'invisible':[('rent_vehicle','=',False)],'readonly':[('state','in',['cancel'])]}" options="{'no_create':True, 'no_create_edit':True}"/>-->
+
+<!--							<field name="vehicle_no" attrs="{'invisible':[('supplier_vehicle','=',False)],'readonly':[('state','in',['cancel'])]}"/>-->
+<!--							<field name="vehicle_id" options="{'no_create':True, 'no_create_edit':True}" attrs="{'invisible':[('own_vehicle','=',False)],'readonly':[('state','in',['cancel'])]}"/>-->
+<!--							<field name="model_id" options="{'no_create':True, 'no_create_edit':True}" attrs="{'invisible':[('own_vehicle','=',False)],'readonly':[('state','in',['cancel'])]}"/>-->
+<!--							<field name="brand_id" options="{'no_create':True, 'no_create_edit':True}" attrs="{'invisible':[('own_vehicle','=',False)],'readonly':[('state','in',['cancel'])]}"/>-->
+<!--							<field name="chase_no" options="{'no_create':True, 'no_create_edit':True}" attrs="{'invisible':[('own_vehicle','=',False)],'readonly':[('state','in',['cancel'])]}"/>-->
+<!--							<field name="engine_no" options="{'no_create':True, 'no_create_edit':True}" attrs="{'invisible':[('own_vehicle','=',False)],'readonly':[('state','in',['cancel'])]}"/>-->
+<!--						</group>-->
+<!--					</div>-->
+<!--					&lt;!&ndash;sheet&ndash;&gt;-->
+
+
+
+<!--						<group col="4">-->
+<!--							-->
+
+
+<!--							<field name="picking_id" invisible="1"/>-->
+<!--						</group>-->
+<!--						<field name="goods_recieve_report_line_ids" attrs="{'readonly':[('state','in',['cancel'])]}">-->
+<!--							<tree editable="bottom">-->
+<!--								<field name="project_id" invisible="1" attrs="{'readonly':[('received','=',True)]}"/>-->
+<!--								<field name="item_id" attrs="{'readonly':[('received','=',True)]}"/>-->
+<!--								<field name="desc" attrs="{'readonly':[('received','=',True)]}"/>-->
+<!--								<field name="specs" attrs="{'readonly':[('received','=',True)]}"/>-->
+<!--								<field name="unit_id"/>-->
+<!--								<field name="po_quantity" readonly="1" attrs="{'readonly':[('received','=',True)]}"/>-->
+<!--								&lt;!&ndash;<field name="quantity_rec" attrs="{'readonly':[('received','=',True)]}"/>&ndash;&gt;-->
+<!--								<field name="quantity_accept" attrs="{'readonly':[('received','=',True)]}" sum="Total"/>-->
+<!--								<field name="quantity_reject" attrs="{'readonly':[('received','=',True)]}"/>-->
+<!--								<field name="rate" attrs="{'readonly':[('received','=',True)]}"/>-->
+<!--								<field name="tax_ids" widget="many2many_tags"/>-->
+<!--								<field name="sub_total"/>-->
+<!--								<field name="cgst_amount"/>-->
+<!--								<field name="sgst_amount"/>-->
+<!--								<field name="igst_amount"/>-->
+<!--								<field name="tcs_amount"/>-->
+<!--								<field name="round_off_amount"/>-->
+<!--								<field name="total_amount" sum="Total"/>-->
+<!--								<field name="received" invisible="1"/>-->
+<!--								<field name="remarks" attrs="{'readonly':[('received','=',True)]}"/>-->
+<!--							</tree>-->
+<!--						</field>-->
+<!--					&lt;!&ndash;/sheet&ndash;&gt;-->
+<!--					 <div class="oe_chatter">-->
+<!--                    	<field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>-->
+<!--                    	<field name="message_ids" widget="mail_thread"/>-->
+<!--                	</div>-->
+<!--				</form>-->
+<!--			</field>-->
+<!--		</record>-->
+<!--		<record id="tree_goods_receive_report" model="ir.ui.view">-->
+<!--			<field name="name">tree.goods.recieve.report</field>-->
+<!--			<field name="model">goods.recieve.report</field>-->
+<!--			<field name="arch" type="xml">-->
+<!--				<tree delete="false">-->
+<!--					<field name="grr_no" string="GRR NO"/>-->
+<!--					<field name="supplier_id"/>-->
+<!--					<field name="project_id"/>-->
+<!--					<field name="Date" string="Invoice Date"/>-->
+<!--					<field name="purchase_id"/>-->
+<!--					<field name="mpr_id"/>-->
+<!--					<field name="invoice_no"/>-->
+<!--					<field name="invoice_date" string="Date"/>-->
+<!--							<field name="mr_slip"/>-->
+<!--				</tree>-->
+<!--			</field>-->
+<!--		</record>-->
+
+<!--				<record id="action_goods_receive_report" model="ir.actions.act_window">-->
+<!--			<field name="name">GRR Through PO</field>-->
+<!--			<field name="res_model">goods.recieve.report</field>-->
+<!--			<field name="view_type">form</field>-->
+<!--			<field name="search_view_id" ref="goods_recieve_report_search"/>-->
+<!--			<field name="context">{'form_view_ref':'form_goods_recieve_report','tree_view_ref':'tree_goods_receive_report'}</field>-->
+<!--			<field name="view_mode">tree,form</field>-->
+<!--		</record>-->
+<!--		<record id="action_goods_receive_tree_general" model="ir.actions.act_window.view">-->
+<!--			<field name="view_mode">tree</field>-->
+<!--			<field name="view_id" ref="tree_goods_receive_report" />-->
+<!--			<field name="act_window_id" ref="action_goods_receive_report" />-->
+<!--		</record>-->
+
+<!--		<record id="action_goods_receive_form_general" model="ir.actions.act_window.view">-->
+<!--			<field name="view_mode">form</field>-->
+<!--			<field name="view_id" ref="form_goods_recieve_report" />-->
+<!--			<field name="act_window_id" ref="action_goods_receive_report" />-->
+<!--		</record>-->
+
+
+<!--		<record id="goods_recieve_report_search" model="ir.ui.view">-->
+<!--			<field name="name">tree.goods,recieve.report.search</field>-->
+<!--			<field name="model">goods.recieve.report</field>-->
+<!--			<field name="arch" type="xml">-->
+<!--				<search>-->
+<!--					<field name="grr_no" string="GRR NO"/>-->
+<!--					<field name="supplier_id"/>-->
+<!--					<field name="project_id"/>-->
+<!--					<field name="Date"/>-->
+<!--					<field name="purchase_id"/>-->
+<!--					<field name="mpr_id"/>-->
+
+<!--					<group>-->
+<!--						<filter string="GRR NO" name="grr_no" domain="[]" context="{'group_by':'grr_no'}"/>-->
+<!--						<filter string="Supplier" name="supplier_id" domain="[]" context="{'group_by':'supplier_id'}"/>-->
+<!--						<filter string="Date" name="date" domain="[]" context="{'group_by':'Date'}"/>-->
+<!--						<filter string="Project" name="project_id" domain="[]" context="{'group_by':'project_id'}"/>-->
+<!--						<filter string="Purchase" name="purchase_id" domain="[]" context="{'group_by':'purchase_id'}"/>-->
+<!--						<filter string="MPR" name="mpr_id" domain="[]" context="{'group_by':'mpr_id'}"/>-->
+
+<!--					</group>-->
+<!--				</search>-->
+<!--			</field>-->
+<!--		</record>-->
+
+
+
+
+
+<!--		<menuitem id="menu_goods_recieve_report"-->
+<!--				  action="action_goods_receive_report"-->
+<!--				  name="GRR Through PO"-->
+<!--				  parent="hiworth_construction.menu_warehouse_transaction"-->
+<!--				  groups="base.group_erp_manager,hiworth_hr_attendance.group_admin,hiworth_hr_attendance.group_supervisor"/>-->
+
+
+<!--			<record id="form_goods_recieve_report_without_PO" model="ir.ui.view">-->
+<!--			<field name="name">form.goods.recieve.report</field>-->
+<!--			<field name="model">goods.recieve.report</field>-->
+<!--			<field name="arch" type="xml">-->
+<!--				<form>-->
+<!--					<header>-->
+<!--						<button name="action_done" string="Request" type="object" invisible="1"/>-->
+<!--						<button name="action_cancel" string="Cancel" type="object" class="oe_highlight" states="approved,draft"/>-->
+<!--						<button name="action_approve" string="Approve" type="object" states='draft' groups="hiworth_hr_attendance.group_project_manager" class="oe_highlight"/>-->
+<!--						<field name="state" widget="statusbar"/>-->
+<!--					</header>-->
+<!--					<div>-->
+<!--						<group col="4" >-->
+<!--							<field name="grr_no" readonly="1" string="GRR NO"/>-->
+<!--							<field name="Date" string="Invoice Date" attrs="{'readonly':[('state','in',['cancel'])]}"/>-->
+<!--						</group>-->
+<!--						<group col="4">-->
+
+<!--							<field name="supplier_id" attrs="{'readonly':[('state','in',['cancel'])]}"/>-->
+<!--							<field name="invoice_date" string="Date" attrs="{'readonly':[('state','in',['cancel'])]}"/>-->
+<!--							<field name="invoice_no" attrs="{'readonly':[('state','in',['cancel'])]}"/>-->
+
+<!--							<field name="mr_slip" attrs="{'readonly':[('state','in',['cancel'])]}"/>-->
+<!--							<field name="supplier_location_id" string ='Supplier Store' invisible="1" domain="[('usage','=','supplier')]" attrs="{'readonly':[('state','in',['cancel'])]}"/>-->
+<!--							<field name="project_id" force_save="1" string="Project Name" options="{'no_create':True, 'no_create_edit':True}" on_change="0" attrs="{'readonly':[('state','in',['cancel'])]}" />-->
+<!--							<field name="project_location_id" string='Project Store' domain="[('usage','=','internal')]" options="{'no_create':True, 'no_create_edit':True}" attrs="{'readonly':[('state','in',['cancel'])]}"/>-->
+
+
+<!--							<field name="own_vehicle" attrs="{'readonly':[('state','in',['cancel'])]}"/>-->
+<!--							<field name="rent_vehicle" attrs="{'readonly':[('state','in',['cancel'])]}"/>-->
+<!--							<field name="supplier_vehicle" attrs="{'readonly':[('state','in',['cancel'])]}"/>-->
+<!--							<field name="rent_vehicle_owner_id" attrs="{'invisible':[('rent_vehicle','=',False)],'readonly':[('state','in',['cancel'])]}" options="{'no_create':True, 'no_create_edit':True}"/>-->
+<!--							<field name="rent_vehicle_id" attrs="{'invisible':[('rent_vehicle','=',False)],'readonly':[('state','in',['cancel'])]}" options="{'no_create':True, 'no_create_edit':True}"/>-->
+
+
+<!--							<field name="vehicle_no" attrs="{'invisible':[('supplier_vehicle','=',False)],'readonly':[('state','in',['cancel'])]}"/>-->
+<!--							<field name="vehicle_id" options="{'no_create':True, 'no_create_edit':True}" attrs="{'invisible':[('own_vehicle','=',False)],'readonly':[('state','=','cancel')]}"/>-->
+<!--							&lt;!&ndash;<field name="model_id" attrs="{'invisible':[('own_vehicle','=',False)]}"/>-->
+<!--							<field name="brand_id" attrs="{'invisible':[('own_vehicle','=',False)]}"/>-->
+<!--							<field name="chase_no" attrs="{'invisible':[('own_vehicle','=',False)]}"/>-->
+<!--							<field name="engine_no" attrs="{'invisible':[('own_vehicle','=',False)]}"/>-->
+<!--&ndash;&gt;-->
+<!--						</group>-->
+<!--					</div>-->
+<!--					&lt;!&ndash;sheet&ndash;&gt;-->
+
+<!--						<group col="4">-->
+
+
+
+<!--							<field name="picking_id" invisible="1"/>-->
+<!--						</group>-->
+<!--						<field name="goods_recieve_report_line_ids" attrs="{'readonly':[('state','in',['cancel'])]}">-->
+<!--							<tree editable="bottom">-->
+<!--								<field name="project_id" invisible="1" attrs="{'readonly':[('received','=',True)]}"/>-->
+<!--								<field name="item_id" attrs="{'readonly':[('received','=',True)]}"/>-->
+<!--								<field name="desc" attrs="{'readonly':[('received','=',True)]}"/>-->
+<!--								<field name="specs" attrs="{'readonly':[('received','=',True)]}"/>-->
+<!--								<field name="unit_id"/>-->
+<!--								<field name="po_quantity" attrs="{'readonly':[('received','=',True)]}" string="Bill Quantity"/>-->
+<!--								&lt;!&ndash;<field name="quantity_rec" attrs="{'readonly':[('received','=',True)]}"/>&ndash;&gt;-->
+<!--								<field name="quantity_accept" sum="Total" attrs="{'readonly':[('received','=',True)]}"/>-->
+<!--								<field name="quantity_reject" attrs="{'readonly':[('received','=',True)]}"/>-->
+<!--								<field name="rate" attrs="{'readonly':[('received','=',True)]}"/>-->
+<!--								<field name="tax_ids" widget="many2many_tags"/>-->
+<!--								<field name="sub_total"/>-->
+<!--								<field name="cgst_amount"/>-->
+<!--								<field name="sgst_amount"/>-->
+<!--								<field name="igst_amount"/>-->
+<!--								<field name="tcs_amount"/>-->
+<!--								<field name="round_off_amount"/>-->
+<!--								<field name="total_amount" sum="Total"/>-->
+<!--								<field name="received" invisible="1"/>-->
+<!--								<field name="remarks" attrs="{'readonly':[('received','=',True)]}"/>-->
+<!--							</tree>-->
+<!--						</field>-->
+<!--					&lt;!&ndash;/sheet&ndash;&gt;-->
+<!--					 <div class="oe_chatter">-->
+<!--                    	<field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>-->
+<!--                    	<field name="message_ids" widget="mail_thread"/>-->
+<!--                	</div>-->
+<!--				</form>-->
+<!--			</field>-->
+<!--		</record>-->
+<!--		<record id="tree_goods_receive_report_without_PO" model="ir.ui.view">-->
+<!--			<field name="name">tree.goods.recieve.report</field>-->
+<!--			<field name="model">goods.recieve.report</field>-->
+<!--			<field name="arch" type="xml">-->
+<!--				<tree delete="false">-->
+<!--					<field name="grr_no" string="GRR NO"/>-->
+<!--					<field name="supplier_id"/>-->
+<!--					<field name="project_id"/>-->
+<!--					<field name="Date" string="Invoice Date"/>-->
+
+<!--					<field name="invoice_no"/>-->
+<!--					<field name="invoice_date" string="Date"/>-->
+<!--							<field name="mr_slip"/>-->
+<!--				</tree>-->
+<!--			</field>-->
+<!--		</record>-->
+<!--		<record id="action_goods_receive_report_without_po" model="ir.actions.act_window">-->
+<!--			<field name="name">GRR Without PO</field>-->
+<!--			<field name="res_model">goods.recieve.report</field>-->
+<!--			<field name="view_type">form</field>-->
+<!--			<field name="domain">[('without_po','=',True)]</field>-->
+<!--			<field name="search_view_id" ref="goods_recieve_report_search"/>-->
+<!--			<field name="context">{'form_view_ref':'form_goods_recieve_report_without_PO','tree_view_ref':'tree_goods_receive_report_without_PO','default_without_po':1}</field>-->
+<!--			<field name="view_mode">tree,form</field>-->
+<!--		</record>-->
+
+<!--		<record id="action_goods_receive_tree" model="ir.actions.act_window.view">-->
+<!--			<field name="view_mode">tree</field>-->
+<!--			<field name="view_id" ref="tree_goods_receive_report_without_PO" />-->
+<!--			<field name="act_window_id" ref="action_goods_receive_report_without_po" />-->
+<!--		</record>-->
+
+<!--		<record id="action_goods_receive_form" model="ir.actions.act_window.view">-->
+<!--			<field name="view_mode">form</field>-->
+<!--			<field name="view_id" ref="form_goods_recieve_report_without_PO" />-->
+<!--			<field name="act_window_id" ref="action_goods_receive_report_without_po" />-->
+<!--		</record>-->
+
+
+
+
+<!--		<menuitem id="menu_goods_recieve_report_without_po"-->
+<!--				  action="action_goods_receive_report_without_po"-->
+<!--				  name="GRR Without PO"-->
+<!--				  parent="hiworth_construction.menu_warehouse_transaction"-->
+<!--				  groups="base.group_erp_manager,hiworth_hr_attendance.group_admin,hiworth_hr_attendance.group_supervisor"/>-->
+
+	</data>
+</openerp>

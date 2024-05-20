@@ -1,0 +1,482 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>
+
+
+		<report id="print_security_deposit_report" string="Security Deposit - Print Report"
+			model="hiworth.security.deposit" report_type="qweb-pdf"
+			name="hiworth_construction.report_security_deposit_template" />
+
+		<report id="view_security_deposit_report" string="Security Deposit - View Report"
+			model="hiworth.security.deposit" report_type="qweb-html"
+			name="hiworth_construction.report_security_deposit_template" />
+
+		<!-- <record id="hiworth_construction.print_security_deposit_report" model="ir.actions.report.xml">
+			<field name="paperformat_id" ref="hiworth_construction.report_paperformat" />
+		</record> -->
+
+		<template id="report_security_deposit_template">
+			<t t-call="report.html_container">
+				<t t-call="report.external_layout">
+					<div class="page" >
+						<div class="header">
+							<h3>
+								<center>SECURITY DEPOSIT AND PERFORMANCE SECURITY DEPOSIT APPROVAL FORM</center>
+							</h3>
+						</div>
+						<t t-foreach="docs" t-as="o">
+							<table style="font-size:16px;width: 100%;border-bottom: outset;border-top: outset;margin-top:10px;">
+							<!-- <table class="table table-bordered" style="border-top: outset;border-left: outset; border-right: outset;border-bottom: outset;width: 100%">
+ -->							
+								<tr style="border-left: outset; border-right: outset;border-bottom: outset;">
+									<td style="width: 30%;">
+										Name of Work
+									</td>
+									<td style="width: 5%;">
+										:
+									</td>
+									<td colspan="3" style="width: 65%;">
+										<span t-field="o.work_id.name" />
+									</td>
+								</tr>
+								<tr style="border-left: outset; border-right: outset;border-bottom: outset;">
+									<td>
+										Name of Contractor
+									</td>
+									<td>
+										:
+									</td>
+									<td colspan="3">
+										<span t-field="o.contractor_id.name" />
+									</td>
+								</tr>
+								<tr style="border-left: outset; border-right: outset;border-bottom: outset;">
+									<td>
+										Department
+									</td>
+									<td>
+										:
+									</td>
+									<td colspan="3">
+										<span t-field="o.department.name" />
+									</td>
+								</tr>
+								<tr style="border-left: outset; border-right: outset;border-bottom: outset;">
+									<td>
+										Agreement Authority
+									</td>
+									<td>
+										:
+									</td>
+									<td colspan="3">
+										<span t-field="o.department.name" />
+									</td>
+								</tr>
+								<tr style="border-left: outset; border-right: outset;border-bottom: outset;">
+									<td>
+										Estimate Amount(Tender Amt)
+									</td>
+									<td>
+										:
+									</td>
+									<td colspan="3">
+										<span t-esc="'{0:,.2f}'.format(o.tender_amount)" />
+									</td>
+								</tr>
+								<tr style="border-left: outset; border-right: outset;border-bottom: outset;">
+									<td>
+										Accepted PAC
+									</td>
+									<td>
+										:
+									</td>
+									<td colspan="3">
+										<span t-esc="'{0:,.2f}'.format(o.accepted_pac)" />
+									</td>
+								</tr>
+								<tr style="border-left: outset; border-right: outset;border-bottom: outset;">
+									<td>
+										Tender Variation
+									</td>
+									<td>
+										:
+									</td>
+									<td colspan="3">
+										<span t-field="o.status" />
+									</td>
+								</tr>
+								<tr style="border-left: outset; border-right: outset;border-bottom: outset;">
+									<td style="width: 30%;">
+										Security Deposit(Normal)@<span t-esc="int(float(o.security_deposit_percent))" />% on<span t-field="o.security_deposit_based" />
+									</td>
+									<td style="width: 5%;">
+										:
+									</td>
+									<td style="width: 35%;">
+										<span t-esc="'{0:,.2f}'.format(o.security_deposit_amount)" />
+									</td>
+									<td style="width: 15%;">
+										Round Off
+									</td>
+									<td style="width: 15%;">
+										<span t-esc="'{0:,.2f}'.format(o.security_round_off)" />
+									</td>
+								</tr>
+								<tr style="border-left: outset; border-right: outset;border-bottom: outset;">
+									<td colspan="5" align="center">
+										<span t-esc="int(float(o.bg_percent))" />% Of Security Deposit - Bank Guarantee Rs. <span t-field="o.bg_amount" /><br/>
+										<span t-esc="int(float(o.bg_percent))" />% Of Security Deposit - Treasury Deposit Rs. <span t-field="o.com_security_amount" /><br/>
+									</td>
+								</tr>
+								<tr style="border-left: outset; border-right: outset;border-bottom: outset;">
+									<td>
+										Performance Security Additional
+									</td>
+									<td>
+										:
+									</td>
+									<td>
+										<span t-esc="'{0:,.2f}'.format(o.performance_security_amount)" />
+									</td>
+									<td>
+										Round Off
+									</td>
+									<td>
+										<span t-esc="'{0:,.2f}'.format(o.ps_round_off)" />
+									</td>
+								</tr>
+							</table>
+							<table style="font-size:16px;width: 100%;border-bottom: outset;border-top: outset;margin-top:10px;">
+
+								<tr style="border-left: outset; border-right: outset;border-bottom: outset;">
+									<td colspan="5" align="center">
+										<strong>Normal Security Deposit Details</strong>
+									</td>
+								</tr>
+								<tr style="border-left: outset; border-right: outset;border-bottom: outset;">
+									<td style="width: 30%;">
+										Name of Treasury
+									</td>
+									<td style="width: 5%;">
+										:
+									</td>
+									<td colspan="3" style="width: 65%;">
+										<span t-field="o.cs_treasury_id.name" />
+									</td>
+								</tr>
+								<tr style="border-left: outset; border-right: outset;border-bottom: outset;">
+									<td>
+										Security Amount
+									</td>
+									<td>
+										:
+									</td>
+									<td colspan="3">
+										<span t-esc="'{0:,.2f}'.format(o.com_security_amount)" />
+									</td>
+								</tr>
+								<tr style="border-left: outset; border-right: outset;border-bottom: outset;">
+									<td>
+										Period
+									</td>
+									<td>
+										:
+									</td>
+									<td colspan="3">
+										<span t-field="o.fd_period" />
+									</td>
+								</tr>
+								<tr style="border-left: outset; border-right: outset;border-bottom: outset;">
+									<td>
+										Number And Date
+									</td>
+									<td>
+										:
+									</td>
+									<td colspan="3">
+										<span t-field="o.cs_date" />&amp;<span t-field="o.treasury_number" />
+									</td>
+								</tr>
+								<tr style="border-left: outset; border-right: outset;border-bottom: outset;">
+									<td>
+										Maturity Date
+									</td>
+									<td>
+										:
+									</td>
+									<td colspan="3">
+										<span t-field="o.expected_cs_release_date" />
+									</td>
+								</tr>
+								
+							
+							</table>
+							<table style="font-size:16px;width: 100%;border-bottom: outset;border-top: outset;margin-top:10px;">
+
+								<tr style="border-left: outset; border-right: outset;border-bottom: outset;">
+									<td style="width: 30%;">
+										Name of Bank
+									</td>
+									<td style="width: 5%;">
+										:
+									</td>
+									<td colspan="3" style="width: 65%;">
+										<span t-field="o.bg_bank_id.bank.name" />-<span t-field="o.bg_bank_id.acc_number" />
+									</td>
+								</tr>
+								<tr style="border-left: outset; border-right: outset;border-bottom: outset;">
+									<td>
+										Security Amount
+									</td>
+									<td>
+										:
+									</td>
+									<td colspan="3">
+										<span t-esc="'{0:,.2f}'.format(o.fd_amount)" />
+									</td>
+								</tr>
+								<tr style="border-left: outset; border-right: outset;border-bottom: outset;">
+									<td>
+										Period
+									</td>
+									<td>
+										:
+									</td>
+									<td colspan="3">
+										<span t-field="o.treasury_period" />
+									</td>
+								</tr>
+								<tr style="border-left: outset; border-right: outset;border-bottom: outset;">
+									<td>
+										BG Number And Date
+									</td>
+									<td>
+										:
+									</td>
+									<td colspan="3">
+										<span t-field="o.bg_date" />&amp;<span t-field="o.fd_number" />
+									</td>
+								</tr>
+								<tr style="border-left: outset; border-right: outset;border-bottom: outset;">
+									<td>
+										Maturity Date
+									</td>
+									<td>
+										:
+									</td>
+									<td colspan="3">
+										<span t-field="o.expected_bg_release_date" />
+									</td>
+								</tr>
+							</table>
+							<table style="font-size:16px;width: 100%;border-bottom: outset;border-top: outset;margin-top:10px;">
+								
+							
+								<tr style="border-left: outset; border-right: outset;border-bottom: outset;">
+									<td colspan="5" align="center">
+										<strong>Performance Security Deposit Details</strong>
+									</td>
+								</tr>
+								<tr style="border-left: outset; border-right: outset;border-bottom: outset;">
+									<td style="width: 30%;">
+										Name of Treasury
+									</td>
+									<td style="width: 5%;">
+										:
+									</td>
+									<td colspan="3" style="width: 65%;">
+										<t t-if="o.perf_security_mode != 'treasury'">
+											<span t-field="o.ps_treasury_id.name" />
+										</t>
+									</td>
+								</tr>
+								<tr style="border-left: outset; border-right: outset;border-bottom: outset;">
+									<td>
+										Performance Security Amount
+									</td>
+									<td>
+										:
+									</td>
+									<td colspan="3">
+										<t t-if="o.perf_security_mode != 'treasury'">
+											<span t-esc="'{0:,.2f}'.format(o.performance_security_amount)" />
+										</t>
+									</td>
+								</tr>
+								<tr style="border-left: outset; border-right: outset;border-bottom: outset;">
+									<td>
+										Period
+									</td>
+									<td>
+										:
+									</td>
+									<td colspan="3">
+										<t t-if="o.perf_security_mode != 'treasury'">
+
+											<span t-field="o.perf_security_period" />
+										</t>
+									</td>
+								</tr>
+								<tr style="border-left: outset; border-right: outset;border-bottom: outset;">
+									<td>
+										Number And Date
+									</td>
+									<td>
+										:
+									</td>
+									<td colspan="3">
+										<t t-if="o.perf_security_mode != 'treasury'">
+
+											<span t-field="o.ps_date" />&amp;<span t-field="o.perf_security_number" />
+										</t>
+									</td>
+								</tr>
+								<tr style="border-left: outset; border-right: outset;border-bottom: outset;">
+									<td>
+										Maturity Date
+									</td>
+									<td>
+										:
+									</td>
+									<td colspan="3">
+										<t t-if="o.perf_security_mode != 'treasury'">
+											<span t-field="o.expected_ps_release_date" />
+										</t>
+									</td>
+								</tr>
+								
+							</table>
+							<table style="font-size:16px;width: 100%;border-bottom: outset;border-top: outset;margin-top:10px;">
+								
+								<tr style="border-left: outset; border-right: outset;border-bottom: outset;">
+									<td style="width: 30%;">
+										Name of Bank
+									</td>
+									<td style="width: 5%;">
+										:
+									</td>
+									<td colspan="3" style="width: 65%;">
+										<t t-if="o.perf_security_mode != 'bank'">
+											<span t-field="o.bg_bank_id.bank.name" />-<span t-field="o.bg_bank_id.acc_number" />
+										</t>
+									</td>
+								</tr>
+								<tr style="border-left: outset; border-right: outset;border-bottom: outset;">
+									<td>
+										Security Amount
+									</td>
+									<td>
+										:
+									</td>
+									<td colspan="3">
+										<t t-if="o.perf_security_mode != 'bank'">
+											<span t-field="o.fd_amount" />
+										</t>
+									</td>
+								</tr>
+								<tr style="border-left: outset; border-right: outset;border-bottom: outset;">
+									<td>
+										Period
+									</td>
+									<td>
+										:
+									</td>
+									<td colspan="3">
+										<t t-if="o.perf_security_mode != 'bank'">
+											<span t-field="o.perf_security_period" />
+										</t>
+									</td>
+								</tr>
+								<tr style="border-left: outset; border-right: outset;border-bottom: outset;">
+									<td>
+										BG Number And Date
+									</td>
+									<td>
+										:
+									</td>
+									<td colspan="3">
+										<t t-if="o.perf_security_mode != 'bank'">
+											<span t-field="o.ps_date" />&amp;<span t-field="o.perf_security_number" />
+										</t>
+									</td>
+								</tr>
+								<tr style="border-left: outset; border-right: outset;border-bottom: outset;">
+									<td>
+										Maturity Date
+									</td>
+									<td>
+										:
+									</td>
+									<td colspan="3">
+										<t t-if="o.perf_security_mode != 'bank'">
+											<span t-field="o.expected_ps_release_date" />
+										</t>
+									</td>
+								</tr>
+								
+							</table>
+							<table style="font-size:16px;width: 100%;margin-top:10px;">
+								
+							
+								<tr >
+									<td colspan="1">
+										<strong>Remarks</strong>
+									</td>
+									<td colspan="2">
+										<span t-field="o.remarks" />
+									</td>
+									
+								</tr>
+								
+							</table>
+						
+
+							<table style="font-size:16px;width: 100%;margin-top:30px;">
+								
+								<tr >
+									<td>
+										<span t-field="o.prepared_by.name" />
+									</td>
+									<td align="center">
+										<span t-field="o.verified_by.name" />
+									</td>
+									<td align="right">
+										<span t-field="o.approved_by.name" />
+									</td>
+								</tr>
+
+								<tr >
+									<td>
+										<strong>Prepared by</strong>
+									</td>
+									<td align="center">
+										<strong>Verified by</strong>
+									</td>
+									<td align="right">
+										<strong>Approved by</strong>
+									</td>
+								</tr>
+							</table>
+						
+							<!-- <div class="col-xs-32">
+								<div class="col-xs-12">
+									Prepared by
+								</div>
+								<div class="col-xs-12">
+									Verified by
+								</div>
+								<div class="col-xs-12">
+									Approved by
+								</div>
+								
+							</div> -->
+						
+						</t>
+					</div>
+				</t>
+			</t>
+		</template>
+
+
+		</data>
+	</openerp>

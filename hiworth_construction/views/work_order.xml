@@ -1,0 +1,516 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+
+		<!--<record id="view_work_estimation_form" model="ir.ui.view">
+			<field name="name">work.estimation.form</field>
+			<field name="model">project.task</field>
+			<field eval="2" name="priority"/>
+			<field name="arch" type="xml">
+				<form string="Project">
+					<header position="inside">
+						<button name="button_template" type="object" string="Create Template" class="oe_highlight" states="draft"/>
+						<button name="task_approve" type="object" states="draft" string="Approve" class="oe_highlight" />
+						<button name="start_task" type="object" states="approved" string="Start work" class="oe_highlight" />
+						<button name="complete_task" type="object" states="inprogress" string="Mark as completed" class="oe_highlight" />
+						<button name="reset_task" type="object" string="Reset Estimation" class="oe_highlight" />
+						<button name="task_approve" type="object" states="draft"
+								string="Approve" class="oe_highlight" />
+						<button name="start_task" type="object" states="approved"
+								string="Start work" class="oe_highlight" />
+						<button name="complete_task" type="object" states="inprogress"
+								string="Mark as completed" class="oe_highlight" />
+						<button name="reset_task" type="object" string="Reset Estimation"
+								class="oe_highlight" />
+						<field name="state" widget="statusbar" />
+					</header>
+					<sheet string="Task">
+						<div class="oe_right">
+							<field name="kanban_state" class="oe_inline" widget="kanban_state_selection"/>
+						</div>
+						<h1>
+							<field name="name" placeholder="Work Estimation Summary" class="oe_inline"/>
+						</h1>
+						<group>
+							<group>
+								<field name="categ_id" />
+								<field name="sub_categ_id" />
+								<field name="project_id" domain="[('state','not in', ('close', 'cancelled'))]"
+									   on_change="onchange_project(project_id)" context="{'default_use_tasks':1}" />
+								<field name="user_id" options='{"no_open": True}'
+									   on_change="onchange_user_id(user_id, context)"
+									   context="{'default_groups_ref': ['base.group_user', 'base.group_partner_manager', 'project.group_project_user']}" string="User" readonly="1"/>
+								<field name="reviewer_id" options='{"no_open": True}'
+									   context="{'default_groups_ref': ['base.group_user', 'base.group_partner_manager', 'project.group_project_user']}" />
+								<field name="planned_hours" widget="float_time" colspan="2"
+									   groups="project.group_time_work_estimation_tasks" on_change="onchange_planned(planned_hours, effective_hours)" />
+								<field name="civil_contractor" string="Contractor"
+									   context="{'default_contractor': True, 'default_customer': False}" />
+							</group>
+							<group>
+								<group col="2">
+									<field name="date_start" />
+									<field name="date_end" />
+								</group>
+								<group col="2">
+									<field name="estimated_cost" />
+								</group>
+							</group>
+						</group>
+						<notebook>
+							<page string="Estimation Info">
+								<field name="task_line">
+									<tree string="Estimation Info">
+										<field name="task_id" invisible="1"/>
+										<field name="name"/>
+										<field name="category"/>
+										<field name="qty"/>
+										<field name="unit"/>
+										<field name="rate" readonly="1"/>
+										<field name="amt" readonly="1"/>
+									</tree>
+								</field>
+							</page>
+							<page string="Usage">
+								<separator string="Item Usage"/>
+								<field name="usage_ids1">
+									<tree string="Task Work" editable="bottom">
+										<field name="pro_id" required="True" />
+										<field name="qty" required="True" readonly="True" string="Estimated Qty" />
+										<field name="uom" />
+										<field name="qty_assigned" readonly="True" />
+										<field name="qty_used" />
+										<field name="name" invisible="1" />
+									</tree>
+								</field>
+								<newline />
+								<separator string="Manpower Usage"/>
+								<field name="manpower_usage_ids">
+									<tree string="Man Power Usage" editable="bottom">
+										<field name="account_id"/>
+										<field name="estimated_qty"/>
+										<field name="assigned_qty"/>
+									</tree>
+								</field>
+							</page>
+							<page string="Description">
+								<field name="description" placeholder="Add a Description..."/>
+								<field name="work_ids" groups="project.group_tasks_work_on_tasks">
+									<tree string="Task Work" editable="top">
+										<field name="name"/>
+										<field name="hours" widget="float_time" sum="Spent Hours"/>
+										<field name="date"/>
+										<field name="user_id" context="{'default_groups_ref': ['base.group_user', 'base.group_partner_manager', 'project.group_project_user']}"/>
+									</tree>
+								</field>
+								<group>
+									<group class="oe_subtotal_footer oe_right" name="project_hours" groups="project.group_time_work_estimation_tasks">
+										<field name="effective_hours" widget="float_time"/>
+										<label for="remaining_hours" string="Remaining" groups="project.group_time_work_estimation_tasks"/>
+										<div>
+											<field name="remaining_hours" widget="float_time" groups="project.group_time_work_estimation_tasks"/>
+										</div>
+										<field name="total_hours" widget="float_time" class="oe_subtotal_footer_separator"/>
+									</group>
+								</group>
+
+								<div class="oe_clear"/>
+							</page>
+							<page string="Extra Info">
+								<group col="4">
+									<field name="priority" groups="base.group_user" widget="priority"/>
+									<field name="sequence"/>
+									<field name="partner_id"/>
+									<field name="company_id" groups="base.group_multi_company" widget="selection"/>
+								</group>
+							</page>
+						</notebook>
+					</sheet>
+					<div class="oe_chatter">
+						<field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+						<field name="message_ids" widget="mail_thread"/>
+					</div>
+				</form>
+			</field>
+		</record>-->
+
+<record id="form_view_work_order" model="ir.ui.view">
+			<field name="name">form_view_work_order</field>
+			<field name="model">work.order</field>
+			<field name="arch" type="xml">
+				<form string="Activity">
+					<header>
+						<button name="action_approve" states="draft" string="Approve"
+							type="object" class="oe_highlight" groups="hiworth_construction.group_project_management_user"/>
+						<button name="action_reject" states="draft" string="Reject"
+							type="object" class="oe_highlight" groups="hiworth_construction.group_project_management_user" />
+						<button name="action_cancel" states="approved,start"
+							string="Cancel" type="object" class="oe_highlight" />
+						<button name="action_draft" states="cancel,reject" string="Set to Draft"
+							type="object" class="oe_highlight" />
+						<button name="action_start" states="approved" string="Start"
+							type="object" class="oe_highlight" />
+						<button name="action_done" states="start" string="Completed"
+							type="object" class="oe_highlight" />
+						<button name="action_paid" states="done" string="Paid"
+							type="object" class="oe_highlight" />
+						<field name="state" widget="statusbar" statusbar_visible="draft,approved,start,done,paid"
+							readonly="1" />
+					</header>
+					<!-- <sheet> -->
+
+						<div class="oe_title">
+							<h1>
+								<label string="WO No." />
+								<field name="name" readonly="True" string="WO no." class="oe_inline" />
+							</h1>
+						</div>
+						<!-- <div class="oe_right oe_button_box" name="buttons"> <button type="object"
+							name="invoice_open" class="oe_stat_button" icon="fa-pencil-square-o" attrs="{'invisible':
+							[('invoice_count', '=', 0)]}"> <field name="invoice_count" widget="statinfo"
+							string="Invoices" /> </button> </div> -->
+						<div class="oe_right oe_button_box" name="buttons">
+							<button class="oe_inline oe_stat_button" type="action"
+								attrs="{'invisible':[('invoice_count','=', 0)]}" name="%(action_hiworth_invoice_tree_all)d"
+								icon="fa-tasks"
+								context="{'search_default_work_order_id': active_id, 'default_work_order_id': active_id}">
+								<field string="Invoices" name="invoice_count" widget="statinfo" />
+							</button>
+						</div>
+						<group col="4">
+							<!-- <newline /> -->
+							<field name="project_id" required="True" options="{'no_create': True}"/>
+
+							<field name="date" required="True" />
+							<!-- <field name="state" invisible="1" /> -->
+							<div colspan="2">
+								<label for="partner_id" string="To,"
+									style="font-size: 16px;font-weight: bold;" />
+								<div style="margin-left: 35px;">
+									<!-- <seperator /> -->
+
+									<field name="partner_id" required="True" options="{'no_create': True}" domain="[('contractor','=',True)]"/>
+									<field name="street" />
+									<field name="street2" />
+									<div class="address_format">
+										<field name="post" />
+										<field name="city" class="oe_inline" />
+										-
+										<field name="zip" class="oe_inline" />
+										<field name="state_id" />
+										<field name="phone" class="oe_inline" />
+										,
+										<field name="mobile" class="oe_inline" />
+									<!--	<field name="action_compute" invisible="1" />-->
+									</div>
+								</div>
+							</div>
+							<!-- </group> -->
+
+							<!-- <field name="reference" colspan="4" nolabel="1" placeholder="Ref:-"
+								/> -->
+							<!-- </group> <group> -->
+							<field name="part1" colspan="4" nolabel="1" placeholder="part1" />
+
+							<!-- <div style="float: left;"> <button name="refresh_payment_lines"
+								type="object" string="Refresh Payments" class="oe_right" /> </div> -->
+							<field name="order_lines" nolabel="1" colspan="4" style="width:130%" context="{'project_id':project_id}">
+								<tree editable="bottom">
+									<field name="sequence" widget="handle" />
+									<!-- <field name="index" /> -->
+									<field name="category_id" options="{'no_create':True}"/>
+									<field name="item_work_id" attrs="{'readonly':[('status','!=', 'draft')]}"/>
+
+
+									<field name="uom_id" attrs="{'readonly':[('status','!=', 'draft')]}"/>
+									<field name="rate" attrs="{'readonly':[('status','!=', 'draft')]}"/>
+
+									<field name="remarks" attrs="{'readonly':[('status','!=', 'draft')]}"/>
+
+									<field name="binary_field" filename="filename" attrs="{'readonly':[('status','!=', 'draft')]}"/>
+									<field name="filename" invisible="1" />
+									<field name="status" invisible="1" />
+								</tree>
+							</field>
+							<label for="scope" string="Scope of Work :-"
+								style="font-size: 16px;font-weight: bold;" />
+							<field name="scope" colspan="4" nolabel="1" placeholder="Scope" />
+							<label for="terms" string="Terms And Conditions of Contract :-"
+								style="font-size: 16px;font-weight: bold;" />
+							<field name="terms" colspan="4" nolabel="1" placeholder="Terms" />
+
+							<!-- </group> <group> -->
+							<!-- <field name="remark" placeholder="Note...." /> -->
+						</group>
+					<!-- </sheet> -->
+				</form>
+
+			</field>
+		</record>
+
+		<record id="tree_view_work_order" model="ir.ui.view">
+			<field name="name">tree_view_work_order</field>
+			<field name="model">work.order</field>
+			<field name="arch" type="xml">
+				<tree string="Activity">
+					<field name="sequence" widget="handle" />
+					<field name="name" />
+					<field name="date" />
+					<field name="project_id" string="Project" />
+					<field name="partner_id" string="Contractor" />
+					<field name="state" />
+				</tree>
+
+			</field>
+		</record>
+
+		<record id="search_view_work_order" model="ir.ui.view">
+			<field name="name">search_view_work_order</field>
+			<field name="model">work.order</field>
+			<field name="arch" type="xml">
+				<search string="Work Order">
+					<field name="name" />
+					<field name="date" />
+					<field name="project_id" />
+					<field name="partner_id" />
+					<field name="state" />
+					<filter string="Contractor" name="search_partner_id"
+						context="{'group_by':'partner_id'}" />
+					<filter string="Project" name="search_project_id" context="{'group_by':'project_id'}" />
+					<filter string="Month" name="search_date" context="{'group_by':'date'}" />
+					<filter string="State" name="search_state" context="{'group_by':'state'}" />
+				</search>
+			</field>
+		</record>
+
+		<!-- <record id="serch_view_work_order" model="ir.ui.view"> <field name="name">tree_view_work_order</field>
+			<field name="model">work.order</field> <field name="arch" type="xml"> <search>
+			<field name="project_id" /> </search> </field> </record> -->
+
+		<record id="action_view_work_order" model="ir.actions.act_window">
+			<field name="name">Work Order</field>
+			<field name="res_model">work.order</field>
+			<field name="domain">[('state','!=','paid')]</field>
+			<field name="view_id" ref="tree_view_work_order" />
+		</record>
+
+		<menuitem id="main_menu_view_work_order" parent="base.menu_main_pm"
+			name="Work Order" sequence="4" />
+
+		<menuitem id="menu_view_work_order" parent="main_menu_view_work_order"
+			action="action_view_work_order" name="Work Order" sequence="10" />
+
+
+		<record id="action_view_work_order_paid" model="ir.actions.act_window">
+			<field name="name">Work Order</field>
+			<field name="res_model">work.order</field>
+			<field name="domain">[('state','=','paid')]</field>
+			<field name="view_id" ref="tree_view_work_order" />
+		</record>
+
+		<menuitem id="menu_view_work_order_paid" parent="main_menu_view_work_order"
+			action="action_view_work_order_paid" name="Paid Work Order" sequence="20" />
+
+
+		<record id="form_master_data_work_order" model="ir.ui.view">
+			<field name="name">form_view_work_order_master.data</field>
+			<field name="model">master.data.work.order</field>
+			<field name="arch" type="xml">
+				<form string="Activity">
+
+
+						<group col="4">
+
+							<field name="item_work_id" required="True" options="{'no_create': True}"/>
+
+							<label for="scope" string="Scope of Work :-"
+								style="font-size: 16px;font-weight: bold;" />
+							<field name="scope" colspan="4" nolabel="1" placeholder="Scope" />
+							<label for="terms" string="Terms And Conditions of Contract :-"
+								style="font-size: 16px;font-weight: bold;" />
+							<field name="terms" colspan="4" nolabel="1" placeholder="Terms" />
+
+						</group>
+
+				</form>
+
+			</field>
+		</record>
+
+		<record id="tree_view_work_order_master_data" model="ir.ui.view">
+			<field name="name">tree_view_work_order.master.data</field>
+			<field name="model">master.data.work.order</field>
+			<field name="arch" type="xml">
+				<tree string="Activity">
+					<field name="item_work_id" widget="handle" />
+					<field name="scope" />
+					<field name="terms" />
+
+				</tree>
+
+			</field>
+		</record>
+
+		<record id="action_view_work_order_master_data" model="ir.actions.act_window">
+			<field name="name">Master Data Work Order</field>
+			<field name="res_model">master.data.work.order</field>
+
+			<field name="view_id" ref="tree_view_work_order_master_data" />
+		</record>
+
+		<menuitem id="Master Data Work Order" parent="main_menu_view_work_order"
+			name="Master Data Work Order" action ="action_view_work_order_master_data" sequence="4" />
+
+
+		<report id="view_work_order_report" string="View Report" model="work.order"
+			report_type="qweb-html" name="hiworth_construction.report_work_order" />
+
+		<report id="print_work_order_report" string="Print Report"
+			model="work.order" report_type="qweb-pdf"
+			name="hiworth_construction.report_work_order" />
+
+		<template id="report_work_order">
+			<t t-call="report.html_container">
+
+				<t t-call="report.external_layout">
+					<t t-foreach="docs" t-as="o">
+						<div class="page">
+
+							<div class="row">
+								<h3>
+									<b>
+										<span>
+											WO No.
+											<t t-esc="o.name" />
+										</span>
+									</b>
+								</h3>
+							</div>
+							<div class="row">
+								<h4>
+									<b>
+										<span>
+											<t t-esc="o.project_id.name" />
+										</span>
+										<span style="float: right;">
+											<t t-esc="o.date" />
+										</span>
+									</b>
+								</h4>
+							</div>
+							<div class="row">
+								<t t-if="o.partner_id.id != False">
+									<strong>TO</strong>
+								</t>
+								<br />
+								<p style="margin-left: 3%;">
+									<span>
+										<t t-if="o.partner_id.name != False">
+											<t t-esc="o.partner_id.name" />
+											<br />
+										</t>
+										<t t-if="o.street != False">
+											<t t-esc="o.street" />
+											<br />
+										</t>
+										<t t-if="o.street2 != False">
+											<t t-esc="o.street2" />
+											<br />
+										</t>
+										<t t-if="o.post != False">
+											<t t-esc="o.post" />
+											<br />
+										</t>
+										<t t-if="o.city != False">
+											<t t-esc="o.city" />
+											-
+										</t>
+										<t t-if="o.zip != False">
+											<t t-esc="o.zip" />
+											<br />
+										</t>
+										<t t-if="o.state_id.id != False">
+											<t t-esc="o.state_id.name" />
+											<br />
+										</t>
+										<t t-if="o.phone != False">
+											<t t-esc="o.phone" />
+											-
+										</t>
+										<t t-if="o.mobile != False">
+											<t t-esc="o.mobile" />
+										</t>
+									</span>
+								</p>
+							</div>
+							<div class="row" style="font-size: 15px;margin-top: 20px;">
+								<span>
+									<t t-raw="o.part1" />
+									<br />
+								</span>
+							</div>
+
+							<div class="row" style="font-size: 15px;margin-top: 20px;">
+								<span style="margin-top: 20px;">
+									<t t-raw="o.scope" />
+									<br />
+								</span>
+								<span style="margin-top: 20px;">
+									<t t-raw="o.terms" />
+									<br />
+								</span>
+							</div>
+
+							<div class="row">
+								<table class="table table-bordered" style="width: 100%">
+									<thead>
+										<tr>
+											<th style="width: 5%">Sl.No</th>
+											<th>Description</th>
+
+											<th>Unit</th>
+											<th>Rate</th>
+
+											<th>Remarks</th>
+
+										</tr>
+									</thead>
+									<t t-set="sl_no" t-value="1" />
+
+									<tbody>
+										<tr t-foreach="o.order_lines" t-as="line">
+											<td>
+												<t t-esc="sl_no" />
+												<t t-set="sl_no" t-value="sl_no+1" />
+											</td>
+											<td>
+												<t t-esc="line.item_work_id.name" />
+											</td>
+
+											<td>
+												<t t-esc="line.uom_id.name" />
+											</td>
+											<td>
+												<t t-esc="line.rate" />
+											</td>
+
+											<td>
+												<t t-esc="line.remarks" />
+											</td>
+
+
+										</tr>
+
+
+									</tbody>
+								</table>
+							</div>
+
+
+						</div>
+					</t>
+				</t>
+			</t>
+		</template>
+	</data>
+</openerp>

@@ -1,0 +1,460 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+
+        <record id="driver_daily_statement_search" model="ir.ui.view">
+            <field name="name">driver.daily.search.view</field>
+            <field name="model">driver.daily.statement</field>
+            <field name="arch" type="xml">
+                <search string="Driver daily statements">
+                    <field name="vehicle_no"  />
+                     <field name="rent_vehicle_id"  />
+                    <field name="date"/>
+                      <field name="project_id"/>
+                      <field name="user_id"/>
+                    <field name="driver_name" />
+                    <field name="cleaners_name" />
+                    <group expand="0" string="Group By">
+                        <filter name="groupby_vehicle_no" string="Vehicle No" 
+                            context="{'group_by':'vehicle_no'}"/>
+                        <filter name="groupby_date" context="{'group_by': 'date'}" string="Date"  />
+                        <filter name="groupby_driver_name" context="{'group_by':'driver_name'}" 
+                            string="Driver Name"/>
+                            <filter name="groupby_cleaner_name" context="{'group_by':'cleaners_name'}" 
+                            string="Cleaner Name"/>
+
+
+                        <filter name="project_id" string="project_id" domain="[]" context="{'group_by':'project_id'}"/>
+                    </group>
+                        
+                        <!-- <filter name="groupby_age" string="Age between 10 and 50" 
+                            domain="[('age','>=',10),('age','&lt;=',50)]" />     -->
+                        
+                </search>
+                            
+            </field>
+        </record> 
+
+        <record id="tree_driver_daily_statements" model="ir.ui.view">
+            <field name="name">tree.driver.daily.statement</field>
+            <field name="model">driver.daily.statement</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="reference"/>
+                     <field name="rent_vehicle_partner_id" />
+                            <field name="rent_vehicle_id" />
+
+                    <field name="vehicle_no" string="Vehicle No" />
+                    <field name="date"/>
+                      <field name="user_id"/>
+                    <field name="project_id"/>
+                    <field name="driver_name" string="Driver's Name"/>
+
+                    <field name="state"/>
+
+                    <field name="trip_sheet_no"/>
+                </tree>
+
+            </field>
+        </record>
+
+        <record id="tree_diesel_pump_line" model="ir.ui.view">
+            <field name="name">tree.diesel.pump.line</field>
+            <field name="model">diesel.pump.line</field>
+            <field name="arch" type="xml">
+                 <tree>
+                    <field name="name"/>
+                    <field name="date" />
+                      <field name="vehicle_id" />
+                      <field name="rent_vehicle_partner_id" />
+                            <field name="rent_vehicle_id" />
+
+                     <field name="receiver_id"/>
+                     <field name="project_id"/>
+                      <field name="fuel_product_id"/>
+                    <field name="diesel_mode"/>
+                     <field name="diesel_pump"/>
+                     <field name="litre"/>
+                     <field name="diesel_tanker"/>
+                       <field name="new_stock_balance"/>
+                     <field name="total_diesel"/>
+                      <field name="start_km" />
+                             <field name="close_km" />
+                            <field name="running_km" />
+                    <field name="mileage"/>
+                     <field name="remark"/>
+                 </tree>
+
+            </field>
+        </record>
+
+        <record id="form_diesel_pump_line" model="ir.ui.view">
+            <field name="name">form.diesel.pump.line</field>
+            <field name="model">diesel.pump.line</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                         <button name="number_change" string="Number Change" type="object" class="oe_highlight" invisible="1" />
+                         <button name="action_confirm" string="Confirm" type="object" class="oe_highlight"  states="draft" invisible="1"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <group>
+                        <group>
+                            <field name="cash_purchase"/>
+                            <field name="name" readonly="1"/>
+                            <field name="own_vehicle"/>
+                            <field name="vehicle_id"  options="{'no_create':True, 'no_create_edit':True}" attrs="{'invisible':[('own_vehicle','=',False)]}"/>
+                            <field name="rent_vehicle"/>
+                            <field name="rent_vehicle_partner_id" options="{'no_create':True, 'no_create_edit':True}" attrs="{'invisible':[('rent_vehicle','=',False)]}"/>
+                            <field name="rent_vehicle_id" options="{'no_create':True, 'no_create_edit':True}" attrs="{'invisible':[('rent_vehicle','=',False)]}"/>
+                            <field name="date" />
+                            <field name="new_time" string="Filling Time(24hrs format)" widget="time" required="1" placeholder="00:00:00"/>
+                            <field name="receiver_id" options="{'no_create':True, 'no_create_edit':True}"/>
+                            <field name="project_id" options="{'no_create':True, 'no_create_edit':True}"/>
+
+                            <field name="fuel_product_id" required="1" options="{'no_create':True, 'no_create_edit':True}"/>
+                            <field name="diesel_mode" />
+                            <field name="diesel_pump" attrs="{
+                            'invisible':[('diesel_mode','!=','pump')]}" domain="[('is_fuel_station','=',True)]"/>
+
+                            <field name="is_full_tank" />
+                            <field name="litre" attrs="{
+                            'invisible':[('diesel_mode','!=','pump')]}" widget="char"/>
+                            <field name="per_litre" attrs="{
+                            'invisible':[('diesel_mode','!=','pump')]
+                            }" widget="char" />
+                            <field name="total_litre_amount" attrs="{
+                            'invisible':[('diesel_mode','!=','pump')]}" widget="char"/>
+
+                            <field name="pump_bill_no" attrs="{
+                            'invisible':[('diesel_mode','!=','pump')]}" widget="char"/>
+
+                            <field name="indent_no" attrs="{
+                            'invisible':[('diesel_mode','!=','pump')]}" widget="char"/>
+
+                            <field name="diesel_tanker" attrs="{'invisible':[('diesel_mode','!=','tanker')]}" />
+
+                            <field name="stock_balance" attrs="{'invisible':[('diesel_mode','!=','tanker')]}" invisible="1"/>
+                             <field name="new_stock_balance" attrs="{'invisible':[('diesel_mode','!=','tanker')]}" />
+
+                            <field name="opening_reading" attrs="{'invisible':[('diesel_mode','!=','tanker')]}"  widget="char"/>
+                            <field name="closing_reading" attrs="{'invisible':[('diesel_mode','!=','tanker')]}"  widget="char"/>
+                            <field name="total_diesel" attrs="{'invisible':[('diesel_mode','!=','tanker')]}" />
+                           <!-- <field name="diesel_start_reading" attrs="{'invisible':[('diesel_mode','!=','tanker')]}" />-->
+                            <field name="filling_time" attrs="{'invisible':[('diesel_mode','!=','tanker')]}" />
+
+                             <field name="start_km" attrs="{'invisible':[('rent_vehicle','=',True)]}"/>
+                             <field name="close_km" attrs="{'invisible':[('rent_vehicle','=',True)]}"/>
+                            <field name="running_km" attrs="{'invisible':[('rent_vehicle','=',True)]}"/>
+                            <field name="mileage" attrs="{'invisible':[('rent_vehicle','=',True)]}"/>
+                            <field name="remark" />
+                            <field name="goods_receive_id"/>
+                            <field name="material_issue_slip_id"/>
+                        </group>
+                        <group></group>
+                    </group>
+                </form>
+
+            </field>
+        </record>
+        <!-- Taurus driver view -->
+
+        <record id="diesel_pump_line_search_view" model="ir.ui.view">
+            <field name="name">diesel.pump.line.search.view</field>
+            <field name="model">diesel.pump.line</field>
+            <field name="arch" type="xml">
+                <search string="">
+                    <field name="vehicle_id"/>
+                    <field name="date"/>
+                    <field name="project_id"/>
+                    <field name="diesel_tanker"/>
+                    <field name="diesel_pump"/>
+                    <field name="receiver_id"/>
+                    <filter name="diesel_mode" domain="[('diesel_mode','=','pump')]" string="Diesel Pump"/>
+                    <filter name="diesel" domain="[('diesel_mode','=','tanker')]" string="Diesel Tanker"/>
+                    <group expand="0" string="Group By">
+                        <filter name="vehicle" string="Vehicle" domain="[]" context="{'group_by':'vehicle_id'}"/>
+                        <filter name="date" string="Date" domain="[]" context="{'group_by':'date'}"/>
+                        <filter name="project" string="Project" domain="[]" context="{'group_by':'project_id'}"/>
+                        <filter name="tanker" string="Diesel Tanker" domain="[]" context="{'group_by':'diesel_tanker'}"/>
+                        <filter name="pump" string="Diesel Pump" domain="[]" context="{'group_by':'diesel_pump'}"/>
+
+                
+                    </group>
+                </search>
+            </field>
+        </record>
+        
+        <record id="form_driver_daily_statement" model="ir.ui.view">
+            <field name="name">form.driver.daily.statement</field>
+            <field name="model">driver.daily.statement</field>
+            <field name="arch" type="xml">
+                <form string="Driver Daily Statement">
+                    <header>
+                        <button name="validate_entry" string="Confirm" groups="hiworth_hr_attendance.group_labour" type="object" class="oe_highlight" states="draft"/>
+
+
+                        <button name="set_draft" string="Set To Draft" type="object" class="oe_highlight" states="cancelled"/>
+                        <button name="cancel_entry" string="Cancel" type="object" class="oe_highlight" states="confirmed,approved" groups="base.group_erp_manager,hiworth_hr_attendance.group_admin,hiworth_hr_attendance.group_supervisor" style="margin-left:50em;"/>
+
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <h1><center><field name="name" /></center></h1>
+
+                    <group col="4">
+                        <field name="user_id" options="{'no_create':True, 'no_create_edit':True}"/>
+                        <field name="reference" readonly="1" />
+                        <field name="date" required="1"/>
+  <field name="own_vehicle"/>
+                            <field name="vehicle_no"   options="{'no_create':True, 'no_create_edit':True}" attrs="{'invisible':[('own_vehicle','=',False)],'required':[('own_vehicle','=',True)]}"/>
+                            <field name="rent_vehicle"/>
+                            <field name="rent_vehicle_partner_id" options="{'no_create':True, 'no_create_edit':True}" attrs="{'invisible':[('rent_vehicle','=',False)],'required':[('rent_vehicle','=',True)]}"/>
+                            <field name="rent_vehicle_id" options="{'no_create':True, 'no_create_edit':True}" attrs="{'invisible':[('rent_vehicle','=',False)],'required':[('rent_vehicle','=',True)]}"/>
+
+
+                         <field name="rent_driver" attrs="{'invisible':[('rent_vehicle','=',False)],'required':[('rent_vehicle','=',True)]}"/>
+                        <field name="rent_cleaner" attrs="{'invisible':[('rent_vehicle','=',False)]}"/>
+                        <field name="trip_sheet_no"/>
+
+                    </group>
+
+                    <group>
+                        <group>
+
+                           <field name="project_id" required="1" options="{'no_create':True, 'no_create_edit':True}"/>
+                            <field name="driver_name" string="Driver's Name" options="{'no_create':True, 'no_create_edit':True}" attrs="{'invisible':[('own_vehicle','=',False)],'required':[('own_vehicle','=',True)]}"/>
+                            <field name="cleaners_name" string="Cleaner's Name"
+                                options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible':[('own_vehicle','=',False)]}"/>
+                            <field name="cleaner_bata" widget="char" attrs="{'invisible':[('own_vehicle','=',False)]}"/>
+
+                            <field name='start_km'  widget="char"/>
+                            <!-- <field name="theoretical_close_km" widget="char"/> -->
+                            <field name="actual_close_km" widget="char" attrs="{'required':[('start_km','!=',False)]}"/>
+                            <field name="running_km" widget="char"/>
+
+
+                              <field name="full_day"/>
+                        <field name="half_day"/>
+
+                            <field name="start_time"/>
+                            <field name="end_time"/>
+                             <field name="hrs_worked"/>
+                            <field name="driver_bata" attrs="{'invisible':[('own_vehicle','=',False)]}"/>
+                            <field name="ot_time" attrs="{'invisible':[('own_vehicle','=',False)]}"/>
+                            <field name="ot_rate" attrs="{'invisible':[('own_vehicle','=',False)]}"/>
+                            <field name="ot_amt" attrs="{'invisible':[('own_vehicle','=',False)]}"/>
+                            <field name="deposit" attrs="{'invisible':[('own_vehicle','=',False)]}"/>
+                            <field name="bd_hrs"/>
+                            <field name="idle_hrs"/>
+
+
+
+                            <field name="remark" attrs="{'required':[('actual_close_km','!=',False)], 'invisible':[('actual_close_km','=',False)]}"/>
+
+                        </group>
+
+                        </group>
+                    <group>
+                        <notebook>
+                            <page string="Daily Statement">
+                                <field name="driver_stmt_line" nolabel="1"
+                                    context="{'vehicle_no': vehicle_no}" attrs="{'readonly':[('state','=','approved')]}">
+                                    <tree>
+                                        <field name="from_id2"  domain="[('supplier','=',True)]" context="{'default_supplier':1}" options="{'no_create': True, 'no_create_edit':True}"/>
+
+                                        <field name="location_id"  options="{'no_create': True, 'no_create_edit':True}"/>
+                                        <field name="to_id2" required="1" attrs="{'required':1} " options="{'no_create': True, 'no_create_edit':True}"/>
+                                        <field name="item_expense2"   options="{'no_create': True, 'no_create_edit':True}" />
+                                        <field name="project_id" options="{'no_create':True, 'no_create_edit':True}"/>
+                                        <field name="voucher_no" string="Bill No" />
+                                        <field name="start_km"  widget="char"/>
+                                        <field name="end_km"  widget="char"/>
+                                        <field name="total_km" sum="Total"/>
+                                        <field name="bata_cleaner"  widget="char"/>
+                                        <field name="bata_driver"  widget="char"/>
+                                        <field name="km_deposit" sum="Total"/>
+
+                                        <field name="remarks" />
+
+                                    </tree>
+                                    <form>
+                                        <group>
+                                            <group>
+
+                                            <field name="invoice_date" />
+                                            <field name="from_id2" domain="[('supplier','=',True)]" context="{'default_supplier':1}" options="{'no_create': True, 'no_create_edit':True}"/>
+                                        <field name="location_id"  options="{'no_create': True, 'no_create_edit':True}"/>
+                                                <field name="to_id2" required="1" attrs="{'required':1}" options="{'no_create': True, 'no_create_edit':True}"/>
+                                        <field name="item_expense2"   options="{'no_create': True, 'no_create_edit':True}" />
+
+                                         <field name="project_id" required="1" options="{'no_create':True, 'no_create_edit':True}"/>
+                                        <field name="voucher_no" string="MR Slip No" />
+                                        <field name="start_km"  widget="char"/>
+                                        <field name="end_km"  widget="char"/>
+                                        <field name="total_km"/>
+                                        <field name="bata_cleaner"  widget="char"/>
+                                        <field name="bata_driver"  widget="char"/>
+                                        <field name="km_deposit" sum="Total"/>
+
+                                        <field name="remarks" />
+
+                                    </group>
+                                    <group></group>
+                                        </group>
+                                    </form>
+                                </field>
+                            </page>
+                        </notebook>
+                    </group>
+
+
+                        <group attrs="{'invisible':[('state','!=','approved')]}">
+                            <group></group>
+                            <group>
+                                <field name="approved_by"/>
+                                <field name="sign" widget="image" class="oe_avatar"/>
+                            </group>
+                        </group>
+                </form>
+            </field>
+        </record>
+
+
+
+
+        <record id="action_driver_daily_statements2" model="ir.actions.act_window">
+            <field name="name">Driver Daily Statement</field>
+            <field name="res_model">driver.daily.statement</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'driver':True,'default_taurus':1}</field>
+            <field name="view_id" ref="tree_driver_daily_statements" />
+        </record>
+
+         <record id="action_diesel_pump_line" model="ir.actions.act_window">
+            <field name="name">Fuel Entry</field>
+            <field name="res_model">diesel.pump.line</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+
+            <field name="view_id" ref="tree_diesel_pump_line" />
+        </record>
+
+
+        <menuitem id="menu_driver_daily_statement"
+            parent="hiworth_construction.root_activity_reports_menu"
+            name="Driver Daily Statement" 
+            sequence="1" groups="hiworth_hr_attendance.group_driver"/>
+
+        <menuitem id="menu_sub_driver_daily_statement" 
+            parent="menu_driver_daily_statement"
+            action="action_driver_daily_statements2" 
+            name="Driver Daily Statement" sequence="10" groups="hiworth_hr_attendance.group_driver,base.group_erp_manager"/>
+
+
+        <menuitem id="menu_diesel_pump_line"
+            parent="hiworth_construction.menu_warehouse_transaction"
+            action="action_diesel_pump_line"
+            name="Fuel Entry" sequence="10" />
+
+        <record id="form_diesel_pump" model="ir.ui.view">
+            <field name="name">form.diesel.pump</field>
+            <field name="model">diesel.pump</field>
+            <field name="arch" type="xml">
+                <form string="Diesel Pump">
+                    <sheet>
+                        <group>
+                            <field name="name" required="True" />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="tree_diesel_pump" model="ir.ui.view">
+            <field name="name">tree.diesel.pump</field>
+            <field name="model">diesel.pump</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name" string="Name"/>
+                </tree>
+
+            </field>
+        </record>
+
+        <record id="search_diesel_pump" model="ir.ui.view">
+            <field name="name">search.diesel.pump</field>
+            <field name="model">diesel.pump</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name" string="Diesel Pump Name" />
+                </search>
+            </field>
+        </record>
+
+        <record id="action_diesel_pump" model="ir.actions.act_window">
+            <field name="name">Diesel Pumps</field>
+            <field name="res_model">diesel.pump</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="tree_diesel_pump" />
+        </record>
+
+
+
+        <menuitem id="menu_diesel_pump"
+            parent="root_activity_reports_menu" 
+            name="Configurations" 
+            sequence="55" groups="base.group_erp_manager,hiworth_hr_attendance.group_admin"/>
+
+        <!-- <menuitem id="menu_sub_diesel_pump" 
+            parent="menu_diesel_pump"
+            action="action_diesel_pump" 
+            name="Diesel Pumps" 
+            sequence="10" /> -->
+
+            <menuitem name="Reporting"
+            id="base.menu_reporting"
+            groups="base.group_erp_manager"
+            sequence="170"/>
+
+        <record id="action_diesel_pump_menu" model="ir.actions.act_window">
+            <field name="name">Diesel Pumps</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_type">form</field>
+            <field name="domain">[('diesel_pump_bool','=',True)]</field>
+            <field name="context">{'default_diesel_pump_bool':True,'default_supplier':True,'default_customer':False}</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="base.view_partner_tree" />
+        </record>
+
+        <record id="action_diesel_pump_tree" model="ir.actions.act_window.view">
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="base.view_partner_tree" />
+            <field name="act_window_id" ref="action_diesel_pump_menu" />
+        </record>
+
+        <record id="action_diesel_pump_menu_form" model="ir.actions.act_window.view">
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="base.view_partner_form" />
+            <field name="act_window_id" ref="action_diesel_pump_menu" />
+        </record>
+
+         <menuitem id="menu_pump_diesel_menu_id" 
+            parent="menu_diesel_pump"
+            action="action_diesel_pump_menu" 
+            name="Fuel Pumps" sequence="16" />
+
+<!--        <record model="ir.ui.view" id="view_rent_vehicle_form_inherit">-->
+<!--            <field name="name">fleet.vehicle.form</field>-->
+<!--            <field name="model">fleet.vehicle</field>-->
+<!--			<field name="inherit_id" ref="hiworth_tms.tms_fleet_vehicle_form_altered" />-->
+<!--            <field name="arch" type="xml">-->
+<!--				<xpath expr="//group/notebook/page/group/group/field[@name='capacity']" position="after">-->
+<!--            		<field name="tanker_stock_balance" attrs="{'invisible':[('tanker_bool','=',False)]}"/>-->
+<!--				</xpath>-->
+<!--            </field>-->
+<!--        </record>-->
+    </data>
+</openerp>

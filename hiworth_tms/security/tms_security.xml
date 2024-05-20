@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data noupdate="0">
+
+    <record id="tms_quatation" model="res.groups">
+        <field name="name">Quatations</field>
+       <!--  <field name="category_id" ref="base.module_category_sales_management"/> -->
+        <field name="comment"> Quatations </field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+
+    <record id="tms_estimating" model="res.groups">
+        <field name="name">Estimating</field>
+   <!--      <field name="category_id" ref="base.module_category_sales_management"/> -->
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        <field name="comment"> Estimating</field>
+    </record>
+
+    <record id="tms_billing" model="res.groups">
+        <field name="name">Billing</field>
+        <field name="comment"> Billing </field>
+      <!--   <field name="category_id" ref="base.module_category_sales_management"/> 
+        <field name="implied_ids" eval="[(4, ref('base.group_sale_salesman_all_leads'))]"/> -->
+       <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/> 
+    </record>
+
+    <record id="tms_costing" model="res.groups">
+        <field name="name">Costing</field>
+      <!--   <field name="category_id" ref="base.module_category_hidden"/> -->
+       <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/> 
+    </record>
+    
+    <record id="tms_collection" model="res.groups">
+        <field name="name">Collecton</field>
+      <!--   <field name="category_id" ref="base.module_category_hidden"/> -->
+       <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/> 
+    </record>
+    <record id="tms_hr_control" model="res.groups">
+        <field name="name">HR Control</field>
+      <!--   <field name="category_id" ref="base.module_category_hidden"/> -->
+       <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/> 
+    </record>
+    <record id="tms_transport_and_fuel" model="res.groups">
+        <field name="name">Transport and Fuel</field>
+      <!--   <field name="category_id" ref="base.module_category_hidden"/> -->
+       <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/> 
+    </record>
+    <record id="tms_warehouse_control" model="res.groups">
+        <field name="name">Ware House Control</field>
+      <!--   <field name="category_id" ref="base.module_category_hidden"/> -->
+       <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/> 
+    </record>
+    <record id="tms_accounting_and_taxes" model="res.groups">
+        <field name="name">Accounts And Taxes</field>
+      <!--   <field name="category_id" ref="base.module_category_hidden"/> -->
+       <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/> 
+    </record>
+    <record id="tms_purchase_and_workshop" model="res.groups">
+        <field name="name">Purchase And Workhsop</field>
+      <!--   <field name="category_id" ref="base.module_category_hidden"/> -->
+       <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/> 
+    </record>
+    <record id="tms_planning_and_extension" model="res.groups">
+        <field name="name">Planning And Extension</field>
+      <!--   <field name="category_id" ref="base.module_category_hidden"/> -->
+       <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/> 
+    </record> 
+    
+    
+    <record id="tms_fleet_vehicle" model="res.groups">
+        <field name="name">Vehicle Manager</field>
+      <!--   <field name="category_id" ref="base.module_category_hidden"/> -->
+       <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/> 
+    </record>   
+
+
+</data>
+<!-- <data noupdate="1">
+    Multi - Company Rules
+
+    <record model="ir.rule" id="sale_order_comp_rule">
+        <field name="name">Sales Order multi-company</field>
+        <field name="model_id" ref="model_sale_order"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]</field>
+    </record>
+
+    <record model="ir.rule" id="sale_order_line_comp_rule">
+        <field name="name">Sales Order Line multi-company</field>
+        <field name="model_id" ref="model_sale_order_line"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]</field>
+    </record>
+
+    <record model="ir.rule" id="sale_order_report_comp_rule">
+        <field name="name">Sales Order Analysis multi-company</field>
+        <field name="model_id" ref="model_sale_report"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]</field>
+    </record>
+
+    Multi - Salesmen sales order assignation rules
+
+    <record id="sale_order_personal_rule" model="ir.rule">
+        <field name="name">Personal Orders</field>
+        <field ref="model_sale_order" name="model_id"/>
+        <field name="domain_force">['|',('user_id','=',user.id),('user_id','=',False)]</field>
+        <field name="groups" eval="[(4, ref('base.group_sale_salesman'))]"/>
+    </record>
+    <record id="sale_order_see_all" model="ir.rule">
+        <field name="name">All Orders</field>
+        <field ref="model_sale_order" name="model_id"/>
+        <field name="domain_force">[(1,'=',1)]</field>
+        <field name="groups" eval="[(4, ref('base.group_sale_salesman_all_leads'))]"/>
+    </record>
+
+    <record id="sale_order_report_personal_rule" model="ir.rule">
+        <field name="name">Personal Orders Analysis</field>
+        <field ref="model_sale_report" name="model_id"/>
+        <field name="domain_force">['|',('user_id','=',user.id),('user_id','=',False)]</field>
+        <field name="groups" eval="[(4, ref('base.group_sale_salesman'))]"/>
+    </record>
+
+    <record id="sale_order_report_see_all" model="ir.rule">
+        <field name="name">All Orders Analysis</field>
+        <field ref="model_sale_report" name="model_id"/>
+        <field name="domain_force">[(1,'=',1)]</field>
+        <field name="groups" eval="[(4, ref('base.group_sale_salesman_all_leads'))]"/>
+    </record>
+
+    <record id="sale_order_line_personal_rule" model="ir.rule">
+        <field name="name">Personal Order Lines</field>
+        <field ref="model_sale_order_line" name="model_id"/>
+        <field name="domain_force">['|',('order_id.user_id','=',user.id),('order_id.user_id','=',False)]</field>
+        <field name="groups" eval="[(4, ref('base.group_sale_salesman'))]"/>
+    </record>
+
+    <record id="sale_order_line_see_all" model="ir.rule">
+        <field name="name">All Orders Lines</field>
+        <field ref="model_sale_order_line" name="model_id"/>
+        <field name="domain_force">[(1,'=',1)]</field>
+        <field name="groups" eval="[(4, ref('base.group_sale_salesman_all_leads'))]"/>
+    </record>
+
+</data> -->
+</openerp>

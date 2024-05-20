@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<record id="view_request_item_list_tree" model="ir.ui.view">
+			<field name="name">tree.request.item.list</field>
+			<field name="model">request.item.list</field>
+			<field name="arch" type="xml">
+				<tree >
+					<field name="name"/>
+					<field name="user_id"/>
+					<field name="project_id"/>
+					<field name="location_id"/>
+					<field name="order_date"/>
+					<field name="min_expected_date"/>
+					<field name="max_expected_date"/>
+					<field name="item_id"/>
+					<field name="desc"/>
+					<field name="unit"/>
+					<field name="available_quantity"/>
+					<field name="quantity"/>
+					<field name="requested_quantity"/>
+					<!--field name="rate "/-->
+					
+
+					
+					
+				</tree>
+			</field>
+		</record>
+
+		<record id="request_item_list_search_search" model="ir.ui.view">
+			<field name="name">tree.request.item.list.search</field>
+			<field name="model">request.item.list</field>
+			<field name="arch" type="xml">
+				<search>
+
+						<field name="project_id" />
+						<field name="item_id"/>
+
+				</search>
+			</field>
+		</record>
+
+		<record id="purchase_order_line_search_search" model="ir.ui.view">
+			<field name="name">tree.purchase.order.line.search</field>
+			<field name="model">purchase.order.line</field>
+			<field name="arch" type="xml">
+				<search>
+
+						<field name="project_id" />
+						<field name="product_id"/>
+
+				</search>
+			</field>
+		</record>
+
+		<record id="view_purchase_order_line_tree" model="ir.ui.view">
+			<field name="name">tree.purchase.order.line</field>
+			<field name="model">purchase.order.line</field>
+			<field name="arch" type="xml">
+				<tree >
+					<field name="po_name"/>
+					<field name="project_id"/>
+					<field name="supplier_id"/>
+					<field name="order_date"/>
+					<field name="destination_id"/>
+					<field name="product_id"/>
+					<field name="name"/>
+					<field name="required_qty"/>
+					<field name="product_uom"/>
+					<field name="product_qty"/>
+					<field name="price_unit"/>
+					<field name="taxes_id"/>
+					<field name="price_subtotal"/>
+					<field name="tax_amount"/>
+					<field name="total"/>
+					<field name="amount_total"/>
+					
+				</tree>
+			</field>
+		</record>
+<!--		<record id="view_goods_receive_report_line_tree" model="ir.ui.view">-->
+<!--			<field name="name">tree.goods.receive.report.line</field>-->
+<!--			<field name="model">goods.recieve.report.line</field>-->
+<!--			<field name="arch" type="xml">-->
+<!--				<tree >-->
+<!--					<field name="date" string="Invoice Date"/>-->
+<!--					<field name="grr_no"/>-->
+<!--					<field name="mpr_id"/>-->
+<!--					<field name="purchase_id"/>-->
+<!--					<field name="supplier_id"/>-->
+<!--					<field name="supplier_location_id"/>-->
+<!--					<field name="invoice_no" string="Invoice No"/>-->
+<!--					<field name="mr_slip_no"/>-->
+<!--					<field name="invoice_date" string="Date"/>-->
+<!--					<field name="vehicle_id"/>-->
+<!--					<field name="vehicle_no"/>-->
+<!--					<field name="project_id"/>-->
+<!--					<field name="project_location_id"/>-->
+<!--					<field name="item_id"/>-->
+<!--					<field name="desc"/>-->
+<!--					<field name="specs"/>-->
+<!--					<field name="unit_id"/>-->
+<!--					<field name="po_quantity"/>-->
+<!--					<field name="quantity_rec"/>-->
+<!--					<field name="quantity_accept"/>-->
+<!--					<field name="quantity_reject"/>-->
+<!--					<field name="rate"/>-->
+<!--					<field name="tax_ids" widget="many2many_tags"/>-->
+<!--					<field name="sub_total"/>-->
+<!--					<field name="cgst_amount"/>-->
+<!--					<field name="sgst_amount"/>-->
+<!--					<field name="igst_amount"/>-->
+<!--					<field name="total_amount"/>-->
+<!--					<field name="remarks"/>-->
+
+<!--					-->
+<!--				</tree>-->
+<!--			</field>-->
+<!--		</record>-->
+
+		<record id="material_issue_slip_search_search" model="ir.ui.view">
+			<field name="name">tree.material.issue.slip.search</field>
+			<field name="model">material.issue.slip.line</field>
+			<field name="arch" type="xml">
+				<search>
+
+						<field name="project_id_export" />
+						<field name="item_id"/>
+
+				</search>
+			</field>
+		</record>
+
+		<record id="view_material_issue_slip_line_tree" model="ir.ui.view">
+			<field name="name">tree.material.issue.slip.line</field>
+			<field name="model">material.issue.slip.line</field>
+			<field name="arch" type="xml">
+				<tree >
+					<field name="mrn_no"/>
+					<field name="date_export"/>
+					<field name="project_id_export"/>
+					<field name="source_location_id"/>
+					<field name="employee_id"/>
+
+					<field name="location_id"/>
+					<field name="vehicle_id"/>
+					<field name="item_id"/>
+
+					<field name="desc"/>
+					<field name="unit_id"/>
+					<field name="stock"/>
+					<field name="quantity"/>
+					<field name="req_qty"/>
+					<field name="rem_qty"/>
+					<field name="rate"/>
+					<field name="amount"/>
+					<field name="remarks"/>
+
+					
+				</tree>
+			</field>
+		</record>
+
+		<record id="debit_note_supplier_search_search" model="ir.ui.view">
+			<field name="name">tree.debit.note.supplier.line.search</field>
+			<field name="model">debit.note.supplier.line</field>
+			<field name="arch" type="xml">
+				<search>
+
+
+						<field name="item_id"/>
+
+				</search>
+			</field>
+		</record>
+
+		<record id="view_debit_note_supplier_tree_line" model="ir.ui.view">
+			<field name="name">tree.debit.note.supplier.line</field>
+			<field name="model">debit.note.supplier.line</field>
+			<field name="arch" type="xml">
+				<tree >
+					<field name="name"/>
+					<field name="date_export"/>
+					<field name="employee_id"/>
+					<field name="location_id"/>
+					<field name="source_location_id"/>
+					<field name="date"/>
+					<field name="grr_number"/>
+					<field name="item_id"/>
+					<field name="unit_id"/>
+					<field name="quantity"/>
+					<field name="rate"/>
+					<field name="total"/>
+					<field name="remarks"/>
+
+					
+				</tree>
+			</field>
+		</record>
+
+		<record id="view_goods_transfer_note_line_tree_view" model="ir.ui.view">
+			<field name="name">tree.goods.transfer.note.line.tree.view</field>
+			<field name="model">goods.transfer.dummy</field>
+			<field name="arch" type="xml">
+				<tree >
+					<field name="gtn_no"/>
+					<field name="date"/>
+					<field name="rece_date"/>
+					<field name="from_project_id"/>
+					<field name="to_project_id"/>
+					<field name="current_project_id"/>
+					<field name="vehicle_id"/>
+					<field name="item_id"/>
+					<field name="desc"/>
+					<field name="specs"/>
+					<field name="unit_id"/>
+					<field name="qty"/>
+					<field name="rate"/>
+					<field name="value"/>
+					<field name="remarks"/>
+			</tree>
+			</field>
+		</record>
+
+		<record model="ir.actions.act_window" id="action_goods_transfer_note_in_tree">
+			<field name="name"> Export List</field>
+			<field name="res_model">goods.transfer.dummy</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree</field>
+			<field name="domain">[('gtn_no','!=',False)]</field>
+			<!--field name="domain">[('usage','=','internal')]</field-->
+		</record>
+
+		<record model="ir.actions.act_window" id="action_request_item_list_tree">
+			<field name="name"> Export List</field>
+			<field name="res_model">request.item.list</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree</field>
+			<field name="domain">[('req_list_line','!=',False)]</field>
+			<!--field name="domain">[('usage','=','internal')]</field-->
+		</record>
+		<record model="ir.actions.act_window" id="action_purchase_order_line_tree">
+			<field name="name"> Export List</field>
+			<field name="res_model">purchase.order.line</field>
+			<field name="view_id" ref="view_purchase_order_line_tree"/>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree</field>
+			<field name="domain">[('order_id','!=',False)]</field>
+		</record>
+<!--		<record model="ir.actions.act_window" id="action_goods_receive_report_line_tree">-->
+<!--			<field name="name"> Export List</field>-->
+<!--			<field name="res_model">goods.recieve.report.line</field>-->
+<!--			<field name="domain">[('grr_no','=',False)]</field>-->
+<!--			<field name="view_id" ref="view_goods_receive_report_line_tree"/>-->
+<!--			<field name="view_type">form</field>-->
+<!--			<field name="view_mode">tree</field>-->
+<!--			<field name="domain">[('goods_recieve_report_id','!=',False)]</field>-->
+<!--		</record>-->
+		<record model="ir.actions.act_window" id="action_material_issue_slip_line_tree">
+			<field name="name"> Export List</field>
+			<field name="res_model">material.issue.slip.line</field>
+			<field name="view_id" ref="view_material_issue_slip_line_tree"/>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree</field>
+			<field name="domain">[('material_issue_slip_id','!=',False)]</field>
+		</record>
+		<record model="ir.actions.act_window" id="action_debit_note_supplier_tree">
+			<field name="name"> Export List</field>
+			<field name="res_model">debit.note.supplier.line</field>
+			<field name="view_id" ref="view_debit_note_supplier_tree_line"/>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree</field>
+			<field name="domain">[('debit_note_supplier_id','!=',False)]</field>
+		</record>
+
+		<menuitem id = "menu_request_item_list_tree" name ="Export Tree View" parent = "stock.menu_stock_root" sequence="10"/>
+		<menuitem id = "menu_action_request_item_list_tree" name ="Export MPR Details" parent = "menu_request_item_list_tree" action ="action_request_item_list_tree"/>
+		<menuitem id = "menu_action_purchase_order_line_tree" name ="Export PO Details" parent = "menu_request_item_list_tree" action ="action_purchase_order_line_tree"/>
+<!--		<menuitem id = "menu_action_goods_receive_report_line_tree" name ="Export GRR Details" parent = "menu_request_item_list_tree" action ="action_goods_receive_report_line_tree"/>-->
+		<menuitem id = "menu_action_material_issue_slip_line_tree" name ="Export MRN Details" parent = "menu_request_item_list_tree" action ="action_material_issue_slip_line_tree"/>
+		<menuitem id = "menu_action_debit_note_supplier_tree" name ="Export DBN Details" parent = "menu_request_item_list_tree" action ="action_debit_note_supplier_tree"/>
+		<menuitem id = "menu_action_goods_transfer_note_line_tree" name ="Export GTN Details" parent = "menu_request_item_list_tree" action ="action_goods_transfer_note_in_tree"/>
+
+	</data>
+</openerp>
+

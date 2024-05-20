@@ -1,0 +1,122 @@
+<openerp>
+    <data>
+
+        <record id="daily_monthly_service_form" model="ir.ui.view">
+            <field name="name">Service Monthly/Daily Report</field>
+            <field name="model">service.month.day</field>
+            <field name="arch" type="xml">
+                <form string="Service Monthly/Daily">
+                    <group>
+                        <field name="date_from" required="1"/>
+                        <field name="date_to"/>
+                    </group>
+                    <footer>
+                        <button type="object" name="print_report" class="oe_highlight" string="Print"/>
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="action_daily_monthly_service" model="ir.actions.act_window">
+            <field name="name">Service Monthly/Daily Report Action</field>
+            <field name="res_model">service.month.day</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="menu_daily_monthly_service"
+                  action="action_daily_monthly_service"
+                  name="Vehicle Maintenance Details"
+                  sequence="0"/>
+
+
+        <report id="report_daily_monthly_service" string="Service Monthly/Daily Report"
+                model="service.month.day" report_type="qweb-pdf"
+                menu="0"
+                name="hiworth_tms.report_daily_monthly_service_template"/>
+
+        <template id="report_daily_monthly_service_template">
+            <t t-call="report.html_container">
+                    <t t-call="report.external_layout">
+                        <div class="page">
+                            <header>
+                                <center><strong><h1>Daily/ Monthly Vehicle Maintenance Details</h1></strong></center>
+                            </header>
+<!--                            <span t-esc="o"/>-->
+                            <t t-set="sl_no" t-value="1"/>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Sl.No</th>
+                                        <th>Date Received</th>
+                                        <th>Type</th>
+                                        <th>Vehicle Plate Number</th>
+                                        <th>Vehicle Fleet Number</th>
+                                        <th>KM/HRS Reading</th>
+                                        <th>Nature Of Work</th>
+                                        <th>Works Done</th>
+                                        <th>Spares Used</th>
+                                        <th>Mechanic</th>
+                                        <th>Maintenance Category</th>
+                                        <th>Remarks</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="docs" t-as="listy">
+                                        <tr>
+                                            <td>
+                                                <t t-esc="sl_no"/>
+                                            </td>
+                                            <td>
+                                                <t t-esc="listy['date_received']"/>
+                                            </td>
+                                            <td>
+                                                <t t-esc="listy['type']"/>
+                                            </td>
+                                            <td>
+                                                <t t-esc="listy['vehicle_number']"/>
+                                            </td>
+                                            <td>
+                                                <t t-esc="listy['fleet_number']"/>
+                                            </td>
+                                            <td>
+                                                <t t-esc="listy['reading']"/>
+                                            </td>
+                                            <td>
+                                                <t t-esc="listy['work']"/>
+                                            </td>
+                                            <td>
+                                                <t t-esc="listy['work_done']"/>
+                                            </td>
+                                            <td>
+                                                <t t-foreach="listy['spare_used']" t-as="p">
+                                                    <span t-esc="p"/>,
+                                                </t>
+                                            </td>
+                                            <td>
+                                                <t t-foreach="listy['mechanic']" t-as="m">
+                                                    <span t-esc="m"/>,
+                                                </t>
+                                            </td>
+                                            <td>
+                                                <t t-esc="listy['category']"/>
+                                            </td>
+                                            <td>
+                                                <t t-esc="listy['remark']"/>
+                                            </td>
+                                        </tr>
+                                        <t t-set="sl_no" t-value="sl_no+1"/>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </t>
+                </t>
+        </template>
+
+    </data>
+</openerp>

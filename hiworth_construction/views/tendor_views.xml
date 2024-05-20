@@ -1,0 +1,1999 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+
+		<menuitem id="main_menu_hiworth_tender" parent="base.menu_main_pm"
+			name="Tender" sequence="10" />
+
+
+		<record id="view_hiworth_tender_req_tree" model="ir.ui.view">
+			<field name="name">tree_view_hiworth_tender</field>
+			<field name="model">hiworth.tender</field>
+			<field name="arch" type="xml">
+				<tree string="Tender" default_order='creation_date desc'>
+					<field name="creation_date" />
+					<field name="name" />
+					<field name="location_id" />
+					<field name="initial_state" />
+				</tree>
+			</field>
+		</record>
+
+		<record id="view_hiworth_tender_form" model="ir.ui.view">
+			<field name="name">form_view_hiworth_tender</field>
+			<field name="model">hiworth.tender</field>
+			<field name="arch" type="xml">
+				<form string="Tender">
+					<header>
+						<button name="button_approve" attrs="{'invisible':[('initial_state','!=', 'draft')]}" string="Approve" type="object" class="oe_highlight"/>
+						<button name="button_reject" attrs="{'invisible':[('initial_state','!=', 'draft')]}" string="Reject" type="object" class="oe_highlight"/>
+
+						<field name="initial_state" widget="statusbar" statusbar_visible="draft,approved,rejected,cancel"/>
+						<button name="button_cancel_initial"  attrs="{'invisible':[('initial_state','in', ['draft','cancel'])]}" string="Cancel" type="object" class="oe_highlight"/>
+						<button name="button_apac_approval" attrs="{'invisible':[('initial_state','!=', 'approved')]}" string="APAC Approve" type="object" class="oe_highlight" invisible="1"/>
+						<button name="button_reset_draft_intial"  attrs="{'invisible':[('initial_state','not in', ['cancel'])]}" string="Set To Draft" type="object" class="oe_highlight"/>
+					</header>
+					<sheet>
+						<group >
+							<group >
+								<field name="name" required="1" attrs="{'readonly':[('initial_state','!=', 'draft')]}"/>
+								<field name="work_nature" attrs="{'readonly':[('initial_state','!=', 'draft')]}"/>
+							</group>
+							<group>
+								<field name="is_project_created" readonly="1"/>
+								<field name="company_id" invisible="1"/>
+							</group>
+						</group>
+						<group>
+							<group>
+								<field name="customer_id" required="1" attrs="{'readonly':[('initial_state','!=', 'draft')]}"/>
+								<field name="contractor_id1" required="1" domain="[('tender_contractor','=',True)]" attrs="{'readonly':[('initial_state','!=', 'draft')]}"/>
+								<field name="tender_no" required="1" attrs="{'readonly':[('initial_state','!=', 'draft')]}"/>
+							</group>
+							<group>
+								<field name="creation_date" readonly="1"/>
+								<field name="location_id" required="1" domain="[('tender_location','=',True)]" attrs="{'readonly':[('initial_state','!=', 'draft')]}"/>
+								<field name="district_id" required="1" attrs="{'readonly':[('initial_state','!=', 'draft')]}"/>
+							</group>
+						</group>
+						<group>
+							<group>
+								<field name="pac" widget="char" required="1" attrs="{'readonly':[('initial_state','!=', 'draft')]}"/>
+								<field name="emd" required="1" widget="char" attrs="{'readonly':[('initial_state','!=', 'draft')]}"/>
+							</group>
+							<group>
+								<field name="last_date" required="1" attrs="{'readonly':[('initial_state','!=', 'draft')]}"/>
+								<field name="postponed_date"/>
+								<field name="tender_cost"  widget="char" required="1" attrs="{'readonly':[('initial_state','!=', 'draft')]}"/>
+							</group>
+						</group>
+						<group>
+							<field name="remarks_of_rejection" attrs="{'invisible':[('initial_state','!=', 'rejected')],'required':[('initial_state','=', 'rejected')]}" />
+						</group>
+						<group>
+							<group>
+								<!-- <field name="apac" widget="char"/> -->
+								<field name="status" attrs="{'invisible':[('initial_state','in', ['draft','rejected','approved'])]}"/>
+								<field name="percent" widget="char" attrs="{'invisible':['|',('initial_state','in', ['draft','rejected','approved']),('status','=', 'equal')]}"/>
+								<!-- <field name="tender_fee" widget="char" /> -->
+							</group>
+							<group>
+							</group>
+						</group>
+
+					</sheet>
+				</form>
+			</field>
+		</record>
+			
+		<record id="action_hiworth_tender_req" model="ir.actions.act_window">
+			<field name="name">Tender</field>
+			<field name="res_model">hiworth.tender</field>
+			<field name="domain">[]</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_type">form</field>
+		</record>
+
+		<record id="action_hiworth_tender_req_tree" model="ir.actions.act_window.view">
+			<field name="view_mode">tree</field>
+			<field name="view_id" ref="view_hiworth_tender_req_tree"/>
+			<field name="act_window_id" ref="action_hiworth_tender_req"/>
+		</record>
+
+		<record id="action_hiworth_tender_req_form" model="ir.actions.act_window.view">
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="view_hiworth_tender_form"/>
+			<field name="act_window_id" ref="action_hiworth_tender_req"/>
+		</record>
+
+
+		<menuitem id="menu_hiworth_tender_req" parent="main_menu_hiworth_tender"
+			action="action_hiworth_tender_req" name="Tender Opening" sequence="1" />
+
+
+		<record id="view_hiworth_tender_tree" model="ir.ui.view">
+			<field name="name">tree_view_hiworth_tender</field>
+			<field name="model">hiworth.tender</field>
+			<field name="arch" type="xml">
+				<tree string="Tender" create="false" default_order='tender_code desc'>
+					<field name="tender_code" />
+					<field name="name" />
+					<field name="contractor_id1" readonly="1"/>
+					<field name="customer_id" readonly="1"/>
+					<field name="location_id" />
+					<field name="district_id" readonly="1"/>
+
+					<field name="pac"/>
+					<field name="emd_date" />
+					<field name="emd"/>
+
+					<field name="last_date"/>
+					<field name="tender_cost"/>
+
+					<field name="apac"/>
+					<field name="status"/>
+					<field name="percent" />
+
+					<field name="technical_opening_date"/>
+					<field name="financial_opening_date"/>
+					
+					<field name="notice_received_date"/>
+					<field name="agreement_date"/>
+					<field name="agreement_no"/>
+					<field name="notice_no" />
+					<field name="package_no"/>
+
+					<field name="bg_date" />
+					<field name="available_collateral" />
+					<field name="bg_amount"/>
+					<field name="fd_percent"/>
+					<field name="fd_amount"/>
+					<field name="com_security_amount" />
+					<field name="performance_security_amount"/>
+
+					<field name="state" />
+				</tree>
+			</field>
+		</record>
+
+		 ################  search view #########################
+		<record id="tender_search_view" model="ir.ui.view">
+			<field name="name">tender.search.view</field>
+			<field name="model">hiworth.tender</field>
+			<field name="arch" type="xml">
+				<search string="Tender">
+					<field name="tender_code" />
+					<field name="name" />
+					<field name="contractor_id1" />
+					<field name="customer_id" />
+					<field name="location_id" />
+					<group expand="0" string="group by">
+						<filter name="groupby_tender_code" string="Tender code" 
+							context="{'group_by':'tender_code'}"/>
+						<filter name="groupby_name" context="{'group_by': 'name'}" string="Name"  />
+						<filter name="groupby_contractor_1" context="{'group_by':'contractor_id1'}" 
+							string="Contract awarder"/>
+						<filter name="groupby_contractor" context="{'group_by':'customer_id'}"
+							string="Customer"/>
+						<filter name="groupby_location" context="{'group_by':'location_id'}" 
+							string="Location"/>
+					</group>
+				</search>
+			</field>
+		</record>
+
+
+		<record id="view_hiworth_tender_form_app" model="ir.ui.view">
+			<field name="name">form_view_hiworth_tender</field>
+			<field name="model">hiworth.tender</field>
+			<field name="arch" type="xml">
+				<form string="Tender" create="false">
+					<header>
+						<button name="button_apac_approval" attrs="{'invisible':[('state','!=', 'draft')]}" string="APAC Approve" type="object" class="oe_highlight" />
+
+						<button name="button_transfer_qout" attrs="{'invisible':[('state','!=', 'apac_approve')]}" string="EMD Payment" type="object" class="oe_highlight"/>
+
+						<button name="action_transfer_quot" attrs="{'invisible':[('state','!=', 'emd_payment')]}" string="Transfer Quotation" type="object" class="oe_highlight"/>
+
+						<button name="button_technical_bid_open" attrs="{'invisible':[('state','!=', 'transfer_quot')]}" string="Open Technical Bid" type="object" class="oe_highlight"/>
+
+						<button name="button_financial_bid_open" attrs="{'invisible':[('state','!=', 'technical_bid')]}" string="Open Financial Bid" type="object" class="oe_highlight"/>
+
+						<button name="button_receive_selection" attrs="{'invisible':[('state','!=', 'financial_bid')]}" string="Receive Selection Notice" type="object" class="oe_highlight"/>
+
+						<button name="button_gaurantee_entries" attrs="{'invisible':[('state','!=', 'selected')]}" string="Create Gaurantee Entries" type="object" class="oe_highlight"/>
+
+						<button name="button_technical_reject" states="apac_approve,emd_payment,transfer_quot,technical_bid,financial_bid,draft,selected,processing,submission" string="Reject" type="object" class="oe_highlight"/>
+
+						<button name="button_create_project" string="Create Project" type="object" class="oe_highlight" attrs="{'invisible':[('is_project_created','=',True)]}"/>
+
+						<button name="button_emd_return" string="EMD Release" type="object" class="oe_highlight" attrs="{'invisible':['|',('emd_boolean','=', True),('state','not in', ['rejected','processing','submission'])]}"/>
+
+						<button name="button_bg_release" string="BG Release" type="object" class="oe_highlight" attrs="{'invisible':['|',('bg_boolean','=', True),('state', '!=', 'submission')]}"/>
+						<button name="button_common_security_release" string="CS Release" type="object" class="oe_highlight" attrs="{'invisible':['|',('cs_boolean','=', True),('state', '!=', 'submission')]}"/>
+						<button name="button_performance_security_release" string="PS Release" type="object" class="oe_highlight" attrs="{'invisible':['|',('ps_boolean','=', True),('state', '!=', 'submission')]}"/>
+
+						<button name="button_cancel" states="apac_approve,emd_payment,transfer_quot,technical_bid,financial_bid,selected,processing,submission" string="Cancel" type="object" class="oe_highlight"/>
+
+						<button name="button_reset_draft" states="cancel" string="Reset To Draft" type="object" class="oe_highlight"/>
+						
+						<field name="state" widget="statusbar" statusbar_visible="draft,apac_approve,emd_payment,transfer_quot,technical_bid,financial_bid,selected,processing,submission,closed"/>
+
+					</header>
+					<sheet>
+						<div class="oe_right oe_button_box" name="buttons">
+							<button class="oe_inline oe_stat_button" type="object" name="view_security_deposit" icon="fa-tasks" string="Security Deposit"/> 
+							<button class="oe_inline oe_stat_button" type="object" name="view_emd_deposit" icon="fa-tasks" string="EMD Deposit"/> 
+						</div>
+						<h1>
+							<field name="tender_code" readonly="1"/>
+						</h1>
+
+						<group>
+							<group>
+								<field name="name" readonly="1"/>
+								<field name="work_nature" readonly="1"/>
+							</group>
+							<group>
+								<field name="is_project_created" readonly="1"/>
+								<field name="company_id" invisible="1"/>
+							</group>
+						</group>
+						<group>
+							<group>
+								<field name="contractor_id1" readonly="1"/>
+								<field name="customer_id"/>
+								<field name="tender_no" readonly="1"/>
+							</group>
+							<group>
+								<field name="location_id" readonly="1"/>
+								<field name="district_id" readonly="1"/>
+							</group>
+						</group>
+						<group>
+							<group>
+								<field name="pac" widget="char" readonly="1"/>
+								<field name="emd_date" readonly="1" attrs="{'invisible':[('state','=', 'draft')]}"/>
+								<field name="bank_id" readonly="1" attrs="{'invisible':[('state','=', 'draft')]}"/>
+								<field name="emd" readonly="1" widget="char"/>
+								<field name="emd_account" readonly="1" attrs="{'invisible':[('state','=', 'draft')]}"/>
+							</group>
+							<group>
+								<field name="last_date" readonly="1"/>
+								<field name="postponed_date" attrs="{'invisible':[('state','!=', 'draft'),('postponed_date','=',False)],'readonly':[('state','!=', 'draft')]}"/>
+								<field name="tender_cost"  widget="char" readonly="1"/>
+								<field name="tender_cost_account" readonly="1" attrs="{'invisible':[('state','=', 'draft')]}"/>
+								
+							</group>
+							
+						</group>
+						<group>
+							
+							<group attrs="{'invisible':[('state','not in', ['closed'])]}">
+								<field name="return_emd" readonly="1"  widget="char"/>
+								<field name="return_emd_date" readonly="1" />
+								<field name="return_bank_id" readonly="1" />
+								<field name="no_emd_days" widget="char"/>
+							</group>
+							<group>
+								
+							</group>
+						</group>
+						<group>
+							<field name="remarks_of_rejection" attrs="{'invisible':[('state','!=', 'rejected')],'required':[('state','=', 'rejected')]}" />
+							<field name="reject" invisible="1"/>
+						</group>
+						<group>
+							<group>
+								<field name="apac" widget="char" attrs="{'required':[('state','=','draft')]}"/>
+								<field name="status" />
+								<field name="percent" widget="char" attrs="{'invisible':[('status','=', 'equal')]}"/>
+								<!-- <field name="tender_fee" widget="char" /> -->
+							</group>
+							<group>
+							</group>
+						</group>
+						
+						<group>
+							<field name="technical_opening_date" attrs="{'required':[('state','=', 'transfer_quot')], 'readonly':[('state','not in', ['transfer_quot'])],'invisible':[('state','=', 'draft')]}"/>
+							<field name="financial_opening_date" attrs="{'invisible':[('state','=', 'draft')]}"/>
+						</group>
+						<group col="4" attrs="{'invisible':[('state','not in', ['financial_bid','selected','processing','closed'])]}" string="Selection Notice Details">
+							
+							<field name="notice_received_date" attrs="{'required':[('state','=', 'selected')], 'readonly':[('state','!=', 'financial_bid')]}"/>
+							<field name="last_agreement_date" attrs="{'required':[('state','=', 'selected')], 'readonly':[('state','!=', 'financial_bid')]}"/>
+							<field name="notice_no" attrs="{'required':[('state','=', 'selected')], 'readonly':[('state','!=', 'financial_bid')]}"/>
+							<field name="agreement_date" attrs="{'required':[('state','=', 'processing')], 'readonly':[('state','not in', ['selected','processing'])]}"/>
+							<field name="package_no" attrs="{ 'readonly':[('state','!=', 'financial_bid')]}" invisible="1"/>
+							<field name="agreement_no" attrs="{'required':[('state','=', 'processing')], 'readonly':[('state','not in', ['selected','processing'])]}"/>
+						</group>
+						
+						<group string="Security Deposit" attrs="{'invisible':[('state','not in', ['submission','closed'])]}" readonly="1">
+							<field name="security_deposit_based" readonly="1"/>
+							<field name="security_deposit_percent" readonly="1"/>
+							<field name="security_wo_round_off" readonly="1"/>
+							<field name="security_round_off" readonly="1"/>
+							<field name="security_deposit_amount" readonly="1"/>
+							<field name="bg_percent" readonly="1"/>
+							<field name="treasury_percent" readonly="1"/>
+						</group>
+
+						<group attrs="{'invisible':[('state','not in', ['submission','closed'])]}">
+							
+							<group string="Bank Gaurantee Details">
+								<field name="bg_date" attrs="{'invisible':[('state','not in', ['submission','closed'])]}" readonly="1"/>
+								<field name="bg_amount" attrs="{'invisible':[('state','not in', ['submission','closed'])]}" readonly="1"/>
+								
+								<field name="fd_percent" attrs="{'invisible':[('state','not in', ['submission','closed'])]}" readonly="1"/>
+								<field name="fd_amount_wo_roundoff" attrs="{'invisible':[('state','not in', ['submission','closed'])]}" readonly="1"/>
+								<field name="fd_round_off" attrs="{'invisible':[('state','not in', ['submission','closed'])]}" readonly="1"/>
+								<field name="fd_amount" attrs="{'invisible':[('state','not in', ['submission','closed'])]}" readonly="1"/>
+								<field name="fd_account" attrs="{'invisible':[('state','not in', ['submission','closed'])]}" readonly="1"/>
+								<field name="fd_payment_mode" attrs="{'invisible':[('state','not in', ['submission','closed'])]}" readonly="1"/>
+								<field name="fd_number" attrs="{'invisible':[('state','not in', ['submission','closed'])]}" readonly="1"/>
+								<field name="fd_period" attrs="{'invisible':[('state','not in', ['submission','closed'])]}" readonly="1"/>
+								<field name="expected_bg_release_date" attrs="{'invisible':[('state','not in', ['submission','closed'])]}" readonly="1"/>
+
+								<field name="available_collateral" attrs="{'invisible':[('state','not in', ['submission','closed'])]}"/>
+								<field name="release_bg_date" readonly="1" attrs="{'invisible':[('state','not in', ['closed'])]}"/>
+								<field name="release_bg" readonly="1" attrs="{'invisible':[('state','not in', ['closed'])]}"/>
+								<field name="release_bg_account" readonly="1" attrs="{'invisible':[('state','not in', ['closed'])]}"/>
+								<field name="emd_boolean" invisible="1"/>
+								<field name="bg_boolean" invisible="1"/>
+								<field name="cs_boolean" invisible="1"/>
+								<field name="ps_boolean" invisible="1"/>
+								
+							</group>
+							<group string="Normal Security Details" >
+								<field name="cs_date" attrs="{'invisible':[('state','not in', ['submission','closed'])]}" readonly="1"/>
+								<field name="com_security_amount" attrs="{'invisible':[('state','not in', ['submission','closed'])]}" readonly="1"/>
+								<field name="com_security_account" attrs="{'invisible':[('state','not in', ['submission','closed'])]}" readonly="1"/>
+								<field name="com_security_payment_mode" attrs="{'invisible':[('state','not in', ['submission','closed'])]}" readonly="1"/>
+								<field name="cs_treasury_id" attrs="{'invisible':[('state','not in', ['submission','closed'])]}" readonly="1"/>
+								<field name="treasury_number" attrs="{'invisible':[('state','not in', ['submission','closed'])]}" readonly="1"/>
+								<field name="treasury_period" attrs="{'invisible':[('state','not in', ['submission','closed'])]}" readonly="1"/>
+								<field name="expected_cs_release_date" attrs="{'invisible':[('state','not in', ['submission','closed'])]}" readonly="1"/>
+
+								<field name="release_cs_date" readonly="1" attrs="{'invisible':[('state','not in', ['closed'])]}"/>
+								<field name="release_cs" readonly="1" attrs="{'invisible':[('state','not in', ['closed'])]}"/>
+								<field name="release_cs_account" readonly="1" attrs="{'invisible':[('state','not in', ['closed'])]}"/>
+							</group>
+						</group>
+
+						<group string="Performance Security Details" attrs="{'invisible':[('state','not in', ['submission','closed'])]}">
+							<!-- <field name="performance_security_account" attrs="{'invisible':['|',('status','!=', 'below'),('state','not in', ['selected',)]}" readonly="1"/> -->
+							<field name="ps_date" attrs="{'invisible':[('state','not in', ['submission','closed'])]}" readonly="1"/>
+							<field name="perf_security_mode" readonly="1" attrs="{'invisible':[('state','not in', ['submission','closed'])]}"/>
+							<field name="ps_wo_round_off" attrs="{'invisible':[('state','not in', ['submission','closed'])]}" readonly="1"/>
+							<field name="ps_round_off" attrs="{'invisible':[('state','not in', ['submission','closed'])]}" readonly="1"/>
+							<field name="performance_security_amount" attrs="{'invisible':[('state','not in', ['submission','closed'])]}" readonly="1"/>
+							<field name="ps_fd_percent" attrs="{'invisible':[('state','not in', ['submission','closed'])]}" readonly="1"/>
+							<field name="ps_fd_amount" attrs="{'invisible':[('state','not in', ['submission','closed'])]}" readonly="1"/>
+
+							<field name="performance_security_account" attrs="{'invisible':[('state','not in', ['submission','closed'])]}" readonly="1"/>
+							<field name="performance_security_payment_mode" attrs="{'invisible':[('state','not in', ['submission','closed'])]}" readonly="1"/>
+							<!-- <field name="ps_security_type" attrs="{'invisible':[('state','not in', ['submission','closed'])]}" readonly="1"/> -->
+							
+
+							<field name="perf_bank_id" attrs="{'invisible':[('perf_security_mode','!=', 'bank')]}" readonly="1"/>
+							<field name="ps_treasury_id" attrs="{'invisible':[('perf_security_mode','!=', 'treasury')]}" readonly="1"/>
+							<field name="performance_security_payment_mode"  attrs="{'invisible':[('perf_security_mode','!=', 'treasury')]}" readonly="1"/>
+							<field name="perf_security_number" readonly="1" attrs="{'invisible':[('state','not in', ['submission','closed'])]}"/>
+							<field name="perf_security_period" readonly="1" attrs="{'invisible':[('state','not in', ['submission','closed'])]}"/>
+
+							<field name="expected_ps_release_date" attrs="{'invisible':[('state','not in', ['submission','closed'])]}" readonly="1"/>
+
+							<field name="release_ps_date" readonly="1" attrs="{'invisible':[('state','not in', ['closed'])]}"/>
+							<field name="release_ps" readonly="1" attrs="{'invisible':[('state','not in', ['closed'])]}"/>
+							<field name="release_ps_account" readonly="1" attrs="{'invisible':[('state','not in', ['closed'])]}"/>
+						</group>
+
+						<group>
+							<field name="remarks" attrs="{'invisible':[('state','not in', ['submission','closed'])]}" readonly="1"/>
+						</group>
+						<group>
+							<notebook attrs="{'invisible':[('state','!=', 'technical_bid')]}">
+								<page string="Party Details">
+									<field name="party_status_ids1" >
+										<tree editable="bottom">
+											<field name="partner_id" domain="[('tender_contractor','=',True)]" required="1"/>
+											<field name="status" required="1"/>
+										</tree>
+									</field>
+								</page>
+							</notebook>
+						</group>
+						<group>
+							<notebook attrs="{'invisible':[('state','not in', ['financial_bid','selected','processing','closed'])]}">
+								<page string="Party Details">
+									<field name="party_status_ids2" context="{'state': state}" attrs="{'readonly':[('state','not in', ['technical_bid','financial_bid'])]}">
+										<tree editable="bottom" colors="green:tender_position == 'L1'" create="false" delete="false">
+											<field name="partner_id" readonly="1"/>
+											<field name="percentage"/>
+											<field name="quoted_amount" required="1" widget="char"/>
+											<!-- <field name="quoted_amount" attrs="{'required':[('state','=', 'financial_bid')]}"/> -->
+											<field name="tender_position"/>
+											<field name="status" invisible="1"/>
+										</tree>
+									</field>
+								</page>
+							</notebook>
+						</group>
+						<group>
+							<notebook>
+								<page string="Attachments">
+									<field name="attachment_ids" attrs="{'readonly':[('state','=', 'closed')]}">
+										<tree editable="bottom">
+											<field name="date" required="1"/>
+											<field name="name" />
+											<field name="binary_field" filename="filename" />
+											<field name="filename" />
+										</tree>
+									</field>
+								</page>
+							</notebook>
+						</group>
+
+						<group>
+							<notebook attrs="{'invisible':[('state','=', 'draft')]}">
+								<page string="EMD Followup">
+									<field name="emd_return_ids2" attrs="{'readonly':[('state','=', 'closed')]}">
+										<tree editable="bottom">
+											<field name="date" required="1"/>
+											<field name="contact_person" required="1"/>
+											<field name="remarks" required="1"/>
+											<field name="followup_date" required="1"/>
+										</tree>
+									</field>
+								</page>
+							</notebook>
+						</group>
+
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+
+
+
+		<record id="view_hiworth_tender_form_app_already_created" model="ir.ui.view">
+			<field name="name">form_view_hiworth_tender</field>
+			<field name="model">hiworth.tender</field>
+			<field name="arch" type="xml">
+				<form string="Tender" >
+					<header>
+
+
+						<button name="button_gaurantee_entries" attrs="{'invisible':[('state','!=', 'selected')]}" string="Create Gaurantee Entries" type="object" class="oe_highlight"/>
+
+						<button name="button_create_project" string="Create Project" type="object" class="oe_highlight" attrs="{'invisible':[('is_project_created','=',True)]}"/>
+
+
+
+						<button name="button_cancel" states="apac_approve,emd_payment,transfer_quot,technical_bid,financial_bid,selected,processing,submission" string="Cancel" type="object" class="oe_highlight"/>
+
+						<button name="button_reset_draft" states="cancel" string="Reset To Draft" type="object" class="oe_highlight"/>
+
+						<field name="state" widget="statusbar" statusbar_visible="draft,transfer_quot,technical_bid,financial_bid,selected,processing,submission,closed"/>
+
+					</header>
+					<sheet>
+						<div class="oe_right oe_button_box" name="buttons">
+							<button class="oe_inline oe_stat_button" type="object" name="view_security_deposit" icon="fa-tasks" string="Security Deposit"/>
+
+						</div>
+						<h1>
+							<field name="tender_code"/>
+						</h1>
+
+						<group>
+							<group>
+								<field name="name"/>
+								<field name="work_nature"/>
+							</group>
+							<group>
+								<field name="is_project_created" readonly="1"/>
+								<field name="company_id" invisible="1"/>
+							</group>
+						</group>
+						<group>
+							<group>
+								<field name="contractor_id1" domain="[('tender_contractor','=',True)]"/>
+								<field name="customer_id"/>
+								<field name="tender_no" />
+							</group>
+							<group>
+								<field name="location_id" domain="[('tender_location','=',True)]"/>
+								<field name="district_id" />
+							</group>
+						</group>
+						<group>
+							<group>
+								<field name="pac" widget="char" />
+								<field name="emd_date" />
+								<field name="bank_id" />
+								<field name="emd" widget="char"/>
+								<field name="emd_account" />
+							</group>
+							<group>
+								<field name="last_date" />
+								<field name="postponed_date" />
+								<field name="tender_cost"  widget="char" />
+								<field name="tender_cost_account" />
+
+							</group>
+
+						</group>
+						<group>
+
+							<!--<group attrs="{'invisible':[('state','not in', ['closed'])]}">
+								<field name="return_emd" readonly="1"  widget="char"/>
+								<field name="return_emd_date" readonly="1" />
+								<field name="return_bank_id" readonly="1" />
+								<field name="no_emd_days" widget="char"/>
+							</group>-->
+							<group>
+
+							</group>
+						</group>
+						<group>
+							<!--<field name="remarks_of_rejection" attrs="{'invisible':[('state','!=', 'rejected')],'required':[('state','=', 'rejected')]}" />
+							<field name="reject" invisible="1"/>-->
+						</group>
+						<group>
+							<group>
+								<field name="apac" widget="char" />
+								<field name="status" />
+								<field name="percent" widget="char" attrs="{'invisible':[('status','=', 'equal')]}"/>
+								<!-- <field name="tender_fee" widget="char" /> -->
+							</group>
+							<group>
+							</group>
+						</group>
+
+						<group>
+							<field name="technical_opening_date" />
+							<field name="financial_opening_date" />
+						</group>
+						<group col="4"  string="Selection Notice Details">
+
+							<field name="notice_received_date" />
+							<field name="last_agreement_date" />
+							<field name="notice_no" />
+							<field name="agreement_date" />
+							<field name="package_no" invisible="1"/>
+							<field name="agreement_no" />
+						</group>
+
+						<group string="Security Deposit" >
+							<field name="security_deposit_based" />
+							<field name="security_deposit_percent" />
+							<field name="security_wo_round_off" />
+							<field name="security_round_off" />
+							<field name="security_deposit_amount" />
+							<field name="bg_percent"/>
+							<field name="treasury_percent" />
+						</group>
+
+						<group >
+
+							<group string="Bank Gaurantee Details">
+								<field name="bg_date" />
+								<field name="bg_amount" />
+
+								<field name="fd_percent" />
+								<field name="fd_amount_wo_roundoff" />
+								<field name="fd_round_off" />
+								<field name="fd_amount" />
+								<field name="fd_account" />
+								<field name="fd_payment_mode" />
+								<field name="fd_number" />
+								<field name="fd_period" />
+								<field name="expected_bg_release_date" />
+
+								<field name="available_collateral" />
+								<field name="release_bg_date" />
+								<field name="release_bg" />
+								<field name="release_bg_account" />
+								<field name="emd_boolean" invisible="1"/>
+								<field name="bg_boolean" invisible="1"/>
+								<field name="cs_boolean" invisible="1"/>
+								<field name="ps_boolean" invisible="1"/>
+
+							</group>
+							<group string="Normal Security Details" >
+								<field name="cs_date" />
+								<field name="com_security_amount" />
+								<field name="com_security_account" />
+								<field name="com_security_payment_mode" />
+								<field name="cs_treasury_id" />
+								<field name="treasury_number" />
+								<field name="treasury_period" />
+								<field name="expected_cs_release_date" />
+
+								<field name="release_cs_date" readonly="1" attrs="{'invisible':[('state','not in', ['closed'])]}"/>
+								<field name="release_cs" readonly="1" attrs="{'invisible':[('state','not in', ['closed'])]}"/>
+								<field name="release_cs_account" readonly="1" attrs="{'invisible':[('state','not in', ['closed'])]}"/>
+							</group>
+						</group>
+
+						<group string="Performance Security Details" attrs="{'invisible':[('state','not in', ['submission','closed'])]}">
+							<!-- <field name="performance_security_account" attrs="{'invisible':['|',('status','!=', 'below'),('state','not in', ['selected',)]}" readonly="1"/> -->
+							<field name="ps_date" />
+							<field name="perf_security_mode" />
+							<field name="ps_wo_round_off" />
+							<field name="ps_round_off" />
+							<field name="performance_security_amount" />
+							<field name="ps_fd_percent" />
+							<field name="ps_fd_amount" />
+
+							<field name="performance_security_account" />
+							<field name="performance_security_payment_mode" />
+							<!-- <field name="ps_security_type" attrs="{'invisible':[('state','not in', ['submission','closed'])]}" readonly="1"/> -->
+
+
+							<field name="perf_bank_id" attrs="{'invisible':[('perf_security_mode','!=', 'bank')]}" />
+							<field name="ps_treasury_id" attrs="{'invisible':[('perf_security_mode','!=', 'treasury')]}" />
+							<field name="performance_security_payment_mode"  attrs="{'invisible':[('perf_security_mode','!=', 'treasury')]}" />
+							<field name="perf_security_number"  />
+							<field name="perf_security_period" />
+
+							<field name="expected_ps_release_date" />
+
+							<field name="release_ps_date" readonly="1" attrs="{'invisible':[('state','not in', ['closed'])]}"/>
+							<field name="release_ps" readonly="1" attrs="{'invisible':[('state','not in', ['closed'])]}"/>
+							<field name="release_ps_account" readonly="1" attrs="{'invisible':[('state','not in', ['closed'])]}"/>
+						</group>
+
+						<group>
+							<field name="remarks" attrs="{'invisible':[('state','not in', ['submission','closed'])]}" readonly="1"/>
+						</group>
+						<group>
+							<notebook >
+								<page string="Party Details">
+									<field name="party_status_ids1" >
+										<tree editable="bottom">
+											<field name="partner_id" required="1"/>
+											<field name="status" required="1"/>
+										</tree>
+									</field>
+								</page>
+							</notebook>
+						</group>
+						<group>
+							<notebook >
+								<page string="Party Details">
+									<field name="party_status_ids2" context="{'state': state}" >
+										<tree editable="bottom" colors="green:tender_position == 'L1'" create="false" delete="false">
+											<field name="partner_id" />
+											<field name="percentage"/>
+											<field name="quoted_amount" required="1" widget="char"/>
+											<!-- <field name="quoted_amount" attrs="{'required':[('state','=', 'financial_bid')]}"/> -->
+											<field name="tender_position"/>
+											<field name="status" invisible="1"/>
+										</tree>
+									</field>
+								</page>
+							</notebook>
+						</group>
+						<group>
+							<notebook>
+								<page string="Attachments">
+									<field name="attachment_ids" attrs="{'readonly':[('state','=', 'closed')]}">
+										<tree editable="bottom">
+											<field name="date" required="1"/>
+											<field name="name" />
+											<field name="binary_field" filename="filename" />
+											<field name="filename" />
+										</tree>
+									</field>
+								</page>
+							</notebook>
+						</group>
+
+						<group>
+							<notebook >
+								<page string="EMD Followup">
+									<field name="emd_return_ids2" attrs="{'readonly':[('state','=', 'closed')]}">
+										<tree editable="bottom">
+											<field name="date" required="1"/>
+											<field name="contact_person" required="1"/>
+											<field name="remarks" required="1"/>
+											<field name="followup_date" required="1"/>
+										</tree>
+									</field>
+								</page>
+							</notebook>
+						</group>
+
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record id="action_hiworth_tender_already_created" model="ir.actions.act_window">
+			<field name="name">Tender</field>
+			<field name="res_model">hiworth.tender</field>
+			<field name="domain">[('state','=','submission')]</field>
+			<!-- <field name="context">{'default_inv_type': 'out', 'type2': 'out'}</field> -->
+			<field name="view_mode">tree,form</field>
+			<field name="view_type">form</field>
+			<field name="context">{'form_view_ref':'hiworth_construction.view_hiworth_tender_form_app_already_created','default_state':'submission'}</field>
+		</record>
+
+		
+		<record id="action_hiworth_tender" model="ir.actions.act_window">
+			<field name="name">Tender</field>
+			<field name="res_model">hiworth.tender</field>
+			<field name="domain">[('initial_state','=','approved'),('reject','!=',True),('state','!=','cancel')]</field>
+			<!-- <field name="context">{'default_inv_type': 'out', 'type2': 'out'}</field> -->
+			<field name="view_mode">tree,form</field>
+			<field name="view_type">form</field>
+		</record>
+
+		<record id="action_hiworth_tender_tree" model="ir.actions.act_window.view">
+			<field name="view_mode">tree</field>
+			<field name="view_id" ref="view_hiworth_tender_tree"/>
+		<field name="act_window_id" ref="action_hiworth_tender"/>
+		</record>
+
+		<record id="action_hiworth_tender_form" model="ir.actions.act_window.view">
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="view_hiworth_tender_form_app"/>
+			<field name="act_window_id" ref="action_hiworth_tender"/>
+		</record>
+
+		<menuitem id="menu_hiworth_tender" parent="main_menu_hiworth_tender"
+			action="action_hiworth_tender" name="Approved Tender" sequence="2" />
+
+		<menuitem id="menu_already_created_tender" parent="main_menu_hiworth_tender"
+				  action="action_hiworth_tender_already_created" name="Already Created Tender" sequence="3"/>
+
+		<record id="view_hiworth_tender_reject_tree" model="ir.ui.view">
+			<field name="name">tree_view_hiworth_tender_reject</field>
+			<field name="model">hiworth.tender</field>
+			<field name="arch" type="xml">
+				<tree string="Tender" create="false" default_order='tender_code desc'>
+					<field name="tender_code" />
+					<field name="name" />
+					<field name="contractor_id1" readonly="1"/>
+					<field name="customer_id" readonly="1"/>
+					<field name="location_id" />
+					<field name="district_id" readonly="1"/>
+
+					<field name="pac"/>
+					<field name="emd_date" />
+					<field name="emd"/>
+
+					<field name="last_date"/>
+					<field name="tender_cost"/>
+
+					<field name="apac"/>
+					<field name="status"/>
+					<field name="percent" />
+					<field name="technical_opening_date"/>
+					<field name="financial_opening_date"/>
+					<field name="state" />
+				</tree>
+			</field>
+		</record>
+
+		<record id="view_hiworth_tender_reject_form1" model="ir.ui.view">
+			<field name="name">form_view_hiworth_tender</field>
+			<field name="model">hiworth.tender</field>
+			<field name="arch" type="xml">
+				<form string="Tender" create="false">
+					<header>
+
+						<button name="button_technical_reject"  string="Reject" type="object" class="oe_highlight" states="transfer_quot,technical_bid,financial_bid,selected,processing,submission"/>
+
+
+						<button name="button_emd_return" string="EMD Release" type="object" class="oe_highlight" attrs="{'invisible':['|',('emd_boolean','=', True),('state','not in', ['rejected','processing'])]}"/>
+
+						<button name="button_cancel" states="transfer_quot,technical_bid,financial_bid,selected,processing" string="Cancel" type="object" class="oe_highlight"/>
+
+						<button name="button_reset_draft" states="cancel" string="Reset To Draft" type="object" class="oe_highlight"/>
+
+
+						<field name="state" widget="statusbar" statusbar_visible="draft,transfer_quot,technical_bid,financial_bid,rejected,closed"/>
+						
+					</header>
+					<sheet>
+						<h1>
+							<field name="tender_code" readonly="1"/>
+						</h1>
+						<group>
+							<group>
+								<field name="name" readonly="1"/>
+								<field name="work_nature" readonly="1"/>
+							</group>
+							<group>
+								<field name="is_project_created" readonly="1"/>
+								<field name="company_id" invisible="1"/>
+							</group>
+						</group>
+						<group>
+							<group>
+								<field name="contractor_id1" readonly="1"/>
+								<field name="customer_id" readonly="1"/>
+								<field name="tender_no" readonly="1"/>
+							</group>
+							<group>
+								<field name="location_id" readonly="1"/>
+								<field name="district_id" readonly="1"/>
+							</group>
+						</group>
+						<group>
+							<group>
+								<field name="pac" widget="char" readonly="1"/>
+								<field name="emd_date" readonly="1" />
+								<field name="bank_id" readonly="1" />
+								<field name="emd" readonly="1" widget="char"/>
+								<field name="emd_account" readonly="1" attrs="{'invisible':[('state','=', 'draft')]}"/>
+							</group>
+							<group>
+								<field name="last_date" readonly="1"/>
+								<field name="postponed_date" attrs="{'invisible':[('state','!=', 'draft'),('postponed_date','=',False)],'readonly':[('state','!=', 'draft')]}"/>
+								<field name="tender_cost"  widget="char" readonly="1"/>
+								<field name="tender_cost_account" readonly="1" attrs="{'invisible':[('state','=', 'draft')]}"/>
+								
+							</group>
+							
+						</group>
+						<group>
+							
+							<group attrs="{'invisible':[('state','not in', ['closed'])]}">
+								<field name="return_emd" readonly="1"  widget="char"/>
+								<field name="return_emd_date" readonly="1" />
+								<field name="return_bank_id" readonly="1" />
+								<field name="no_emd_days" widget="char"/>
+							</group>
+							<group>
+								
+							</group>
+						</group>
+						<group>
+							<field name="remarks_of_rejection" attrs="{'invisible':[('state','!=', 'rejected')],'required':[('state','=', 'rejected')]}" />
+							<field name="reject" invisible="1"/>
+							<field name="emd_boolean" invisible="1"/>
+							<field name="initial_state" invisible="1"/>
+						</group>
+						<group>
+							<group>
+								<field name="apac" widget="char" readonly="1"/>
+								<field name="status" attrs="{'invisible':[('state','=', 'draft')]}"/>
+								<field name="percent" widget="char" attrs="{'invisible':['|',('state','=', 'draft'),('status','=', 'equal')]}"/>
+								<!-- <field name="tender_fee" widget="char" /> -->
+							</group>
+							<group>
+							</group>
+						</group>
+						
+						<group>
+							<field name="technical_opening_date" attrs="{'required':[('state','=', 'transfer_quot')], 'readonly':[('state','not in', ['transfer_quot'])]}"/>
+							<field name="financial_opening_date" attrs="{'required':[('state','=', 'technical_bid')], 'readonly':[('state','not in', ['transfer_quot','technical_bid'])]}"/>
+						</group>
+						
+						
+						<group>
+							<notebook attrs="{'invisible':[('state','!=', 'technical_bid')]}">
+								<page string="Party Details">
+									<field name="party_status_ids1" >
+										<tree editable="bottom">
+											<field name="partner_id" required="1"/>
+											<field name="status" required="1"/>
+										</tree>
+									</field>
+								</page>
+							</notebook>
+						</group>
+						<group>
+							<notebook attrs="{'invisible':[('state','not in', ['financial_bid','selected','processing','closed'])]}">
+								<page string="Party Details">
+									<field name="party_status_ids2" context="{'state': state}" attrs="{'readonly':[('state','not in', ['technical_bid,financial_bid'])]}">
+										<tree editable="bottom" colors="green:tender_position == 'L1'" create="false" delete="false">
+											<field name="partner_id" readonly="1"/>
+											<field name="percentage"/>
+											<field name="quoted_amount" required="1" widget="char"/>
+											<!-- <field name="quoted_amount" attrs="{'required':[('state','=', 'financial_bid')]}"/> -->
+											<field name="tender_position"/>
+											<field name="status" invisible="1"/>
+										</tree>
+									</field>
+								</page>
+							</notebook>
+						</group>
+						<group>
+							<notebook>
+								<page string="Attachments">
+									<field name="attachment_ids" attrs="{'readonly':[('state','=', 'closed')]}">
+										<tree editable="bottom">
+											<field name="date" required="1"/>
+											<field name="name" />
+											<field name="binary_field" filename="filename" />
+											<field name="filename" />
+										</tree>
+									</field>
+								</page>
+							</notebook>
+						</group>
+
+						<group>
+							<notebook attrs="{'invisible':[('state','=', 'draft')]}">
+								<page string="EMD Followup">
+									<field name="emd_return_ids2" attrs="{'readonly':[('state','=', 'closed')]}">
+										<tree editable="bottom">
+											<field name="date" required="1"/>
+											<field name="contact_person" required="1"/>
+											<field name="remarks" required="1"/>
+											<field name="followup_date" required="1"/>
+										</tree>
+									</field>
+								</page>
+							</notebook>
+						</group>
+
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		
+
+		
+		<record id="action_hiworth_tender_reject1" model="ir.actions.act_window">
+			<field name="name">Rejected Tender</field>
+			<field name="res_model">hiworth.tender</field>
+			<field name="domain">[('state','=','rejected')]</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_type">form</field>
+		</record>
+
+		<record id="action_hiworth_tender_reject1_tree" model="ir.actions.act_window.view">
+			<field name="view_mode">tree</field>
+			<field name="view_id" ref="view_hiworth_tender_reject_tree"/>
+		<field name="act_window_id" ref="action_hiworth_tender_reject1"/>
+		</record>
+
+		<record id="action_hiworth_tender_reject1_form" model="ir.actions.act_window.view">
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="view_hiworth_tender_reject_form1"/>
+			<field name="act_window_id" ref="action_hiworth_tender_reject1"/>
+		</record>
+
+
+		<menuitem id="menu_hiworth_tender_reject1" parent="main_menu_hiworth_tender"
+			action="action_hiworth_tender_reject1" name="Rejected Tender" sequence="4" />
+
+
+
+
+
+		<record id="view_hiworth_tender_emd_form" model="ir.ui.view">
+			<field name="name">form_view_hiworth_tender.emd</field>
+			<field name="model">hiworth.tender.emd</field>
+			<field name="arch" type="xml">
+				<form string="Tender EMD" create="false" >
+					<header>
+						<button name="button_confirm" string="Confirm"
+						type="object" class="oe_highlight" states="draft"/>
+						<button name="button_payment" string="Payment"
+						type="object" class="oe_highlight" states="confirm"/>
+						<button name="button_cancel" string="Cancel" class="oe_highlight"  type="object" states="confirm,paid"/>
+						<button name="button_set_to_draft" string="Set to Draft" class="oe_highlight" type="object"  states="cancel"/>
+						<field name="state" widget="statusbar" statusbar_visible="draft,confirm,paid,cancel"/>
+					</header>
+					<sheet>
+						<group>
+							<field name="emd_number" readonly="1"/>
+							<field name="tender_id" readonly="1"/>
+							<field name="emd_date" required="1" attrs="{'readonly':[('state','=', 'paid')]}"/>
+							<field name="bank_id" attrs="{'readonly':[('state','=', 'paid')]}" />
+						</group>
+						<group>
+							<group>
+								<field name="emd" readonly="1" attrs="{'readonly':[('state','=', 'paid')]}"/>
+								<field name="emd_account" attrs="{'readonly':[('state','=', 'paid')]}" />
+							</group>
+							<group>
+								<field name="tender_cost" readonly="1" attrs="{'readonly':[('state','=', 'paid')]}"/>
+								<field name="tender_cost_account" attrs="{'readonly':[('state','=', 'paid')]}" />
+
+							</group>
+						</group>
+						<group>
+							<group>
+								<field name="emd_mode"/>
+								<field name="account_id" attrs="{'invisible':[('emd_mode','not in', ('fd','nsc','dd'))]}"/>
+							</group>
+							<group>
+								<field name="tender_cost_mode"/>
+								<field name="tender_account_id" attrs="{'invisible':[('tender_cost_mode','not in', ('dd'))]}"/>
+							</group>
+						</group>
+						<group>
+							<group>
+								<field name="percent" attrs="{'invisible':[('emd_mode','!=','bg')]}"/>
+								<field name="fd" readonly="1" attrs="{'invisible':[('emd_mode','!=','bg')]}"/>
+							</group>
+						</group>
+						<group>
+							<field name="technical_opening_date" attrs="{'readonly':[('state','=', 'paid')]}" />
+							<field name="financial_opening_date" attrs="{'readonly':[('state','=', 'paid')]}" invisible="1" />
+						</group>
+						
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<!-- ################  search view ######################### -->
+
+		<record id="tender_emd_search_view" model="ir.ui.view">
+			<field name="name">tender.emd.search.view</field>
+			<field name="model">hiworth.tender.emd</field>
+			<field name="arch" type="xml">
+				<search string="Tender EMDD">
+					<field name="emd_number" />
+					<field name="tender_id" />
+					<field name="emd_date" />
+					<field name="bank_id" />
+					<field name="emd_account" />
+					<group expand="0" string="group by">
+						<!-- <filter name="groupby_name" string="Category" 
+							context="{'group_by':'name'}"/> -->
+						<filter name="groupby_bank" context="{'group_by': 'bank_id'}" string="bank"  />
+						<!-- <filter name="groupby_category" context="{'group_by': 'category_id'}" string="category"  /> -->
+					</group>
+				</search>
+			</field>
+		</record>
+
+		<record id="view_hiworth_tender_emd_tree" model="ir.ui.view">
+			<field name="name">tree_view_hiworth_tender.emd</field>
+			<field name="model">hiworth.tender.emd</field>
+			<field name="arch" type="xml">
+				<tree string="Tender EMD">
+					<field name="emd_number"/>
+					<field name="tender_id" readonly="1"/>
+					<field name="emd_date" required="1" />
+					<field name="bank_id" required="1" />
+					<field name="emd" readonly="1"/>
+					<field name="emd_account" required="1" />
+					<field name="tender_cost" readonly="1"/>
+					<field name="tender_cost_account" required="1" />
+					<field name="technical_opening_date" />
+					<field name="financial_opening_date" />
+				</tree>
+			</field>
+		</record>
+
+		<record id="action_hiworth_tender_emd_payment" model="ir.actions.act_window">
+			<field name="name">Tender EMD</field>
+			<field name="res_model">hiworth.tender.emd</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_id" ref="view_hiworth_tender_emd_tree"></field>
+			
+		</record>
+
+
+		<menuitem id="sub_menu_hiworth_tender_emd_payment" parent="main_menu_hiworth_tender" name="Tender EMD Payment" sequence="20" action="action_hiworth_tender_emd_payment" />
+
+		<record id="view_tender_security_deposit_form" model="ir.ui.view">
+			<field name="name">form.hiworth.security.deposit</field>
+			<field name="model">hiworth.security.deposit</field>
+			<field name="arch" type="xml">
+				<form string="Tender Security">
+					<header>
+						<button name="button_confirm" string="Confirm"
+							type="object" class="oe_highlight" states="draft"/>
+						<button string="Cancel" class="oe_link" special="cancel" states="draft"/>
+						<button name="button_verify" string="Verify"
+							type="object" class="oe_highlight" states="confirm"/>
+						<button name="button_approve" string="Approve"
+							type="object" class="oe_highlight" states="verify"/>
+						<button name="button_submit" string="Submit Security Deposit"
+							type="object" class="oe_highlight" states="approve"/>
+						<field name="state" widget="statusbar" statusbar_visible="draft,confirm,verify,approve,submission"/>
+					</header>
+					<sheet>
+						<group>
+							<group>
+								<field name="company_id"/>
+								<field name="road_name"/>
+								<field name="bank_name"/>							
+								<field name="work_id" readonly="0"/>
+								<field name="contractor_id" readonly="0" domain="[('tender_contractor','=',True)]"/>
+								<field name="department" readonly="0"/>
+								<field name="tender_amount" readonly="0"/>
+								<field name="accepted_pac" readonly="0"/>
+								<field name="status" readonly="0"/>
+							</group>
+							<group>							
+							</group>
+						</group>
+						<group string="Security Deposit">
+							<field name="security_deposit_based" required="1" attrs="{'readonly':[('state','=', 'submission')]}"/>
+							<field name="security_deposit_percent" required="1" attrs="{'readonly':[('state','=', 'submission')]}"/>
+							<field name="security_wo_round_off"/>
+							<field name="security_round_off" attrs="{'readonly':[('state','=', 'submission')]}"/>
+							<field name="security_deposit_amount"/>
+							<field name="bg_percent" required="1" attrs="{'readonly':[('state','=', 'submission')]}"/>
+							<field name="treasury_percent" required="1" attrs="{'readonly':[('state','=', 'submission')]}"/>
+						</group>
+						<group>
+							<group string="Bank Gaurantee Details">
+								<field name="bg_date" readonly="1"  attrs="{'readonly':[('state','=', 'submission')]}"/>
+								<field name="bg_issue_date" attrs="{'readonly':[('state','=', 'submission')]}"/>
+								<field name="bg_expiry_date" attrs="{'readonly':[('state','=', 'submission')]}"/>
+								<field name="bg_amount" required="1"  attrs="{'readonly':[('state','=', 'submission')]}"/>
+								<field name="bg_amount_roundoff" required="1"  attrs="{'readonly':[('state','=', 'submission')]}"/>
+
+								<field name="fd_percent" required="1"  attrs="{'readonly':[('state','=', 'submission')]}"/>
+								<field name="fd_amount_wo_roundoff" required="1"  attrs="{'readonly':[('state','=', 'submission')]}"/>
+								<field name="fd_round_off" required="1"  attrs="{'readonly':[('state','=', 'submission')]}"/>
+								<field name="fd_amount" required="1"  attrs="{'readonly':[('state','=', 'submission')]}"/>
+								<field name="fd_account" required="1"  attrs="{'readonly':[('state','=', 'submission')]}"/>
+								<field name="fd_payment_mode" required="1"  attrs="{'readonly':[('state','=', 'submission')]}"/>
+								<field name="fd_number" attrs="{'required':[('state','=', 'submission')],'readonly':[('state','=', 'submission')]}" />
+
+								<field name="fd_issue_date" attrs="{'readonly':[('state','=', 'submission')]}" />
+								<field name="fd_no_of_days" attrs="{'readonly':[('state','=', 'submission')]}" />
+								<field name="fd_holder" attrs="{'readonly':[('state','=', 'submission')]}" />
+								<field name="fd_mature_value" attrs="{'readonly':[('state','=', 'submission')]}" />
+								<field name="fd_interest" attrs="{'readonly':[('state','=', 'submission')]}" />
+								
+								<field name="fd_period" attrs="{'required':[('state','=', 'submission')],'readonly':[('state','=', 'submission')]}"/>
+								<field name="expected_bg_release_date" required="1"  attrs="{'readonly':[('state','=', 'submission')]}"/>
+								<field name="available_collateral" />
+							</group>
+
+							<group string="Normal Security Details">
+								
+								<field name="cs_date" readonly="1"  attrs="{'readonly':[('state','=', 'submission')]}"/>
+								<field name="com_security_amount" required="1"  attrs="{'readonly':[('state','=', 'submission')]}"/>
+								<field name="com_security_amount_round_off" required="1"  attrs="{'readonly':[('state','=', 'submission')]}"/>
+								<field name="com_security_account" required="1"  attrs="{'readonly':[('state','=', 'submission')]}"/>
+								<field name="com_security_payment_mode" required="1"  attrs="{'readonly':[('state','=', 'submission')]}"/>
+								<field name="cs_treasury_id" required="1"  attrs="{'readonly':[('state','=', 'submission')]}"/>
+								<field name="treasury_number" attrs="{'required':[('state','=', 'submission')],'readonly':[('state','=', 'submission')]}" />
+								<field name="treasury_period" attrs="{'required':[('state','=', 'submission')],'readonly':[('state','=', 'submission')]}" />
+								<field name="expected_cs_release_date" required="1"  attrs="{'readonly':[('state','=', 'submission')]}"/>
+							</group>
+							
+						</group>
+
+						<group string="Performance Security Details">
+							<field name="ps_date" readonly="1"  attrs="{'readonly':[('state','=', 'submission')]}"/>
+							<field name="perf_security_mode"  attrs="{'readonly':[('state','=', 'submission')]}"/>
+							<field name="ps_wo_round_off"  attrs="{'readonly':[('state','=', 'submission')]}"/>
+							<field name="ps_round_off"  attrs="{'readonly':[('state','=', 'submission')]}"/>
+							<field name="performance_security_amount"/>
+							<field name="ps_fd_percent" attrs="{'readonly':[('state','=', 'submission')]}"/>
+							<field name="ps_fd_amount"/>
+							<field name="performance_security_account"  attrs="{'readonly':[('state','=', 'submission')]}"/>
+							<field name="perf_bank_id" attrs="{'invisible':[('perf_security_mode','!=', 'bank')], 'readonly':[('state','=', 'submission')]}"/>
+							<field name="ps_treasury_id" attrs="{'invisible':[('perf_security_mode','!=', 'treasury')], 'readonly':[('state','=', 'submission')]}"/>
+							<field name="performance_security_payment_mode"  attrs="{'invisible':[('perf_security_mode','!=', 'treasury')], 'readonly':[('state','=', 'submission')]}"/>
+							<field name="perf_security_number" attrs="{'readonly':[('state','=', 'submission')]}"/>
+							<field name="perf_security_period" attrs="{'readonly':[('state','=', 'submission')]}"/>
+							<field name="expected_ps_release_date" attrs="{'readonly':[('state','=', 'submission')]}"/>
+
+						</group>
+						<group>
+							<field name="remarks" attrs="{'readonly':[('state','=', 'submission')]}"/>
+						</group>
+						
+						<group col="6">
+							<group>
+								<field name="prepared_by" readonly="1"/>
+							</group>
+							<group>
+								<field name="verified_by" readonly="1"/>
+							</group>
+							<group>
+								<field name="approved_by" readonly="1"/>
+							</group>
+						</group>
+						<!-- <footer>
+							<button name="button_confirm" string="Confirm"
+							type="object" class="oe_highlight" states="draft"/>
+							<button string="Cancel" class="oe_link" special="cancel" states="draft"/>
+						</footer> -->
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<!-- ################  search view ######################### -->
+
+		<record id="security_deposite_search_view" model="ir.ui.view">
+			<field name="name">security.deposit.search.view</field>
+			<field name="model">hiworth.security.deposit</field>
+			<field name="arch" type="xml">
+				<search string="Security Deposite">
+					<field name="work_id" />
+					<field name="contractor_id" />
+					<field name="department" />
+					<group expand="0" string="group by">
+						<filter name="groupby_department" context="{'group_by': 'department'}" string="department"  />
+						<filter name="groupby_contractor_id" context="{'group_by': 'contractor_id'}" string="Contractor"  />
+					</group>
+				</search>
+			</field>
+		</record>
+
+
+
+
+		<record id="view_tender_security_deposit_tree" model="ir.ui.view">
+			<field name="name">tree.hiworth.security.deposit</field>
+			<field name="model">hiworth.security.deposit</field>
+			<field name="arch" type="xml">
+				<tree string="Tender Security">
+					<field name="work_id" />
+					<field name="contractor_id"/>
+					<field name="department"/>
+					<field name="tender_amount"/>
+					<field name="accepted_pac"/>
+					<field name="status"/>
+
+					<field name="security_deposit_amount"/>
+					<field name="bg_amount"  />
+					<field name="fd_amount"  />
+					<field name="available_collateral" />
+
+					<field name="com_security_amount"  />
+					<field name="performance_security_amount"/>
+					<field name="ps_fd_amount"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="action_tender_security_deposit_payment" model="ir.actions.act_window">
+			<field name="name">Tender Security</field>
+			<field name="res_model">hiworth.security.deposit</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_id" ref="view_tender_security_deposit_tree"></field>
+			
+		</record>
+
+
+		<menuitem id="sub_menu_tender_security_deposit_payment" parent="main_menu_hiworth_tender" name="Tender Security Payment" sequence="30" action="action_tender_security_deposit_payment" />
+
+		<record id="view_hiworth_tender_emd_return_form" model="ir.ui.view">
+			<field name="name">form_view_hiworth_tender.emd.return</field>
+			<field name="model">hiworth.tender.emd.return</field>
+			<field name="arch" type="xml">
+				<form string="Return Tender EMD">
+					<sheet>
+						<group>
+							<group>
+								<field name="emd" required="1" widget="char"/>
+								<field name="bank_id" required="1" />
+							</group>
+							<group>
+								<field name="emd_date" required="1" />
+								<field name="tender_id" readonly="1"/>
+							</group>
+						</group>
+						<footer>
+							<button name="button_confirm" string="Confirm"
+							type="object" class="oe_highlight"/>
+							<button string="Cancel" class="oe_link" special="cancel" />
+						</footer>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record id="view_tender_bg_release_form" model="ir.ui.view">
+			<field name="name">tender.bg.release.form</field>
+			<field name="model">tender.bg.release</field>
+			<field name="arch" type="xml">
+				<form string="BG Release">
+					<sheet>
+						<group>
+							<group>
+								<field name="bg_amount" required="1" widget="char"/>
+								<field name="fd_amount" required="1" widget="char"/>
+								<field name="account_id" required="1" />
+							</group>
+							<group>
+								<field name="date" required="1" />
+								<field name="tender_id" readonly="1"/>
+							</group>
+						</group>
+						<footer>
+							<button name="button_confirm" string="Confirm"
+							type="object" class="oe_highlight"/>
+							<button string="Cancel" class="oe_link" special="cancel" />
+						</footer>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record id="view_tender_cs_release_form" model="ir.ui.view">
+			<field name="name">tender.cs.release.form</field>
+			<field name="model">tender.cs.release</field>
+			<field name="arch" type="xml">
+				<form string="CS Release">
+					<sheet>
+						<group>
+							<group>
+								<field name="cs_amount" required="1" widget="char"/>
+								<field name="account_id" required="1" />
+							</group>
+							<group>
+								<field name="date" required="1" />
+								<field name="tender_id" readonly="1"/>
+							</group>
+						</group>
+						<footer>
+							<button name="button_confirm" string="Confirm"
+							type="object" class="oe_highlight"/>
+							<button string="Cancel" class="oe_link" special="cancel" />
+						</footer>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record id="view_tender_ps_release_form" model="ir.ui.view">
+			<field name="name">tender.ps.release.form</field>
+			<field name="model">tender.ps.release</field>
+			<field name="arch" type="xml">
+				<form string="PS Release">
+					<sheet>
+						<group>
+							<group>
+								<field name="ps_amount" required="1" widget="char"/>
+								<field name="account_id" required="1" />
+							</group>
+							<group>
+								<field name="date" required="1" />
+								<field name="tender_id" readonly="1"/>
+							</group>
+						</group>
+						<footer>
+							<button name="button_confirm" string="Confirm"
+							type="object" class="oe_highlight"/>
+							<button string="Cancel" class="oe_link" special="cancel" />
+						</footer>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<menuitem id="menu_account_contractor_tender" name="Tender Contractors"
+			parent="main_menu_hiworth_tender" action="action_partner_contractor_form"
+			sequence="6" />
+
+
+
+		<!-- Collateral -->
+
+
+		<record id="view_hiworth_collateral_tree" model="ir.ui.view">
+			<field name="name">tree_view_hiworth_tender</field>
+			<field name="model">hiworth.collateral</field>
+			<field name="arch" type="xml">
+				<tree string="Collateral">
+					<field name="date" />
+					<field name="bank_id" />
+					<field name="debit" />
+					<field name="credit" />
+					<field name="balance" />
+				</tree>
+			</field>
+		</record>
+
+		<!--  ################  search view ######################### -->
+		<record id="hiworth_collateral_search_view" model="ir.ui.view">
+			<field name="name">hiworth.collateral.search.view</field>
+			<field name="model">hiworth.collateral</field>
+			<field name="arch" type="xml">
+				<search string="Collateral">
+					<field name="date" />
+					<field name="bank_id" />
+					<group expand="0" string="group by">
+						<filter name="groupby_date" string="date" 
+							context="{'group_by':'date'}"/>
+						<filter name="groupby_bank" context="{'group_by': 'bank_id'}" string="bank"  />
+					</group>
+				</search>
+			</field>
+		</record>
+
+
+		<record id="view_hiworth_collateral_form1" model="ir.ui.view">
+			<field name="name">form_view_hiworth_tender</field>
+			<field name="model">hiworth.collateral</field>
+			<field name="arch" type="xml">
+				<form string="Collateral">
+					<header>
+						<button name="button_approve" states="draft" string="Approve" type="object" class="oe_highlight"/>
+
+						<field name="state" widget="statusbar" statusbar_visible="draft,approve"/>
+					</header>
+					
+					<sheet>
+						<group >
+							<group >
+								<field name="date" required="1" attrs="{'readonly':[('state','=', 'approve')]}"/>
+								<field name="bank_id" required="1" attrs="{'readonly':[('state','=', 'approve')]}"/>
+								<field name="limit" readonly="1"/>
+							</group >
+							<group >
+								<field name="debit" attrs="{'readonly':[('state','=', 'approve')]}"/>
+								<field name="credit" attrs="{'readonly':[('state','=', 'approve')]}"/>
+								<field name="balance" />
+							</group>
+						</group>
+
+					</sheet>
+				</form>
+			</field>
+		</record>
+			
+		<record id="action_hiworth_collateral" model="ir.actions.act_window">
+			<field name="name">Collateral</field>
+			<field name="res_model">hiworth.collateral</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_type">form</field>
+		</record>
+
+		
+
+		<menuitem id="menu_hiworth_collateral" parent="main_menu_hiworth_tender"
+			action="action_hiworth_collateral" name="Collateral" sequence="5" />
+
+
+		<record id="view_partner_bank_form_changed" model="ir.ui.view">
+			<field name="name">res.partner.bank.form.changed</field>
+			<field name="model">res.partner.bank</field>
+			<field name="inherit_id" ref="base.view_partner_bank_form" />
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='journal_id']" position="after">
+					<field name="account_balance"/>
+					<field name="usable_balance" attrs="{'invisible':[('bank_acc_type_id','!=', %(hiworth_construction.bank_account_type_od)d)]}"/>
+					<field name="limit" />
+				</xpath>
+				<xpath expr="//field[@name='acc_number']" position="attributes">
+					<attribute name="label">Account Label</attribute>
+				</xpath>
+				<xpath expr="//field[@name='acc_number']" position="before">
+					<field name="ac_number"/>
+					<field name="ifsc_number"/>
+				</xpath>
+				<xpath expr="//field[@name='acc_number']" position="after">
+					<field name="common_usage" />
+				</xpath>
+				<xpath expr="//field[@name='bank_name']" position="attributes">
+					<attribute name="invisible">1</attribute>
+				</xpath>
+				<xpath expr="//field[@name='bank_name']" position="attributes">
+					<attribute name="required">0</attribute>
+				</xpath>
+				<xpath expr="//field[@name='bank_bic']" position="attributes">
+					<attribute name="invisible">1</attribute>
+				</xpath>
+				<xpath expr="//field[@name='bank']" position="attributes">
+					<attribute name="required">1</attribute>
+				</xpath>
+
+				<xpath expr="//field[@name='state']" position="attributes">
+					<attribute name="required">0</attribute>
+				</xpath>
+				<!-- <xpath expr="//field[@name='state']" position="attributes">
+					<attribute name="invisible">1</attribute>
+				</xpath> -->
+				<xpath expr="//field[@name='state']" position="replace">
+					<field name="bank_acc_type_id" required="1" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
+				</xpath>
+			</field>
+		</record>
+
+		<record id="view_partner_bank_tree_changed" model="ir.ui.view">
+			<field name="name">res.partner.bank.tree.changed</field>
+			<field name="model">res.partner.bank</field>
+			<field name="inherit_id" ref="base.view_partner_bank_tree" />
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='partner_id']" position="after">
+					<field name="account_balance"/>
+					<field name="usable_balance" sum="Total"/>
+				</xpath>
+				<xpath expr="//field[@name='company_id']" position="attributes">
+					<attribute name="invisible">1</attribute>
+				</xpath>
+				<xpath expr="//field[@name='bank_name']" position="attributes">
+					<attribute name="invisible">1</attribute>
+				</xpath>
+				<xpath expr="//field[@name='bank_name']" position="after">
+					<field name="bank"/>
+				</xpath>
+			</field>
+		</record>
+
+
+		<record id="view_partner_bank_search_new" model="ir.ui.view">
+			<field name="name">res.partner.bank.search1</field>
+			<field name="model">res.partner.bank</field>
+			<field name="inherit_id" ref="base.view_partner_bank_search" />
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='bank_name']" position="after">
+					<field name="bank_acc_type_id" string="Bank Account Type"/>
+				</xpath>
+				<xpath expr="//filter[@name='my_bank']" position="after">
+					<filter name="groupby_bank_acc_type_id" string="Bank Account Type" context="{'group_by':'bank_acc_type_id'}"/>
+				</xpath>
+				<!-- <search string="Bank Accounts">
+					<field name="bank_name" filter_domain="['|', ('bank_name','ilike',self), ('acc_number','ilike',self)]" string="Bank Name"/>
+					<filter name="my_bank" icon="terp-check" string="My Banks" domain="[('company_id','&lt;&gt;',False)]" help="Bank accounts belonging to one of your companies"/>
+					<field name="company_id" invisible="context.get('company_hide', True)"/>
+					<field name="partner_id"/>
+				</search> -->
+			</field>
+		</record>
+
+		<!-- <record id="hiworth_collateral_search_view" model="ir.ui.view">
+			<field name="name">hiworth.collateral.search.view</field>
+			<field name="model">hiworth.collateral</field>
+			<field name="arch" type="xml">
+				<search string="Collateral">
+					<field name="date" />
+					<field name="bank_id" />
+					<group expand="0" string="group by">
+						<filter name="groupby_date" string="date" 
+							context="{'group_by':'date'}"/>
+						<filter name="groupby_bank" context="{'group_by': 'bank_id'}" string="bank"  />
+					</group>
+				</search>
+			</field>
+		</record> -->
+
+
+
+  <!-- ################ customer invoice follow up ############### -->
+  
+		<record id="customer_invoice_follow_up_form" model="ir.ui.view">
+			<field name="name">customer_invoice_follow_up_form</field>
+			<field name="model">customer.invoice.follow.up</field>
+			<field name="arch" type="xml">
+				  <form string="Customer Invoice FollowUp"  >
+					<header>
+						<button string="Approved" type="object" name="approved_progressbar" class="oe_highlight" attrs="{'invisible': [('state','=','approved')]}"/>
+
+						<button string="Update Status" type="action" name="%(hiworth_construction.action_form_bill_status_update)d" class="oe_highlight"/>
+						<field name="state" widget="statusbar"/>
+					</header>  
+					<sheet>
+					  <group >
+						<group>
+						  <field name="bill_date"/>
+						  <field name="bill_no" attrs="{'readonly': [('state','=','approved')]}"/>
+						  <field name="project_id" attrs="{'readonly': [('state','=','approved')]}"/>
+						  <field name="person"/>
+						  <field name="district" attrs="{'readonly': [('state','=','approved')]}"/>
+						  <field name="department" attrs="{'readonly': [('state','=','approved')]}"/>
+
+
+						  <label for="dlp_from" string="Default Liability Period"/>
+						        <div>
+						            <field name="dlp_from" class="oe_inline" nolabel="1"/>
+						            <field name="dlp_to" nolabel="1" class="oe_inline"/>
+						        </div>
+
+						  <field name="current_status"/>
+						  <field name="current_table"/>
+						  <field name="bill_status"/>
+
+						 <!--  <field name="contractor_id" attrs="{'readonly': [('state','=','approved')]}"/> -->
+						</group>
+						<group>
+							<field name="total_tender_amount"/>
+							<field name="estimate_amount"/>
+							<field name="agreed_amount"/>
+							<field name="bill_amount" attrs="{'readonly': [('state','=','approved')]}"/>
+							<label for="it_per" string="IT %"/>
+							      <div>
+							          <field name="it_per" class="oe_inline" nolabel="1"/>
+							          <field name="it_amount" nolabel="1" class="oe_inline"/>
+							      </div>
+							<label for="welfare_per" string="welfare %"/>
+							<div>
+							    <field name="welfare_per" class="oe_inline" nolabel="1"/>
+							    <field name="welfare_amount" nolabel="1" class="oe_inline"/>
+							</div>
+							<label for="cgst_per" string="CGST %"/>
+							<div>
+							    <field name="cgst_per" class="oe_inline" nolabel="1"/>
+							    <field name="cgst_amount" nolabel="1" class="oe_inline"/>
+							</div>
+							<label for="sgst_per" string="SGST %"/>
+							<div>
+							    <field name="sgst_per" class="oe_inline" nolabel="1"/>
+							    <field name="sgst_amount" nolabel="1" class="oe_inline"/>
+							</div>
+							<label for="retention_per" string="Retention %"/>
+							<div>
+							    <field name="retention_per" class="oe_inline" nolabel="1"/>
+							    <field name="retention_amount" nolabel="1" class="oe_inline"/>
+							</div>
+							
+	
+		
+							<field name="security"/>
+							<field name="other_recovery"/>
+							<field name="check_amount"/>
+							<field name="total_deduction"/>
+							<field name="bill_amount_after"/>
+							<field name="check_amount"/>
+							<field name="mode_of_payment"/>
+							<field name="balance_amount"/>							
+							
+							<!-- <field name="status_of_bill"/> -->
+						</group>
+					</group>
+						
+						
+
+						<notebook>
+								<page string="History">
+									<group >
+										<field name="update_status_history_ids" nolabel="1">
+										
+											<tree editable="bottom">
+												<field name="Date" />
+												<field name="update_status"/>
+												<field name="update_table" />
+												<field name="remarks"/>
+												
+											</tree>
+											
+											
+										</field>
+
+									</group>
+								</page>
+							</notebook>
+					 
+
+					  <!-- <footer>
+						<button name="get_room_details" string="Summit" type="object" class="oe_highlight" />
+						or
+						<button string="Cancel" class="oe_link" special="cancel" />
+					  </footer> -->
+					</sheet>
+				  </form>
+			  </field>
+			</record>
+
+	   <!-- ################ customer invoice follow up #################### -->
+
+		<record id="customer_invoice_follow_up" model="ir.ui.view">
+			<field name="name">customer_invoice_follow_up_tree</field>
+			<field name="model">customer.invoice.follow.up</field>
+			<field name="arch" type="xml">
+				  <tree >
+					<field name="project_id" />
+					<field name="bill_no" />
+					<field name="district" />
+					<field name="department" />
+					<field name="bill_amount"  />
+					<field name="person" />
+					<field name="state"/>
+					<field name="bill_date" />
+					<field name="bill_status"/>
+					
+				  </tree>
+
+			</field>
+		</record>
+		<record id="follow_search_view" model="ir.ui.view">
+			<field name="name">customer.invoice.follow.up_search</field>
+			<field name="model">customer.invoice.follow.up</field>
+			<field name="arch" type="xml">
+				<search string="Follow up">
+					<field name="project_id" />
+					<field name="department" />
+					<field name="bill_status"/>
+					<field name="person" />
+					<group expand="0" string="Group By">
+						<filter name="groupby_project5" string="Project" 
+							context="{'group_by':'project_id'}"/>
+						<filter name="groupby_department5" context="{'group_by': 'department'}" string="Department"  />
+						<filter name="groupby_person5" context="{'group_by':'person'}" 
+							string="Person"/>
+						<filter name="groupby_bill_status5" context="{'group_by':'status_of_bill'}" string="Bill Status"/>
+						<filter name="groupby_bill_status52" context="{'group_by':'state'}" string="state"/>
+						<filter name="groupby_bill_status5" context="{'group_by':'bill_date'}" string="Date"/>
+					</group>
+				</search>
+							
+			</field>
+		</record>
+
+
+
+		<record id="action_customer_invoice_followup" model="ir.actions.act_window">
+			<field name="name">customer invoice follow up</field>
+			<field name="res_model">customer.invoice.follow.up</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+
+
+
+		<record id="view_account_journal_form_changed" model="ir.ui.view">
+			<field name="name">account.journal.form.changed</field>
+			<field name="model">account.journal</field>
+			<field name="inherit_id" ref="account.view_account_journal_form" />
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='default_debit_account_id']" position="attributes">
+					<attribute name="invisible">1</attribute>
+				</xpath>
+				<xpath expr="//field[@name='default_credit_account_id']" position="attributes">
+					<attribute name="string">Account</attribute>
+				</xpath>
+			</field>
+		</record>
+
+
+		<record id="view__bank_form_changed" model="ir.ui.view">
+			<field name="name">res.bank.form.changed</field>
+			<field name="model">res.bank</field>
+			<field name="inherit_id" ref="base.view_res_bank_form" />
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='name']" position="after">
+					<field name="branch" />
+				</xpath>
+			</field>
+		</record>
+
+		<record id="view_move_form_changed" model="ir.ui.view">
+			<field name="name">account.move.form.changed</field>
+			<field name="model">account.move</field>
+			<field name="inherit_id" ref="account.view_move_form" />
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='period_id']" position="after">
+					<field name="tender_id" invisible="1"/>
+				</xpath>
+			</field>
+		</record>
+
+
+		<record id="view_tender_location_form_inherit" model="ir.ui.view">
+			<field name="name">stock.location.form.inherit1</field>
+			<field name="model">stock.location</field>
+			<field name="inherit_id" ref="stock.view_location_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='active']" position="before">
+					<field name="tender_location"/>
+				</xpath>
+			</field>
+		</record>
+
+		<record id="action_tender_location" model="ir.actions.act_window">
+			<field name="name">Tender Location</field>
+			<field name="res_model">stock.location</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_type">form</field>
+			<field name="domain">[('tender_location','=',True)]</field>
+			<field name="context">{'default_tender_location':True}</field>
+		</record>
+
+		
+
+		<menuitem id="menu_tender_location" parent="main_menu_hiworth_tender"
+			action="action_tender_location" name="Tender Location" sequence="8" />
+
+
+		<!-- Contract Awarder -->
+
+		<record id="view_contract_awarder_tree_new" model="ir.ui.view">
+			<field name="name">contract.awarder.tree</field>
+			<field name="model">contract.awarder</field>
+			<field name="arch" type="xml">
+				<tree string="Contract Awarders">
+					<field name="name"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="view_contract_awarder_form" model="ir.ui.view">
+			<field name="name">contract.awarder.form</field>
+			<field name="model">contract.awarder</field>
+			<field name="arch" type="xml">
+				<form string="Contract Awarders">						
+					<group col="4">
+						<field name="name"/>						
+					</group>							
+				</form>
+			</field>
+		</record>
+		
+		<record id="view_contract_awarder_action" model="ir.actions.act_window">
+			<field name="name">Contract Awarders</field>
+			<field name="res_model">contract.awarder</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_id" ref="view_contract_awarder_tree_new"/>
+			<!-- <field name="context">{}</field> -->
+		</record>
+		
+		<menuitem 
+				id="contract_awarders_menu_id" 
+				name="Contract Awarders" 
+				parent="main_menu_hiworth_tender"
+				action="view_contract_awarder_action"
+				sequence="5" />	
+
+		<!-- unattended tender history -->
+		<record id="view_unattended_tender_tree" model="ir.ui.view">
+			<field name="name">unattended.tender.tree</field>
+			<field name="model">unattended.tender</field>
+			<field name="arch" type="xml">
+				<tree string="Unattended Tenders" create="false">
+					<field name="date"/>
+					<field name="name_of_work"/>
+					<field name="epac"/>
+					<field name="district"/>
+					<!-- <field name="contractor"/>
+					<field name="quoted_amt"/>                    
+					<field name="percent"/>                    
+					<field name="remark"/>  -->                   
+				</tree>
+			</field>
+		</record>
+
+		<record id="view_unattended_tender_form" model="ir.ui.view">
+			<field name="name">unattended.tender.form</field>
+			<field name="model">unattended.tender</field>
+			<field name="arch" type="xml">
+				<form string="Unattended Tender" create="false">
+					<sheet>
+						<group>
+							<group>
+								<field name="date"/>
+								<field name="name_of_work"/>
+							</group>
+							<group>
+								<field name="epac"/>
+								<field name="district"/>
+							</group>
+						</group>
+						<notebook>
+							<page string="Details">
+								<field name="line_ids" nolabel="1" >
+									<tree editable="bottom">
+										<field name="date" invisible="1"/>
+										<field name="name_of_work" invisible="1"/>
+										<field name="epac" invisible="1"/>
+										<field name="district" invisible="1"/>
+										<field name="partner_id" domain="[('tender_contractor','=',True)]" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
+										<field name="quoted_amt"/>                    
+										<field name="percent"/>                    
+										<field name="remark"/>	
+									</tree>
+								</field>
+							</page>
+						</notebook>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record id="action_unattended_tender_tree" model="ir.actions.act_window">
+			<field name="name">Unattended Tenders</field>
+			<field name="res_model">unattended.tender</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_id" eval="False"/>
+			<field name="context">{}</field>
+		</record>
+
+		<menuitem 
+				id="unattended_tender_menu_id" 
+				name="Unattended Tenders" 
+				parent="main_menu_hiworth_tender"
+				action="action_unattended_tender_tree"
+				sequence="6" 
+				/>	
+
+
+
+		<!-- unattended tender line -->
+		<record id="view_unattended_tender_line_tree" model="ir.ui.view">
+			<field name="name">unattended.tender.line.tree</field>
+			<field name="model">unattended.tender.line</field>
+			<field name="arch" type="xml">
+				<tree string="Unattended Tenders Line" create="false">
+					<field name="date"/>
+					<field name="name_of_work"/>
+					<field name="epac"/>
+					<field name="partner_id"/>
+					<field name="quoted_amt"/>                    
+					<field name="percent"/>                    
+					<field name="remark"/>                    
+				</tree>
+			</field>
+		</record>
+
+
+		<record id="view_unattended_tender_line_search" model="ir.ui.view">
+			<field name="name">unattended.tender.line.search</field>
+			<field name="model">unattended.tender.line</field>
+			<field name="arch" type="xml">
+				<search string="Unattended Tenders Line">
+					<field name="date"/>
+					<field name="name_of_work"/>
+					<field name="epac"/>
+					<field name="partner_id"/>
+					<field name="quoted_amt"/>
+					<field name="percent"/>
+					<field name="remark"/>
+					<group expand="0" string="Group By">
+						<filter string="Date" name="group_date" domain="[]"  context="{'group_by':'date'}"/>
+						<filter string="Contractor" icon="group_partner_id" domain="[]"  context="{'group_by':'partner_id'}"/>
+						<!--<filter string="Name Of Work" icon="group_name_of_work" domain="[]"  context="{'group_by':'name_of_work'}"/>-->
+
+					</group>
+				</search>
+			</field>
+		</record>
+
+
+		<record id="view_unattended_tender_line_form" model="ir.ui.view">
+			<field name="name">unattended.tender.line.form</field>
+			<field name="model">unattended.tender.line</field>
+			<field name="arch" type="xml">
+				<form string="Unattended Tender Line" create="false">
+					<sheet>
+						<group>
+							<group>
+								<field name="date"/>
+								<field name="name_of_work"/>							
+								<field name="epac"/>
+								<field name="district"/>
+							</group>
+							<group>
+								<field name="contractor"/>
+								<field name="quoted_amt"/>                    
+								<field name="percent"/>                    
+								<field name="remark"/>
+							</group>
+						</group>						
+					</sheet>
+				</form>
+			</field>
+		</record>	
+
+		<record id="action_unattended_tender_line_tree" model="ir.actions.act_window">
+			<field name="name">Unattended Tenders Line</field>
+			<field name="res_model">unattended.tender.line</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_id" ref="view_unattended_tender_line_tree"/>
+			<field name="search_view_id" ref="view_unattended_tender_line_search"/>
+			<field name="context">{}</field>
+		</record>
+
+		<menuitem 
+				id="unattended_tender_line_menu_id" 
+				name="Unattended Tenders Line" 
+				parent="main_menu_hiworth_tender"
+				action="action_unattended_tender_line_tree"
+				sequence="7" 
+				/>	
+
+
+	</data>
+</openerp>

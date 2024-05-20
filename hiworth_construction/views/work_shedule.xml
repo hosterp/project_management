@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+
+
+		<record id="form_project_added_work_schedule" model="ir.ui.view">
+			<field name="name">project.project.form.schedule</field>
+			<field name="model">project.project</field>
+			<field name="inherit_id" ref="edit_project_changed" />
+			<field name="arch" type="xml">
+
+				<xpath expr="//notebook"
+					position="after">
+					
+				</xpath>
+			</field>
+		</record>
+
+
+	</data>
+</openerp>

@@ -1,0 +1,463 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>
+
+		<!-- Employee Details -->
+
+		<record model="ir.ui.view" id="employee_details_wizard">
+			<field name="name">hr.employee.wizard</field>
+			<field name="model">hr.employee.wizard</field>
+			<field name="arch" type="xml">
+				<form string="Employee Report">
+					<group col="4">
+						<field name="user_category" />
+					</group>
+
+					<footer>
+						<button name="action_employee_open_window" type="object" string="Print"
+								class="oe_highlight" invisible="1"/>
+						<!-- or -->
+						<button name="action_employee_open_window1" type="object" string="View"
+								class="oe_highlight" />or
+						<button string="Cancel" class="oe_link" special="cancel" />
+					</footer>
+				</form>
+			</field>
+		</record>
+
+		<record id="action_employee_details_wizard" model="ir.actions.act_window">
+			<field name="name">Employee Report</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">hr.employee.wizard</field>
+			<field name="target">new</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form</field>
+		</record>
+
+
+		<menuitem id="menu_hiworth_hr_report1" name="Reports" parent="hr.menu_hr_root" sequence="100"/>
+
+		<menuitem id="menu_employee_details_wizard" name="Employee Details" action="action_employee_details_wizard" parent="menu_hiworth_hr_report1" />
+
+		<record id="paperformat_report_employee_details" model="report.paperformat">
+			<field name="name">Landscape</field>
+			<field name="default" eval="True" />
+			<field name="format"></field>
+			<field name="orientation">Landscape</field>
+			<field name="margin_top">0</field>
+			<field name="margin_bottom">0</field>
+			<field name="margin_left">0</field>
+			<field name="margin_right">0</field>
+			<field name="header_line" eval="False" />
+			<field name="header_spacing">0</field>
+			<field name="dpi">0</field>
+		</record>
+
+		<report id="report_employee_details"
+				string="Employee Report"
+				model="hr.employee.wizard"
+				report_type="qweb-pdf"
+				name="hiworth_hr_attendance.report_employee_details_template" />
+
+		<template id="report_employee_details_template">
+			<t t-call="report.html_container">
+				<t t-foreach="docs" t-as="o">
+					<t t-call="report.external_layout">
+						<div class="page">
+							<center><b><h2>Employee Report</h2></b></center>
+							<t t-set="sl_no" t-value="1" />
+							<t t-if="o.user_category not in ['driver','eicher_driver','pickup_driver','lmv_driver','labour']">
+								<div>
+									<center>
+										<table class="table table-bordered" style="font-size:17px;width: 100%;">
+											<thead>
+												<tr>
+													<td style="width: 5%;" align="center"><h5><b>ID No</b></h5></td>
+													<td style="width: 25%;" align="center"><h5><b>Employee Name</b></h5></td>
+													<td style="width: 10%;" align="center"><h5><b>Gender</b></h5></td>
+													<td style="width: 20%;" align="center"><h5><b>Contact No</b></h5></td>
+													<td style="width: 10%;" align="center"><h5><b>Qualification</b></h5></td>
+													<td style="width: 10%;" align="center"><h5><b>Technical Training</b></h5></td>
+													<td style="width: 10%;" align="center"><h5><b>Designation</b></h5></td>
+													<td style="width: 10%;" align="center"><h5><b>Department</b></h5></td>
+													<td style="width: 10%;" align="center"><h5><b>Date of Joining</b></h5></td>
+													<td style="width: 10%;" align="center"><h5><b>No of months in job</b></h5></td>
+													<td style="width: 10%;" align="center"><h5><b>Year of service</b></h5></td>
+													<td style="width: 10%;" align="center"><h5><b>Age</b></h5></td>
+													<td style="width: 10%;" align="center"><h5><b>DOB</b></h5></td>
+													<td style="width: 10%;" align="center"><h5><b>Blood Group</b></h5></td>
+													<td style="width: 10%;" align="center"><h5><b>Basic Salary</b></h5></td>
+													<td style="width: 10%;" align="center"><h5><b>Gross Salary</b></h5></td> -->
+													<td style="width: 10%;" align="center"><h5><b>PF</b></h5></td>
+													<td style="width: 10%;" align="center"><h5><b>MediClaim</b></h5></td>
+													<td style="width: 10%;" align="center"><h5><b>ESI</b></h5></td>
+													<td style="width: 10%;" align="center"><h5><b>ESI No.</b></h5></td>
+												</tr>
+											</thead>
+											<tbody>
+												<t t-foreach="docs.get_details()" t-as="line">
+													<tr>
+														<td align="center">
+															<span t-esc="line['id_no']"/>
+														</td>
+														<td style="padding-left: 10px;">
+															<span t-esc="line['employee_name']"/>
+														</td>
+														<td style="padding-left: 4px;">
+															<span t-esc="line['gender']"/>
+														</td>
+														<td>
+															<span t-esc="line['contact_no']"/>
+														</td>
+														<td style="padding-left: 10px;" align="left">
+															<span t-esc="line['qualification']"/>
+														</td>
+														<td style="padding-left: 4px;">
+															<span t-esc="line['technical_training']"/>
+														</td>
+														<td>
+															<span t-esc="line['designation']"/>
+														</td>
+														<td>
+															<span t-esc="line['department']"/>
+														</td>
+														<td style="padding-left: 4px;">
+															<span t-esc="line['date_joining']"/>
+														</td>
+														<td>
+															<span t-esc="line['no_months_job']"/>
+														</td>
+														<td style="padding-left: 10px;" align="left">
+															<span t-esc="line['year_service']"/>
+														</td>
+														<td style="padding-left: 4px;">
+															<span t-esc="line['age']"/>
+														</td>
+														<td>
+															<span t-esc="line['dob']"/>
+														</td>
+														<td style="padding-left: 10px;">
+															<span t-esc="line['blood_group']"/>
+														</td>
+														<td>
+															<span t-esc="line['basic_salary']"/>
+														</td>
+														<td style="padding-left: 10px;">
+															<span t-esc="line['pf']"/>
+														</td>
+														<td style="padding-left: 4px;">
+															<span t-esc="line['mediclaim']"/>
+														</td>
+														<td style="padding-left: 4px;">
+															<span t-esc="line['esi']"/>
+														</td>
+														<td style="padding-left: 4px;">
+															<span t-esc="line['esi_no']"/>
+														</td>
+													</tr>
+												</t>
+											</tbody>
+										</table>
+									</center>
+								</div>
+							</t>
+							<t t-if="o.user_category in ['driver','eicher_driver','pickup_driver','lmv_driver','labour']">
+								<div>
+									<center>
+										<t t-foreach="docs.get_special_details()" t-as="line">
+											<table class="table table-condensed">
+												<tr>
+													<td>NAME : <strong><span t-esc="line['employee_name']"/></strong></td>
+													<td>EMP ID : <span t-esc="line['id_no']"/></td>
+													<td>GENDER : <span t-esc="line['gender']"/></td>
+												</tr>
+												<tr>
+													<td>CONTACT : <span t-esc="line['contact_no']"/></td>
+													<td>DESIGNATION : <span t-esc="line['designation']"/></td>
+													<td>JOINING DATE : <span t-esc="line['date_joining']"/></td>
+												</tr>
+												<tr>
+													<td>NO OF MONTHS IN JOB : <span t-esc="line['no_months_job']"/></td>
+													<td>YESR OF SERVICE : <span t-esc="line['year_service']"/></td>
+													<td>AGE : <span t-esc="line['age']"/></td>
+												</tr>
+												<tr>
+													<td>BASIC SALARY : <span t-esc="line['basic_salary']"/></td>
+													<td>OVER TIME SALARY : <span t-esc="line['ovt_sal']"/></td>
+													<td>PF : <span t-esc="line['pf']"/></td>
+												</tr>
+												<tr>
+													<td>MEDICLAIM : <span t-esc="line['mediclaim']"/></td>
+													<td>ESI : <span t-esc="line['esi']"/></td>
+													<td>ESI NO : <span t-esc="line['esi_no']"/></td>
+												</tr>
+											</table>
+											<br/>
+											<t t-if="line['tpl']">
+												<center><b><h2>Trip Details</h2></b></center>
+												<t t-set="flag" t-value="1"/>
+												<table class="table table-condensed">
+													<tr>
+														<td style="width: 5%;" align="center"><h5><b>Date</b></h5></td>
+														<td style="width: 5%;" align="center"><h5><b>Load</b></h5></td>
+														<td style="width: 25%;" align="center"><h5><b>From</b></h5></td>
+														<td style="width: 10%;" align="center"><h5><b>TO</b></h5></td>
+														<td style="width: 20%;" align="center"><h5><b>Distance/ Time</b></h5></td>
+													</tr>
+													<tr t-foreach="line['tpl']" t-as="tp">
+														<t t-set="flag" t-value="flag + 1"/>
+														<td align="center"><span t-esc="tp['date']"/></td>
+														<td align="center"><span t-esc="tp['item_expense2'].name"/></td>
+														<td align="center"><span t-esc="tp['from_id2'].name"/></td>
+														<td align="center"><span t-esc="tp['to_id2'].name"/></td>
+														<td align="center"><span t-esc="tp['total_km']"/></td>
+													</tr>
+													<tr>
+														<td></td>
+														<td></td>
+														<td></td>
+														<td><strong>Total Payable</strong></td>
+														<td><span t-esc="line['basic_salary'] * flag"/></td>
+													</tr>
+												</table>
+											</t>
+
+											<t t-if="line['over_time']">
+												<center><b><h2>Over Time Details</h2></b></center>
+												<t t-set="flag" t-value="1"/>
+												<table class="table table-condensed">
+													<tr>
+														<td align="center"><h5><b>Date</b></h5></td>
+														<td align="center"><h5><b>Project</b></h5></td>
+														<td align="center"><h5><b>Time</b></h5></td>
+													</tr>
+													<tr t-foreach="line['over_time']" t-as="tp">
+														<t t-set="flag" t-value="flag + 1"/>
+														<td align="center"><span t-esc="tp['date']"/></td>
+														<td align="center">
+															<t t-foreach="tp['project_id']" t-as="p">
+																<span t-esc="p.name"/>
+															</t>
+														</td>
+														<td align="center"><span t-esc="tp['time']"/></td>
+													</tr>
+													<tr>
+														<td></td>
+														<td><strong>Total Payable</strong></td>
+														<td><span t-esc="line['ovt_sal'] * flag"/></td>
+													</tr>
+												</table>
+											</t>
+										</t>
+										<div style="border-bottom:2px solid black;"></div>
+									</center>
+								</div>
+							</t>
+						</div>
+					</t>
+				</t>
+			</t>
+		</template>
+
+
+		<record model="ir.ui.view" id="employee_site_joinees_wizard">
+			<field name="name">employee.joinees.wizard</field>
+			<field name="model">employee.joinees.wizard</field>
+			<field name="arch" type="xml">
+				<form string="Site Joinees">
+					<group col="4">
+						<field name="date_from" />
+						<field name="date_to" />
+					</group>
+					<group>
+						<field name="user_category" />
+					</group>
+					<footer>
+						<button name="action_open_window" type="object" string="Print"
+								class="oe_highlight" />
+						or
+						<button name="action_open_window1" type="object" string="View"
+								class="oe_highlight" />or
+						<button string="Cancel" class="oe_link" special="cancel" />
+					</footer>
+				</form>
+			</field>
+		</record>
+
+		<record id="action_employee_site_joinees_wizard" model="ir.actions.act_window">
+			<field name="name">Site Joinees</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">employee.joinees.wizard</field>
+			<field name="target">new</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form</field>
+		</record>
+
+
+
+		<menuitem id="menu_employee_site_joinees_wizard" name="Site Joinees" action="action_employee_site_joinees_wizard" parent="menu_hiworth_hr_report1" />
+
+
+
+
+		<report id="report_employee_site_joinees" string="Site Joinees"
+				model="employee.joinees.wizard" report_type="qweb-pdf"
+				name="hiworth_hr_attendance.report_employee_site_joinees_template" />
+
+
+		<template id="report_employee_site_joinees_template">
+			<t t-call="report.html_container">
+				<t t-foreach="docs" t-as="o">
+					<t t-call="report.external_layout">
+						<div class="page">
+							<center><b><h2>Site Joinees</h2></b></center>
+							<t t-set="sl_no" t-value="1" />
+							<div>
+								<center>
+									<table style="width: 100%; font-size:16px;margin-top:50px;">
+										<thead>
+											<tr style="height: 30px;">
+												<td style="width: 50%;"><b>Date From:</b>
+													<span t-field="o.date_from"/>
+												</td>
+												<td style="width: 50%;text-align: right;"><b>Date To:</b>
+													<span t-field="o.date_to"/>
+												</td>
+											</tr>
+										</thead>
+									</table>
+									<table style="font-size:16px;width: 100%;border-bottom: outset;border-top: outset;margin-top:30px;">
+										<thead>
+											<tr style="border-bottom: outset;border-right: outset;border-left: outset;">
+												<td style="width: 5%; border-right: outset;" align="center"><h5><b>ID No</b></h5></td>
+												<td style="width: 20%; border-right: outset;" align="center"><h5><b>Employee Name</b></h5></td>
+												<td style="width: 10%; border-right: outset;" align="center"><h5><b>Designation</b></h5></td>
+												<td style="width: 10%; border-right: outset;" align="center"><h5><b>Date Of Joining</b></h5></td>
+											</tr>
+										</thead>
+										<tbody>
+											<t t-foreach="docs.get_details()" t-as="line">
+												<tr style="border-left: outset;">
+													<td style="border-right: outset;" align="center">
+														<span t-esc="line['id_no']"/>
+													</td>
+													<td style="border-right: outset;padding-left: 10px;" align="left">
+														<span t-esc="line['employee_name']"/>
+													</td>
+													<td style="border-right: outset;padding-left: 4px;" align="center">
+														<span t-esc="line['designation']"/>
+													</td>
+													<td style="border-right: outset;" align="center">
+														<span t-esc="line['joining_date']"/>
+													</td>
+												</tr>
+											</t>
+										</tbody>
+									</table>
+								</center>
+							</div>
+						</div>
+					</t>
+				</t>
+			</t>
+		</template>
+
+
+		<record model="ir.ui.view" id="employee_site_resign_wizard">
+			<field name="name">employee.resign.wizard</field>
+			<field name="model">employee.resign.wizard</field>
+			<field name="arch" type="xml">
+				<form string="Site Resignation">
+					<group col="4">
+						<field name="date_from" />
+						<field name="date_to" />
+					</group>
+					<group>
+						<field name="user_category" />
+					</group>
+					<footer>
+						<button name="action_open_window" type="object" string="Print"
+								class="oe_highlight" />
+						or
+						<button name="action_open_window1" type="object" string="View"
+								class="oe_highlight" />or
+						<button string="Cancel" class="oe_link" special="cancel" />
+					</footer>
+				</form>
+			</field>
+		</record>
+
+		<record id="action_employee_site_resign_wizard" model="ir.actions.act_window">
+			<field name="name">Site Resignation</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">employee.resign.wizard</field>
+			<field name="target">new</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form</field>
+		</record>
+
+		<menuitem id="menu_employee_site_resign_wizard" name="Site Resignation" action="action_employee_site_resign_wizard" parent="menu_hiworth_hr_report1" />
+
+		<report id="report_employee_site_resign" string="Site Resignation"
+				model="employee.resign.wizard" report_type="qweb-pdf"
+				name="hiworth_hr_attendance.report_employee_site_resign_template" />
+
+		<template id="report_employee_site_resign_template">
+			<t t-call="report.html_container">
+				<t t-foreach="docs" t-as="o">
+					<t t-call="report.external_layout">
+						<div class="page">
+							<center><b><h2>Site Resignation</h2></b></center>
+							<t t-set="sl_no" t-value="1" />
+							<div>
+								<center>
+									<table style="width: 100%; font-size:16px;margin-top:50px;">
+										<thead>
+											<tr style="height: 30px;">
+												<td style="width: 50%;"><b>Date From:</b>
+													<span t-field="o.date_from"/>
+												</td>
+												<td style="width: 50%;text-align: right;"><b>Date To:</b>
+													<span t-field="o.date_to"/>
+												</td>
+											</tr>
+										</thead>
+									</table>
+									<table style="font-size:16px;width: 100%;border-bottom: outset;border-top: outset;margin-top:30px;">
+										<thead>
+											<tr style="border-bottom: outset;border-right: outset;border-left: outset;">
+												<td style="width: 5%; border-right: outset;" align="center"><h5><b>ID No</b></h5></td>
+												<td style="width: 20%; border-right: outset;" align="center"><h5><b>Employee Name</b></h5></td>
+												<td style="width: 10%; border-right: outset;" align="center"><h5><b>Designation</b></h5></td>
+												<td style="width: 10%; border-right: outset;" align="center"><h5><b>Date Of Resignation</b></h5></td>
+											</tr>
+										</thead>
+										<tbody>
+											<t t-foreach="docs.get_details()" t-as="line">
+												<tr style="border-left: outset;">
+													<td style="border-right: outset;" align="center">
+														<span t-esc="line['id_no']"/>
+													</td>
+													<td style="border-right: outset;padding-left: 10px;" align="left">
+														<span t-esc="line['employee_name']"/>
+													</td>
+													<td style="border-right: outset;padding-left: 4px;" align="center">
+														<span t-esc="line['designation']"/>
+													</td>
+													<td style="border-right: outset;" align="center">
+														<span t-esc="line['resigning_date']"/>
+													</td>
+												</tr>
+											</t>
+										</tbody>
+									</table>
+								</center>
+							</div>
+						</div>
+					</t>
+				</t>
+			</t>
+		</template>
+
+	</data>
+</openerp>

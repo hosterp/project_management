@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+
+         <record model='ir.ui.view' id='form_km_details_config'>
+            <field name="name">KM Details Configuration</field>
+            <field name="model">km.details.config</field>
+            <field name="arch" type="xml">
+                <form string="KM Details">
+                    <header>
+                        <button name="action_confirm" type="object" string="Confirm" groups="hiworth_tms.tms_transport_and_fuel" states="draft" class="oe_highlight"/>
+
+                        <button name="action_draft" type="object" string="Set To Draft" groups="hiworth_tms.tms_transport_and_fuel" states="confirm" class="oe_highlight"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                <group col="4">
+                    <field name="supplier_id"/>
+                    <field name="from_location_id"/>
+                    <field name="location_id"/>
+                    <field name="km"/>
+                    <field name="with_effect"/>
+                </group>
+                </form>
+            </field>
+        </record>
+         <record model='ir.ui.view' id='tree_km_details_config'>
+            <field name="name">KM Details Configuration</field>
+            <field name="model">km.details.config</field>
+            <field name="arch" type="xml">
+               <tree>
+                    <field name="supplier_id"/>
+                     <field name="from_location_id"/>
+                    <field name="location_id"/>
+                    <field name="km"/>
+                    <field name="with_effect"/>
+                   <field name="state"/>
+               </tree>
+            </field>
+        </record>
+
+        <record model='ir.ui.view' id='search_km_details_config'>
+            <field name="name">KM Details Configuration</field>
+            <field name="model">km.details.config</field>
+            <field name="arch" type="xml">
+               <search>
+                    <field name="supplier_id"/>
+                    <field name="from_location_id"/>
+                    <field name="location_id"/>
+                    <field name="km"/>
+                    <field name="with_effect"/>
+               </search>
+            </field>
+        </record>
+
+          <record model='ir.actions.act_window' id='action_km_details_config'>
+            <field name="name">KM Details Config</field>
+            <field name="res_model">km.details.config</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+
+        </record>
+
+        <menuitem id="menu_km_details_config" name="KM Details Configuration" parent="fleet.fleet_configuration" sequence="4"
+        action="hiworth_tms.action_km_details_config"/>
+
+    </data>
+</openerp>

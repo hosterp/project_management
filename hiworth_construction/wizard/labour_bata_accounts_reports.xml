@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>
+<record id="form_labour_beta_report_accounts_daily" model="ir.ui.view">
+			<field name="name">labour Bata Report</field>
+			<field name="model">labour.bata.accounts.report</field>
+			<field name="arch" type="xml">
+				<form>
+					<group>
+
+						<group>
+							<field name="from_date"/>
+							<field name="to_date" />
+
+							 <field name="partner_select"/>
+							<field name="sub_contractor_id" attrs="{'invisible':[('partner_select','!=','sub')]}"/>
+
+						<!--	<field name="category" />-->
+						</group>
+					</group>
+					<footer>
+
+						<button type="object" name="generate_xls_report"
+							string="Print" class="oe_highlight" />
+						<button special="cancel" string="Cancel" />
+					</footer>
+				</form>
+			</field>
+		</record>
+		<record id="action_report_labour_beta_accounts_daily" model="ir.actions.act_window">
+			<field name="name">Labour Bata Report</field>
+			<field name="res_model">labour.bata.accounts.report</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form</field>
+			<field name="target">new</field>
+		</record>
+		<report
+            id="labour_beta_report_accounts_daily"
+            model="labour.bata.accounts.report"
+            string="Labour Bata Accounts"
+            report_type="xlsx"
+            name="Labour Bata Accounts.xlsx"
+            file="Labour Bata Accounts.xlsx"
+            menu="False"
+        />
+
+
+    <menuitem id="report_purchase_labour_bata__accounts_view_daily" parent="hiworth_construction.menu_partner_daily_statement_in_activity_report"
+				  name="Labour Bata Accounts"
+			  groups="hiworth_hr_attendance.group_labour"
+				  action="action_report_labour_beta_accounts_daily" sequence ="8"/>
+
+
+
+
+
+
+	</data>
+</openerp>

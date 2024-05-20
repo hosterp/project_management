@@ -1,0 +1,355 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>
+<!--<record id="form_goods_recieve_report_daily" model="ir.ui.view">-->
+<!--			<field name="name">Goods Receive Reort</field>-->
+<!--			<field name="model">goods.recieve.report.wizard</field>-->
+<!--			<field name="arch" type="xml">-->
+<!--				<form>-->
+<!--					<group>-->
+<!--						<group>-->
+
+<!--							<field name="project_id" string="Project"/>-->
+
+<!--						</group>-->
+<!--						<group>-->
+<!--							<field name="from_date"/>-->
+<!--							<field name="to_date" />-->
+<!--							<field name="supplier_id"/>-->
+
+<!--						</group>-->
+<!--					</group>-->
+<!--					<footer>-->
+
+<!--						<button type="object" name="generate_xls_report"-->
+<!--							string="Export" class="oe_highlight" />-->
+<!--						<button type="object" name="print_report"-->
+<!--							string="View" class="oe_highlight" />-->
+<!--						<button special="cancel" string="Cancel" />-->
+<!--					</footer>-->
+<!--				</form>-->
+<!--			</field>-->
+<!--		</record>-->
+<!--		<record id="action_report_goods_recieve" model="ir.actions.act_window">-->
+<!--			<field name="name">Goods Receive Report</field>-->
+<!--			<field name="res_model">goods.recieve.report.wizard</field>-->
+<!--			<field name="view_type">form</field>-->
+<!--			<field name="view_mode">form</field>-->
+<!--			<field name="target">new</field>-->
+<!--		</record>-->
+<!--		<report-->
+<!--            id="goods_recieve_report_wizard_daily"-->
+<!--            model="goods.recieve.report.wizard"-->
+<!--            string="Goods Receive Report"-->
+<!--            report_type="xlsx"-->
+<!--            name="Goods Receive Report.xlsx"-->
+<!--            file="Goods Receive Report.xlsx"-->
+<!--            menu="False"-->
+<!--        />-->
+
+<!--			<template id="goods_receive_report_pdf_template">-->
+<!--			<div t-call="report.html_container">-->
+<!--				<t t-call="report.external_layout">-->
+<!--					<t t-foreach="docs" t-as="o">-->
+<!--					<div class="page">-->
+
+
+<!--						<t t-if="o.supplier_id">-->
+<!--						<div class="row">-->
+<!--							<div>-->
+<!--							<center>	<strong>BEGORRA INFRASTRUCTURE &amp; DEVELOPERS PVT LTD</strong></center>-->
+<!--								</div>-->
+<!--							<div>-->
+<!--								<center><strong><span t-field="o.project_id.name"/> </strong></center>-->
+<!--						</div>-->
+<!--						<div>-->
+<!--								<center><strong><span t-field="o.supplier_id.name"/> </strong></center>-->
+<!--							</div>-->
+<!--						<div>-->
+<!--							<center>	<strong><span>Details From <span t-field="o.from_date"/> To <span t-field="o.to_date"/></span></strong></center>-->
+<!--							</div>-->
+
+<!--							<table class="table table-bordered">-->
+<!--								<thead>-->
+<!--									<tr>-->
+<!--										<th>SL NO</th>-->
+<!--										<th>Invoice Date</th>-->
+<!--										<th>Created By</th>-->
+<!--										<th>Date</th>-->
+<!--										<th>Project</th>-->
+<!--										<th>GRR No</th>-->
+
+<!--										<th>Supplier Invoice Number</th>-->
+<!--										<th>MR Slip</th>-->
+<!--										<th>Vehicle No</th>-->
+<!--										<th>Item Name</th>-->
+<!--										<th>Unit</th>-->
+<!--										<th>Quantity</th>-->
+<!--										<th>Price</th>-->
+<!--										<th>SubTotal</th>-->
+<!--										<th>GST</th>-->
+<!--										<th>IGST</th>-->
+<!--										<th>TCS</th>-->
+<!--										<th>Round off</th>-->
+<!--										<th>Total</th>-->
+
+
+
+<!--									</tr>-->
+<!--								</thead>-->
+<!--								<tbody>-->
+<!--									<t t-set="count" t-value="1"/>-->
+<!--									<t t-set="total_qty" t-value="0"/>-->
+<!--									<t t-set="total_amt" t-value="0"/>-->
+<!--									<t t-foreach="o.get_details()" t-as="line">-->
+<!--										<tr t-foreach="line.goods_recieve_report_line_ids" t-as="report_line">-->
+<!--										<td><span t-esc="count"/></td>-->
+<!--											<t t-set="count" t-value="count+1"/>-->
+<!--											<td><span t-field="line.Date"/></td>-->
+<!--											<td><span t-field="line.create_uid.name"/></td>-->
+<!--											<td><span t-field="line.invoice_date"/></td>-->
+<!--											<td><span t-field="line.project_id.name"/></td>-->
+<!--											<td><span t-field="line.grr_no"/></td>-->
+
+<!--											<td><span t-field="line.invoice_no"/></td>-->
+<!--											<td><span t-field="line.mr_slip"/></td>-->
+<!--										<td><t t-if="line.vehicle_id"><span t-field="line.vehicle_id.name"/></t> <t t-if="line.vehicle_no"><span t-field="line.vehicle_no"/></t> </td>-->
+
+<!--										<td><span t-field="report_line.item_id.name"/></td>-->
+<!--											<td><span t-field="report_line.unit_id.name"/></td>-->
+<!--											<td><span t-field="report_line.quantity_accept"/>-->
+<!--													<t t-set="total_qty" t-value="total_qty+report_line.quantity_accept"/>-->
+<!--										</td>-->
+<!--											<td><span t-field="report_line.rate"/></td>-->
+
+<!--											<td><span t-field="report_line.sub_total"/></td>-->
+<!--											<td><t t-set="gst_amount" t-value="report_line.cgst_amount +report_line.sgst_amount"/><span t-esc="gst_amount"/></td>-->
+<!--											<td><span t-field="report_line.igst_amount"/></td>-->
+<!--											<td><span t-field="report_line.tcs_amount"/></td>-->
+<!--											<td><span t-field="report_line.round_off_amount"/></td>-->
+<!--											<td><span t-field="report_line.total_amount"/></td>-->
+<!--											<t t-set="total_amt" t-value="total_amt+report_line.total_amount"/>-->
+<!--										</tr>-->
+
+<!--										</t>-->
+<!--									<tr>-->
+<!--										<td colspan="11"><span><strong>Current Total</strong></span></td>-->
+<!--										<td ><strong><span t-esc="total_qty" /></strong></td>-->
+<!--										<td></td>-->
+<!--										<td></td>-->
+<!--										<td></td>-->
+<!--										<td></td>-->
+<!--										<td></td>-->
+<!--										<td></td>-->
+<!--										<td><strong><span t-esc="total_amt" /></strong></td>-->
+<!--									</tr>-->
+<!--									<tr>-->
+<!--										<td colspan="11"><span><strong>PAID ON</strong></span></td>-->
+<!--										<td > </td>-->
+<!--										<td></td>-->
+<!--										<td></td>-->
+<!--										<td></td>-->
+<!--										<td></td>-->
+<!--										<td></td>-->
+<!--										<td></td>-->
+<!--										<td></td>-->
+<!--									</tr>-->
+<!--									<tr>-->
+<!--										<td colspan="11"><span><strong>Closing Balance</strong></span></td>-->
+<!--										<td > </td>-->
+<!--										<td></td>-->
+<!--										<td></td>-->
+<!--										<td></td>-->
+<!--										<td></td>-->
+<!--										<td></td>-->
+<!--										<td></td>-->
+<!--										<td></td>-->
+<!--									</tr>-->
+
+
+
+<!--								</tbody>-->
+<!--							</table>-->
+
+<!--						</div>-->
+<!--						</t>-->
+<!--						<t t-if="not o.supplier_id">-->
+<!--						<div class="row">-->
+<!--							<div>-->
+<!--								<center>	<strong>BEGORRA INFRASTRUCTURE &amp; DEVELOPERS PVT LTD</strong></center>-->
+<!--							</div>-->
+<!--							<div>-->
+<!--							<center>	<strong><span t-field="o.project_id.name"/> </strong></center>-->
+<!--								</div>-->
+<!--							<div>-->
+<!--							<center>	<strong><span>Details From <span t-field="o.from_date"/> To <span t-field="o.to_date"/></span></strong></center>-->
+<!--							</div>-->
+
+<!--							<table class="table table-bordered">-->
+<!--								<thead>-->
+<!--									<tr>-->
+<!--										<th>SL NO</th>-->
+<!--										<th>Invoice Date</th>-->
+<!--										<th>Created By</th>-->
+<!--										<th>Date</th>-->
+<!--										<th>Project</th>-->
+<!--										<th>GRR No</th>-->
+<!--										<th>Supplier Name</th>-->
+<!--										<th>Supplier Invoice Number</th>-->
+<!--										<th>MR Slip</th>-->
+<!--										<th>Vehicle No</th>-->
+<!--										<th>Item Name</th>-->
+<!--										<th>Unit</th>-->
+<!--										<th>Quantity</th>-->
+<!--										<th>Price</th>-->
+<!--										<th>SubTotal</th>-->
+<!--										<th>GST</th>-->
+<!--										<th>IGST</th>-->
+<!--										<th>TCS</th>-->
+<!--										<th>Round off</th>-->
+<!--										<th>Total</th>-->
+
+
+
+<!--									</tr>-->
+<!--								</thead>-->
+<!--								<tbody>-->
+<!--									<t t-set="count" t-value="1"/>-->
+<!--									<t t-set="total_qty" t-value="0"/>-->
+<!--									<t t-set="total_amt" t-value="0"/>-->
+<!--									<t t-foreach="o.get_details()" t-as="line">-->
+<!--										<tr t-foreach="line.goods_recieve_report_line_ids" t-as="report_line">-->
+<!--										<td><span t-esc="count"/></td>-->
+<!--											<t t-set="count" t-value="count+1"/>-->
+<!--											<td><span t-field="line.Date"/></td>-->
+<!--											<td><span t-field="line.create_uid.name"/></td>-->
+<!--											<td><span t-field="line.invoice_date"/></td>-->
+<!--											<td><span t-field="line.project_id.name"/></td>-->
+<!--											<td><span t-field="line.grr_no"/></td>-->
+<!--											<td><span t-field="line.supplier_id.name"/></td>-->
+<!--											<td><span t-field="line.invoice_no"/></td>-->
+<!--											<td><span t-field="line.mr_slip"/></td>-->
+<!--										<td><t t-if="line.vehicle_id"><span t-field="line.vehicle_id.name"/></t> <t t-if="line.vehicle_no"><span t-field="line.vehicle_no"/></t> </td>-->
+
+<!--										<td><span t-field="report_line.item_id.name"/></td>-->
+<!--											<td><span t-field="report_line.unit_id.name"/></td>-->
+<!--											<td><span t-field="report_line.quantity_accept"/>-->
+<!--													<t t-set="total_qty" t-value="total_qty+report_line.quantity_accept"/>-->
+<!--										</td>-->
+<!--											<td><span t-field="report_line.rate"/></td>-->
+<!--											<td>1</td>-->
+<!--											<td><span t-field="report_line.sub_total"/></td>-->
+<!--											<td><t t-set="gst_amount" t-value="report_line.cgst_amount +report_line.sgst_amount"/><span t-esc="gst_amount"/></td>-->
+<!--											<td><span t-field="report_line.igst_amount"/></td>-->
+<!--											<td><span t-field="report_line.tcs_amount"/></td>-->
+<!--											<td><span t-field="report_line.round_off_amount"/></td>-->
+<!--											<td><span t-field="report_line.total_amount"/></td>-->
+<!--											<t t-set="total_amt" t-value="total_amt+report_line.total_amount"/>-->
+<!--										</tr>-->
+
+<!--										</t>-->
+<!--									<tr>-->
+<!--										<td colspan="13"><span><strong>Current Total</strong></span></td>-->
+<!--										<td ><strong><span t-esc="total_qty" /></strong></td>-->
+<!--										<td></td>-->
+<!--										<td></td>-->
+<!--										<td></td>-->
+<!--										<td></td>-->
+<!--										<td></td>-->
+<!--										<td></td>-->
+<!--										<td><strong><span t-esc="total_amt" /></strong></td>-->
+<!--									</tr>-->
+<!--									<tr>-->
+<!--										<td colspan="13"><span><strong>PAID ON</strong></span></td>-->
+<!--										<td > </td>-->
+<!--										<td></td>-->
+<!--										<td></td>-->
+<!--										<td></td>-->
+<!--										<td></td>-->
+<!--										<td></td>-->
+<!--										<td></td>-->
+<!--										<td></td>-->
+<!--									</tr>-->
+<!--									<tr>-->
+<!--										<td colspan="13"><span><strong>Closing Balance</strong></span></td>-->
+<!--										<td > </td>-->
+<!--										<td></td>-->
+<!--										<td></td>-->
+<!--										<td></td>-->
+<!--										<td></td>-->
+<!--										<td></td>-->
+<!--										<td></td>-->
+<!--										<td></td>-->
+<!--									</tr>-->
+
+
+<!--								</tbody>-->
+<!--							</table>-->
+
+<!--						</div>-->
+<!--						</t>-->
+<!--							<table class="table table-bordered">-->
+<!--								<thead>-->
+<!--									<tr>-->
+<!--										<th>SL NO</th>-->
+
+<!--										<th>Item Name</th>-->
+<!--										<th>Quantity</th>-->
+
+<!--										<th>Total</th>-->
+
+
+
+<!--									</tr>-->
+<!--								</thead>-->
+<!--								<tbody>-->
+<!--									<t t-set="count" t-value="1"/>-->
+
+<!--									<tr t-foreach="o.get_product_details()" t-as="key">-->
+<!--										<td><span t-esc="count"/></td>-->
+<!--											<t t-set="count" t-value="count+1"/>-->
+
+<!--										<td><span t-esc="o.get_product_details()[key]['name']"/></td>-->
+
+<!--										<td><span t-esc="o.get_product_details()[key]['qty']"/></td>-->
+
+<!--											<td><span t-esc="o.get_product_details()[key]['total']"/></td>-->
+
+<!--										</tr>-->
+
+
+
+<!--								</tbody>-->
+<!--							</table>-->
+<!--						&lt;!&ndash; <div class="col-xs-12"> <div class="pull-right">Total inventory-->
+<!--							value: <strong><span t-field="o.inventory_value" /></strong></div> </div> &ndash;&gt;-->
+<!--						&lt;!&ndash; </div> &ndash;&gt;-->
+<!--						&lt;!&ndash; </t> &ndash;&gt;-->
+<!--				</div>-->
+
+<!--				</t>-->
+
+<!--						</t>-->
+<!--			</div>-->
+
+<!--		</template>-->
+<!--		<report-->
+<!--            id="goods_recieve_report_wizard_daily_pdf"-->
+<!--            model="goods.recieve.report.wizard"-->
+<!--            string="Goods Receive Report"-->
+<!--            report_type="qweb-html"-->
+<!--            name="hiworth_construction.goods_receive_report_pdf_template"-->
+<!--            file="Goods Receive Report.pdf"-->
+<!--            menu="False"-->
+<!--        />-->
+
+
+<!--    <menuitem id="report_goods_receive_report_daily" parent="hiworth_construction.menu_stock_warehouse_reports"-->
+<!--				  name="Goods Receive Report"-->
+<!--				  action="action_report_goods_recieve" sequence ="8"/>-->
+
+
+
+
+	</data>
+</openerp>

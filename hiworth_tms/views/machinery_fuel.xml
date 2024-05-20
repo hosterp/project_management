@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+
+		<record id="product_template_only_form_view_neww" model="ir.ui.view">
+			<field name="name">product.template.changed</field>
+			<field name="model">product.template</field>
+			<field name="inherit_id" ref="product.product_template_only_form_view" />
+			<field name="arch" type="xml">
+				<div name="options" position="inside">
+					<div>
+						<field name="fuel_ok"/>
+						<label for="fuel_ok"/>
+						 <field name="track_product"/>
+						<label for="track_product"/>
+					</div>
+				</div>
+			</field>
+		</record>
+
+		<record model='ir.ui.view' id='machinery_fuel_collection_form'>
+			<field name="name">machinery.fuel.collection.form</field>
+			<field name="model">machinery.fuel.collection</field>
+			<field name="arch" type="xml">
+				<form string="Machinery Fuel Collection">
+					<header>
+						<button name="button_approve" string="Approve" type="object" class="oe_highlight" states="confirmed"
+							groups="hiworth_hr_attendance.group_supervisor,base.group_erp_manager"/>
+						<button name="button_reconcile" string="Reconcile" type="object" class="oe_highlight" states="approved"/>
+						<field name="state" widget="statusbar"/>
+					</header>
+					<sheet>
+						<group col="4">
+							<group>
+								<field name="date" required="1" attrs="{'readonly': [('state','=','reconcile')]}" />
+								<field name="pump_id" required="1" options="{'no_create': True, 'no_create_edit':True}" attrs="{'readonly': [('state','=','reconcile')]}"/>
+								<field name="product_id" attrs="{'readonly': [('state','=','reconcile')]}" context="{'default_fuel_ok':True}" required="1"/>
+								<field name="uom_id" attrs="{'readonly': [('state','=','reconcile')]}" required="1"/>
+								<field name="quantity" attrs="{'readonly': [('state','=','reconcile')]}" required="1" widget="char"/>
+								<!-- <field name="per_litre" widget="char" /> -->
+								
+								<!-- <field name="odometer" nolabel="1" attrs="{'required':[('diesel_pump','!=',False)]}" widget="char"/> -->
+								<!-- <field name="start_bal" /> -->
+							</group>
+							<group>
+								
+								<field name="site_id" attrs="{'readonly': [('state','=','reconcile')]}" required="1"/>
+								<field name="supervisor_id" readonly="1"/>
+								<field name="amount_per_unit" attrs="{'readonly': [('state','=','reconcile')]}" widget="char" required="1"/>
+								<field name="total_amount" attrs="{'readonly': [('state','=','reconcile')]}" widget="char" required="1"/>
+								<field name="stock_move_id" invisible="1"/>
+								<field name="account_move_id" invisible="1"/>
+								
+								
+							</group>
+
+						</group>
+					</sheet>
+			
+				</form>
+			</field>
+		</record>
+
+
+		<!-- ################  search view ######################### -->
+
+		<record id="machinery_fuel_collection_search_view" model="ir.ui.view">
+			<field name="name">machinery.fuel.collection.search.view</field>
+			<field name="model">machinery.fuel.collection</field>
+			<field name="arch" type="xml">
+				<search string="machinery fuel collection">
+					<field name="date" />
+					<field name="pump_id" />
+					<field name="supervisor_id" />
+					<field name="site_id" />
+					<group expand="0" string="group by">
+						<filter name="groupby_date" string="Date" 
+							context="{'group_by':'date'}"/>
+						<filter name="groupby_site" context="{'group_by': 'site_id'}" string="Site"  />
+						<filter name="groupby_pump" context="{'group_by': 'pump_id'}" string="Pump"  />
+						<filter name="groupby_supevisor" context="{'group_by': 'supervisor_id'}" string="Supervisor"  />
+					</group>
+				</search>
+			</field>
+		</record>
+
+   
+		<record model='ir.ui.view' id='machinery_fuel_collection_tree'>
+			<field name="name">machinery.fuel.collection.tree</field>
+			<field name="model">machinery.fuel.collection</field>
+			<field name="arch" type="xml">
+				<tree string="Machinery Fuel Collection" create="false">
+					<field name="date"/>
+					<field name="pump_id"/>
+					<field name="uom_id"/>
+					<field name="quantity"/>
+					<field name="amount_per_unit" />
+					<field name="total_amount"/>
+					<field name="site_id"/>
+					<field name="supervisor_id"/>
+					<field name="product_id"/>
+				</tree>
+			</field>
+		</record>
+
+		
+
+		<record model='ir.actions.act_window' id='machinery_fuel_collection_act'>
+			<field name="name">Machinery Fuel Collection</field>
+			<field name="res_model">machinery.fuel.collection</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="domain">[('state','in',['approved','reconcile'])]</field>
+		</record>
+
+
+
+		<record model='ir.ui.view' id='machinery_fuel_allocation_form'>
+			<field name="name">machinery.fuel.allocation.form</field>
+			<field name="model">machinery.fuel.allocation</field>
+			<field name="arch" type="xml">
+				<form string="Machinery Fuel Allocation" create="false">
+					<header>
+						<button name="button_reconcile" string="Reconcile" type="object" class="oe_highlight"/>
+						<field name="state" widget="statusbar"/>
+					</header>
+					<sheet>
+						<group col="4">
+							<group>
+								<field name="date" required="1"  attrs="{'readonly': [('state','=','reconcile')]}"/>
+								<field name="machinery_id" attrs="{'readonly': [('state','=','reconcile')]}" required="1"/>
+								<field name="product_id" attrs="{'readonly': [('state','=','reconcile')]}" context="{'default_fuel_ok':True}" required="1"/>
+								<field name="available_quantity"/>
+								<field name="quantity" attrs="{'readonly': [('state','=','reconcile')]}" required="1" widget="char"/>
+								<field name="current_quantity"/>
+								<field name="uom_id" attrs="{'readonly': [('state','=','reconcile')]}" required="1"/>
+								
+								<!-- <field name="odometer" nolabel="1" attrs="{'required':[('diesel_pump','!=',False)]}" widget="char"/> -->
+								<!-- <field name="start_bal" /> -->
+							</group>
+							<group>
+								
+								<field name="site_id" attrs="{'readonly': [('state','=','reconcile')]}" required="1"/>
+								<field name="supervisor_id"  readonly="1"/>
+								<field name="amount_per_unit" attrs="{'readonly': [('state','=','reconcile')]}" widget="char" required="1"/>
+								<field name="total_amount" attrs="{'readonly': [('state','=','reconcile')]}" widget="char" required="1"/>
+								<field name="stock_move_id" invisible="1"/>
+								<field name="account_move_id" invisible="1"/>
+								
+							</group>
+
+						</group>
+					</sheet>
+			
+				</form>
+			</field>
+		</record>
+
+
+		<!-- ################  search view ######################### -->
+
+		<record id="machinery_fuel_allocation_search_view" model="ir.ui.view">
+			<field name="name">machinery.fuel.allocation.search.view</field>
+			<field name="model">machinery.fuel.allocation</field>
+			<field name="arch" type="xml">
+				<search string="machinery fuel allocation">
+					<field name="date" />
+					<field name="machinery_id" />
+					<field name="site_id" />
+					<field name="supervisor_id" />
+					<group expand="0" string="group by">
+						<filter name="groupby_date" string="Date" 
+							context="{'group_by':'date'}"/>
+						<filter name="groupby_site" context="{'group_by': 'site_id'}" string="Site"  />
+						<filter name="groupby_machinery" context="{'group_by': 'machinery_id'}" string="Machinery"  />
+						<filter name="groupby_machinery" context="{'group_by': 'supervisor_id'}" string="Supervisor"  />
+					</group>
+				</search>
+			</field>
+		</record>
+
+   
+		<record model='ir.ui.view' id='machinery_fuel_allocation_tree'>
+			<field name="name">machinery.fuel.allocation.tree</field>
+			<field name="model">machinery.fuel.allocation</field>
+			<field name="arch" type="xml">
+				<tree string="Machinery Fuel Allocation" create="false">
+					<field name="date"/>
+					<field name="machinery_id"/>
+					<field name="quantity"/>
+					<field name="uom_id"/>
+					<field name="amount_per_unit" />
+					<field name="total_amount"/>
+					<field name="site_id"/>
+					<field name="supervisor_id"/>
+					<field name="product_id"/>
+				</tree>
+			</field>
+		</record>
+
+		
+
+		<record model='ir.actions.act_window' id='machinery_fuel_allocation_act'>
+			<field name="name">Machinery Fuel Allocation</field>
+			<field name="res_model">machinery.fuel.allocation</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="domain">[('state','in',['confirm','reconcile'])]</field>
+		</record>
+
+
+
+	</data>
+</openerp>

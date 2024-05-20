@@ -1,0 +1,327 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>
+
+		<!-- Employee insurance Details -->
+
+		<record model="ir.ui.view" id="employee_insurance_details_wizard">
+			<field name="name">hr.employee.insurance.wizard</field>
+			<field name="model">employee.insurance.report</field>
+			<field name="arch" type="xml">
+				<form string="Insurance Report">
+					<group col="4">
+						<field name="date_from" required="1"/>
+						<field name="date_to" required="1"/>
+						<field name="policy_id" required="1"/>
+						<field name="state" required="1"/>
+					</group>
+					
+					<footer>
+						<button name="action_employee_insurance_open_window" type="object" string="Print" class="oe_highlight" />
+						<button name="action_employee_open_insurance_window1" type="object" string="View" class="oe_highlight" />
+						<button string="Cancel" class="oe_link" special="cancel" />
+					</footer>
+				</form>
+			</field>
+		</record>
+
+		<record id="action_employee_insurance_details_wizard" model="ir.actions.act_window">
+			<field name="name">Employee Report</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">employee.insurance.report</field>
+			<field name="target">new</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form</field>
+		</record>
+
+		
+		<menuitem id="employee_insurance_report" parent="menu_hiworth_hr_report1" name="Employee Insurance" sequence="3" action="action_employee_insurance_details_wizard"/>
+
+	
+
+
+		<report id="report_employee_insurance_details_report" string="Employee Report"
+			model="employee.insurance.report" report_type="qweb-pdf"
+			name="hiworth_hr_attendance.report_employee_insurance_details_template" />
+
+
+		<template id="report_employee_insurance_details_template">
+			<t t-call="report.html_container">
+				<t t-foreach="docs" t-as="o">
+					<t t-call="report.external_layout">
+						<div class="page">
+							<center><b><h1>Employee Insurance Report</h1></b></center>
+							
+
+							<t t-set="sl_no" t-value="1" />
+							
+							<div>
+								<center>
+
+									<table style="font-size:16px;width: 100%;border-bottom: outset;border-top: outset;margin-top:30px;">
+										<thead>
+
+											<tr style="border-bottom: outset;border-right: outset;border-left: outset;">
+												<td style="width: 2%; border-right: outset;" align="center"><h5><b>SL.No</b></h5></td>
+												<td style="width: 5%; border-right: outset;" align="center"><h5><b>ID No</b></h5></td>
+												<td style="width: 10%; border-right: outset;" align="center"><h5><b>Employee Name</b></h5></td>
+												<td style="width: 5%; border-right: outset;" align="center"><h5><b>Gender</b></h5></td>
+												<td style="width: 5%; border-right: outset;" align="center"><h5><b>DOB</b></h5></td>
+												<td style="width: 5%; border-right: outset;" align="center"><h5><b>Age</b></h5></td>
+												<td style="width: 7%; border-right: outset;" align="center"><h5><b>Designation</b></h5></td>
+												<!-- <td style="width: 5%; border-right: outset;" align="center"><h5><b>Sponsored By</b></h5></td> -->
+												<td style="width: 5%; border-right: outset;" align="center"><h5><b>Type of Policy</b></h5></td>
+												<td style="width: 5%; border-right: outset;" align="center"><h5><b>Claim Duration</b></h5></td>
+												<td style="width: 5%; border-right: outset;" align="center"><h5><b>Premium Amount</b></h5></td>
+												<td style="width: 5%; border-right: outset;" align="center"><h5><b>Company Contribution</b></h5></td>
+												
+												<td style="width: 5%; border-right: outset;" align="center"><h5><b>Staff Contribution</b></h5></td>
+												<td style="width: 5%; border-right: outset;" align="center"><h5><b>No of Persons</b></h5></td>
+												<td style="width: 8%; border-right: outset;" align="center"><h5><b>Mobile No</b></h5></td>
+												<td style="width: 6%; border-right: outset;" align="center"><h5><b>Policy No</b></h5></td>
+												<td style="width: 6%; border-right: outset;" align="center"><h5><b>Insured No</b></h5></td>
+												<td style="width: 6%; border-right: outset;" align="center"><h5><b>Commit Date</b></h5></td>
+												<td style="width: 6%; border-right: outset;" align="center"><h5><b>Renew Date</b></h5></td>
+											</tr>
+										</thead>
+
+								
+										<tbody>
+
+											<t t-foreach="docs.get_details()" t-as="line">
+												<tr style="border-left: outset;">
+													<td style="border-right: outset;">
+														<span t-esc="sl_no" />
+														<t t-set="sl_no" t-value="sl_no+1" />
+													</td>
+											
+													<td style="border-right: outset;" align="center">
+														<span t-esc="line['id_no']"/>
+													</td>
+													<td style="border-right: outset;padding-left: 2px;">
+														<span t-esc="line['employee_name']"/>
+													</td>
+													<td style="border-right: outset;padding-left: 2px;">
+														<span t-esc="line['gender']"/>
+													</td>
+													<td style="border-right: outset;" align="center">
+														<span t-esc="line['dob']"/>
+													</td>
+													<td style="border-right: outset;" align="center">
+														<span t-esc="line['age']"/>
+													</td>
+													<td style="border-right: outset;padding-left: 2px;">
+														<span t-esc="line['designation']"/>
+													</td>
+													<!-- <td style="border-right: outset;padding-left: 4px;" align="center">
+														<span t-esc="line['sponsored_by']"/>
+													</td> -->
+													<td style="border-right: outset;padding-left: 2px;">
+														<span t-esc="line['policy_type']"/>
+													</td>
+													<td style="border-right: outset;" align="center">
+														<span t-esc="line['claim_duration']"/>
+													</td>
+													<td style="border-right: outset;padding-right: 2px;" align="right">
+														<span t-esc="line['premium_amt']"/>
+													</td>
+													<td style="border-right: outset;padding-right: 2px;" align="right">
+														<span t-esc="line['company_amt']"/>
+													</td>
+													<td style="border-right: outset;padding-right: 2px;" align="right">
+														<span t-esc="line['staff_amt']"/>
+													</td>
+													<td style="border-right: outset;padding-left: 2px;" align="center">
+														<span t-esc="line['no_persons']"/>
+													</td>
+													<td style="border-right: outset;" align="center">
+														<span t-esc="line['mobile_no']"/>
+													</td>
+													<td style="border-right: outset;padding-left: 2px;">
+														<span t-esc="line['policy_no']"/>
+													</td>
+													<td style="border-right: outset;padding-left: 2px;">
+														<span t-esc="line['insured_no']"/>
+													</td>
+													<td style="border-right: outset;" align="center">
+														<span t-esc="line['commit_date']"/>
+													</td>
+													<td style="border-right: outset;" align="center">
+														<span t-esc="line['renew_date']" />
+													</td>
+													
+												</tr>
+											</t>
+										</tbody>
+									</table>
+								</center>
+							</div>
+			               
+						</div>
+					</t>
+				</t>
+			</t>
+		</template>
+
+
+		<!-- Employee insurance Renewal -->
+
+		<record model="ir.ui.view" id="employee_insurance_renewal_wizard">
+			<field name="name">insurance.renewal.report.wizard</field>
+			<field name="model">insurance.renewal.report</field>
+			<field name="arch" type="xml">
+				<form string="Insurance Renewal Report">
+					<group col="4">
+						<field name="date_from" required="1"/>
+						<field name="date_to" required="1"/>
+						<field name="policy_id" required="1"/>
+					</group>
+					
+					<footer>
+						<button name="action_employee_insurance_open_window" type="object" string="Print" class="oe_highlight" />
+						<button name="action_employee_open_insurance_window1" type="object" string="View" class="oe_highlight" />
+						<button string="Cancel" class="oe_link" special="cancel" />
+					</footer>
+				</form>
+			</field>
+		</record>
+
+		<record id="action_employee_insurance_renewal_wizard" model="ir.actions.act_window">
+			<field name="name">Employee Report</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">insurance.renewal.report</field>
+			<field name="target">new</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form</field>
+		</record>
+
+		
+		<menuitem id="employee_insurance_renewal_report" parent="menu_hiworth_hr_report1" name="Insurance Renewal" sequence="3" action="action_employee_insurance_renewal_wizard"/>
+
+	
+
+
+		<report id="report_employee_insurance_renewal_report" string="Employee Insurance Renewal"
+			model="insurance.renewal.report" report_type="qweb-pdf"
+			name="hiworth_hr_attendance.report_employee_insurance_renewal_template" />
+
+
+		<template id="report_employee_insurance_renewal_template">
+			<t t-call="report.html_container">
+				<t t-foreach="docs" t-as="o">
+					<t t-call="report.external_layout">
+						<div class="page">
+							<center><b><h1>Employee Insurance Renewal</h1></b></center>
+							
+
+							<t t-set="sl_no" t-value="1" />
+							
+							<div>
+								<center>
+
+									<table style="font-size:16px;width: 100%;border-bottom: outset;border-top: outset;margin-top:30px;">
+										<thead>
+
+											<tr style="border-bottom: outset;border-right: outset;border-left: outset;">
+												<td style="width: 5%; border-right: outset;" align="center"><h5><b>SL.No</b></h5></td>
+												<td style="width: 10%; border-right: outset;" align="center"><h5><b>ID No</b></h5></td>
+												<td style="width: 25%; border-right: outset;" align="center"><h5><b>Employee Name</b></h5></td>
+												<!-- <td style="width: 25%; border-right: outset;" align="center"><h5><b>Gender</b></h5></td>
+												<td style="width: 10%; border-right: outset;" align="center"><h5><b>DOB</b></h5></td>
+												<td style="width: 10%; border-right: outset;" align="center"><h5><b>Age</b></h5></td> -->
+												<td style="width: 10%; border-right: outset;" align="center"><h5><b>Mobile No</b></h5></td>
+												<td style="width: 10%; border-right: outset;" align="center"><h5><b>Designation</b></h5></td>
+												<td style="width: 10%; border-right: outset;" align="center"><h5><b>Renew Date</b></h5></td>
+												<td style="width: 10%; border-right: outset;" align="center"><h5><b>Type of Policy</b></h5></td>
+												<!-- <td style="width: 10%; border-right: outset;" align="center"><h5><b>Claim Duration</b></h5></td>
+												<td style="width: 10%; border-right: outset;" align="center"><h5><b>Premium Amount</b></h5></td>
+												<td style="width: 10%; border-right: outset;" align="center"><h5><b>Company Contribution</b></h5></td>
+												
+												<td style="width: 10%; border-right: outset;" align="center"><h5><b>Staff Contribution</b></h5></td>
+												<td style="width: 10%; border-right: outset;" align="center"><h5><b>No of Persons</b></h5></td> -->
+												<td style="width: 10%; border-right: outset;" align="center"><h5><b>Policy No</b></h5></td>
+												<td style="width: 10%; border-right: outset;" align="center"><h5><b>Insured No</b></h5></td>
+												<!-- <td style="width: 10%; border-right: outset;" align="center"><h5><b>Commit Date</b></h5></td> -->
+											</tr>
+										</thead>
+
+								
+										<tbody>
+
+											<t t-foreach="docs.get_details()" t-as="line">
+												<tr style="border-left: outset;">
+													<td style="border-right: outset;">
+														<span t-esc="sl_no" />
+														<t t-set="sl_no" t-value="sl_no+1" />
+													</td>
+											
+													<td style="border-right: outset;" align="center">
+														<span t-esc="line['id_no']"/>
+													</td>
+													<td style="border-right: outset;padding-left: 2px;">
+														<span t-esc="line['employee_name']"/>
+													</td>
+													<!-- <td style="border-right: outset;padding-left: 4px;">
+														<span t-esc="line['gender']"/>
+													</td>
+													<td style="border-right: outset;" align="center">
+														<span t-esc="line['dob']"/>
+													</td>
+													<td style="border-right: outset;" align="center">
+														<span t-esc="line['age']"/>
+													</td> -->
+													<td style="border-right: outset;padding-left: 2px;" align="left">
+														<span t-esc="line['mobile_no']"/>
+													</td>
+													<td style="border-right: outset;padding-left: 2px;">
+														<span t-esc="line['designation']"/>
+													</td>
+													<td style="border-right: outset;" align="center">
+														<span t-esc="line['renew_date']"/>
+													</td>
+													
+													<td style="border-right: outset;padding-left: 2px;">
+														<span t-esc="line['policy_type']"/>
+													</td>
+													<!-- <td style="border-right: outset;padding-left: 10px;" align="center">
+														<span t-esc="line['claim_duration']"/>
+													</td>
+													<td style="border-right: outset;padding-left: 4px;" align="right">
+														<span t-esc="line['premium_amt']"/>
+													</td>
+													<td style="border-right: outset;" align="right">
+														<span t-esc="line['company_amt']"/>
+													</td>
+													<td style="border-right: outset;padding-left: 10px;" align="left">
+														<span t-esc="line['staff_amt']"/>
+													</td>
+													<td style="border-right: outset;padding-left: 4px;" align="right">
+														<span t-esc="line['no_persons']"/>
+													</td> -->
+													<td style="border-right: outset;padding-left: 2px;">
+														<span t-esc="line['insured_no']"/>
+													</td>
+													<td style="border-right: outset;padding-left: 2px;">
+														<span t-esc="line['policy_no']"/>
+													</td>
+													<!-- <td style="border-right: outset;">
+														<span t-esc="line['commit_date']"/>
+													</td> -->
+												</tr>
+											</t>
+										</tbody>
+									</table>
+								</center>
+							</div>
+			               
+						</div>
+					</t>
+				</t>
+			</t>
+		</template>
+	</data>
+</openerp>
+
+
+
+

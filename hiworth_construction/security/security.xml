@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+
+
+		<record model="ir.rule" id="model_partner_daily_statement_rule">
+			<field name="name">Driver Daily Stmt</field>
+			<field name="model_id" ref="model_driver_daily_statement"/>
+			<field name="groups" eval="[(4, ref('hiworth_hr_attendance.group_driver')),(4, ref('hiworth_hr_attendance.group_eicher_driver'))]"/>
+			<field name="domain_force">[('driver_name','=',user.employee_id.id)]</field>
+			<field name="perm_read" eval="True"/>
+			<field name="perm_create" eval="False"/>
+			<field name="perm_write" eval="False"/>
+			<field name="perm_unlink" eval="False"/>
+		</record>
+
+
+		<record model="ir.rule" id="model_goods_transfer_note_in">
+			<field name="name">Goods Transfer Note In/Out</field>
+			<field name="model_id" ref="hiworth_construction.model_goods_transfer_note_in"/>
+			<field name="groups" eval="[(4, ref('hiworth_construction.project_manager')),(4, ref('hiworth_construction.store_incharge'))]"/>
+			<field name="domain_force">['|',('store_manager_id','=',user.id),('user_id','=',user.id),('project_id','=',user.employee_id.project_id.id)]</field>
+			<field name="perm_read" eval="True"/>
+			<field name="perm_create" eval="True"/>
+			<field name="perm_write" eval="True"/>
+			<field name="perm_unlink" eval="True"/>
+		</record>
+		<record model="ir.rule" id="model_goods_recieve_report">
+			<field name="name">Goods Recieve Report</field>
+			<field name="model_id" ref="hiworth_construction.model_goods_recieve_report"/>
+			<field name="groups" eval="[(4, ref('hiworth_construction.project_manager')),(4, ref('hiworth_construction.store_incharge'))]"/>
+			<field name="domain_force">['|',('project_id','=',user.employee_id.project_id.id),('create_uid','=',user.id)]</field>
+			<field name="perm_read" eval="True"/>
+			<field name="perm_create" eval="True"/>
+			<field name="perm_write" eval="True"/>
+			<field name="perm_unlink" eval="False"/>
+		</record>
+		<record model="ir.rule" id="model_material_issue_slip">
+			<field name="name">Material Requisiton Note</field>
+			<field name="model_id" ref="hiworth_construction.model_material_issue_slip"/>
+			<field name="groups" eval="[(4, ref('hiworth_construction.project_manager')),(4, ref('hiworth_construction.store_incharge'))]"/>
+			<field name="domain_force">[('project_id','=',user.employee_id.project_id.id)]</field>
+			<field name="perm_read" eval="True"/>
+			<field name="perm_create" eval="True"/>
+			<field name="perm_write" eval="True"/>
+			<field name="perm_unlink" eval="True"/>
+		</record>
+		<record model="ir.rule" id="model_debit_note_supplier">
+			<field name="name">Debit Note Supplier</field>
+			<field name="model_id" ref="hiworth_construction.model_debit_note_supplier"/>
+			<field name="groups" eval="[(4, ref('hiworth_construction.project_manager')),(4, ref('hiworth_construction.store_incharge'))]"/>
+			<field name="domain_force">[('location_id','=',user.employee_id.location_id.id)]</field>
+			<field name="perm_read" eval="True"/>
+			<field name="perm_create" eval="True"/>
+			<field name="perm_write" eval="True"/>
+			<field name="perm_unlink" eval="True"/>
+		</record>
+		<record model="ir.rule" id="model_site_purchase">
+			<field name="name">Site Purchase</field>
+			<field name="model_id" ref="hiworth_construction.model_site_purchase"/>
+			<field name="groups" eval="[(4, ref('hiworth_construction.project_manager')),(4, ref('hiworth_construction.store_incharge'))]"/>
+			<field name="domain_force">[('project_id','=',user.employee_id.project_id.id)]</field>
+			<field name="perm_read" eval="True"/>
+			<field name="perm_create" eval="True"/>
+			<field name="perm_write" eval="True"/>
+			<field name="perm_unlink" eval="True"/>
+		</record>
+
+		<record model="ir.rule" id="model_partner_daily_statement_line_rule">
+			<field name="name">Driver Daily Stmt Line</field>
+			<field name="model_id" ref="model_driver_daily_statement_line"/>
+			<field name="groups" eval="[(4, ref('hiworth_hr_attendance.group_driver')),(4, ref('hiworth_hr_attendance.group_eicher_driver'))]"/>
+			<field name="domain_force">[('line_id','!=',False)]</field>
+			<field name="perm_read" eval="True"/>
+			<field name="perm_create" eval="False"/>
+			<field name="perm_write" eval="False"/>
+			<field name="perm_unlink" eval="False"/>
+		</record>
+
+<!--		<record model="ir.rule" id="manage_grr_access">-->
+<!--			<field name="name">Manage GRR </field>-->
+<!--			<field name="model_id" ref="hiworth_construction.model_goods_recieve_report"/>-->
+<!--			<field name="groups" eval="[(4, ref('hiworth_construction.manage_grr'))]"/>-->
+<!--			<field name="domain_force">['|',('project_id','=',user.employee_id.project_id.id),('create_uid','=',user.id)]</field>-->
+<!--			<field name="perm_read" eval="True"/>-->
+<!--			<field name="perm_create" eval="True"/>-->
+<!--			<field name="perm_write" eval="True"/>-->
+<!--			<field name="perm_unlink" eval="True"/>-->
+<!--		</record>-->
+
+	</data>
+</openerp>
+__export__.ir_cash_confirm_transfer,CashConfirmTranfer,hiworth_construction.model_cash_confirm_transfer,"['|',('name','=',user.employee_id.id),('user_id','=',user.employee_id.id)]",True,True,False,False
+
+__export__.ir_partner_daily_stmt,PartnerDailyStmt,hiworth_construction.model_partner_daily_statement,"['|',('employee_id','=',user.employee_id.id),('next_approver','=',user.id)]",True,True,True,False
+
+_export__.ir_rent_daily_stmt,RentVehicleStmt,hiworth_construction.model_rent_vehicle_statement,"[('supervisor','=',user.employee_id.id)]",True,True,True,False
+
+
+
+hiworth_construction.store_incharge'))]"
+
+goods_transfer_note,GoodsTransferNote,hiworth_construction.model_goods_transfer_note_in,"[(4, ref('hiworth_construction.project_manager')),(4, ref('hiworth_construction.store_incharge'))]","['|',('store_manager_id','=',user.id),('user_id','=',user.id),('project_id','=',user.employee_id.project_id.id)]",True,True,True,False
+
+
+goods_receive_report,GoodsRecieveReport,hiworth_construction.model_goods_recieve_report,"[(4, ref('hiworth_construction.project_manager')),(4, ref('hiworth_construction.store_incharge'))]","[('project_id','=',user.employee_id.project_id.id)]",True,True,True,False
+
+
+material_requistion_note,MaterialRequisitonNote,hiworth_construction.model_material_issue_slip,"[(4, ref('hiworth_construction.project_manager')),(4, ref('hiworth_construction.store_incharge'))]","[('project_id','=',user.employee_id.project_id.id)]",True,True,True,False
+
+debit_note_supplier,DebitNoteSupplier,hiworth_construction.model_debit_note_supplier,"[(4, ref('hiworth_construction.project_manager')),(4, ref('hiworth_construction.store_incharge'))]","[('location_id','=',user.employee_id.location_id.id)]",True,True,True,False
+
+
+
+
+__export__.SitePurchaseStore,hiworth_construction.model_site_purchase,"hiworth_construction.store_incharge","[('project_id','=',user.employee_id.project_id.id)]",True,True,True,False
+
+__export__.GoodsTransferNote,hiworth_construction.model_goods_transfer_note_in,"hiworth_construction.project_manager","['|',('store_manager_id','=',user.id),('user_id','=',user.id),('project_id','=',user.employee_id.project_id.id)]",True,True,True,False
+
+__export__.GoodsTransferNoteStore,hiworth_construction.model_goods_transfer_note_in,"hiworth_construction.store_incharge","['|',('store_manager_id','=',user.id),('user_id','=',user.id),('project_id','=',user.employee_id.project_id.id)]",True,True,True,False

@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+
+	    <record id="view_material_issue_slip_form" model="ir.ui.view">
+			<field name="name">material.issue.slip.form</field>
+			<field name="model">material.issue.slip</field>
+			<field name="arch" type="xml">
+				<form>
+				 <header>
+
+					<button name="compute_avilable_quantity" string="Available Quantity" type="object" invisible="1"/>
+
+				  <button name="button_request" string="Request" type="object" invisible="1"/>
+				     <button name="action_debit_note" string="Debit Note" type="object"  attrs="{'invisible':[('is_debit_note','=',False)]}" groups = "hiworth_construction.store_incharge"/>
+					 <button name="action_cancel" string="Cancel" type="object" />
+					 <field name="state" widget="statusbar"/>
+				 </header>
+					<group col='4'>
+						<field name="name" string='MRN NO'/>
+						<field name="date"/>
+						<field name="goods_receive_report_id" options="{'no_create':True}" />
+						<field name="project_id" string='Project Name' options="{'no_create':True, 'no_create_edit':True}"/>
+						<field name="source_location_id" string='Project Store' domain="[('usage','=','internal')]" options="{'no_create':True, 'no_create_edit':True}"/>
+						<field name="employee_id" string='Receiver' options="{'no_create':True, 'no_create_edit':True}"/>
+						<!--<field name="location_id" string='Chainage' domain="[('usage','=','internal')]" options="{'no_create':True, 'no_create_edit':True}"/>
+-->						<field name="partner_id" domain="[('contractor','=',True)]" string="Contractor" options="{'no_create':True, 'no_create_edit':True}" invisible="0"/>
+						<field name="store_manager_id" options="{'no_create':True, 'no_create_edit':True}" invisible="1"/>
+						<field name="is_debit_note" />
+						<field name="vehicle_id" options="{'no_create':True, 'no_create_edit':True}"/>
+						<field name="model_id" options="{'no_create':True, 'no_create_edit':True}"/>
+						<field name="brand_id" options="{'no_create':True, 'no_create_edit':True}"/>
+						<field name="chase_no" />
+						<field name="engine_no" />
+
+					</group>
+					<notebook>
+					<page string="Item List">
+					<field name="material_issue_slip_lines_ids">
+					<tree editable="bottom">
+						<field name="date" invisible='1'/>
+					    <field name="item_id" />
+					    <field name="desc"/>
+					    <field name="unit_id" options="{'no_create':True, 'no_create_edit':True}"/>
+						<field name="stock"/>
+					    <field name="quantity"/>
+					    <field name="req_qty" string="Issued Quantity" sum="Total"/>
+					    <field name="rem_qty"/>	
+					    <field name ="rate"/>
+					    <field name = "amount" sum="Total"/>
+						<field name="remarks"/>
+						<field name="project_id" invisible='1'/>
+
+					</tree>
+					</field>
+					</page>
+					</notebook>
+				</form>
+			</field>
+		</record>
+
+
+
+
+
+		 <record id="view_material_issue_slip_tree" model="ir.ui.view">
+			<field name="name">material.issue.slip.tree</field>
+			<field name="model">material.issue.slip</field>
+			<field name="arch" type="xml">
+				<tree>
+
+						<field name="name"  string="MRN No"/>
+						<field name="date"/>
+						<field name="project_id" string='Project Name'/>
+						<field name="employee_id" string='Receiver'/>
+						<field name="is_debit_note" />
+						<field name="project_id"/>
+					<field name="partner_id" domain="[('contractor','=',True)]" string="Contractor" options="{'no_create':True, 'no_create_edit':True}" invisible="0"/>
+
+
+
+
+				</tree>
+			</field>
+		</record>
+		<record id="material_issue_slip_search" model="ir.ui.view">
+			<field name="name">tree.material.issue.slip.search</field>
+			<field name="model">material.issue.slip</field>
+			<field name="arch" type="xml">
+				<search>
+					<field name="name"  string="MRN No"/>
+						<field name="date"/>
+						<field name="project_id" string='Project Name'/>
+						<field name="employee_id" string='Receiver'/>
+						<field name="project_id"/>
+
+					<group>
+						<filter string="MRN No" name="name" domain="[]" context="{'group_by':'name'}"/>
+						<filter string="Receiver" name="employee_id" domain="[]" context="{'group_by':'employee_id'}"/>
+						<filter string="Date" name="date" domain="[]" context="{'group_by':'date'}"/>
+						<filter string="Project" name="project_id" domain="[]" context="{'group_by':'project_id'}"/>
+
+
+					</group>
+				</search>
+			</field>
+		</record>
+
+		<record id="action_material_issue_slip" model="ir.actions.act_window">
+			<field name="name">Material Requistion Note</field>
+			<field name="res_model">material.issue.slip</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="domain">[('is_receive','=',False)]</field>
+			<field name="search_view_id" ref="material_issue_slip_search"/>
+			<field name="view_id" ref="view_material_issue_slip_tree" />
+			<field name="context">{'form_view_ref':'hiworth_construction.view_material_issue_slip_form'}</field>
+		</record>
+
+		<menuitem id="menu_material_issue_slip" parent="hiworth_construction.menu_warehouse_transaction"
+				  name="Material Requistion Note" sequence="20"
+				  action="action_material_issue_slip"
+				   />
+
+
+
+		<record id="view_material_issue_slip_receive_form" model="ir.ui.view">
+			<field name="name">material.issue.slip.form</field>
+			<field name="model">material.issue.slip</field>
+			<field name="arch" type="xml">
+				<form>
+				 <header>
+
+				   <!-- <button name="action_receive" string="Receive" type="object" states="draft"/>-->
+				     <!--<button name="action_debit_note" string="Debit Note" type="object"  attrs="{'invisible':[('is_debit_note','=',False)]}"/>
+				  -->  <field name="state" widget="statusbar"/>
+				 </header>
+					<group col='4'>
+						<field name="name" string='Material Return NO'/>
+						<field name="date"/>
+						<!--field name="grr_no_id" options="{'no_create':True}" /-->
+						<field name="employee_id" string='Given By' options="{'no_create':True, 'no_create_edit':True}"/>
+
+						<field name="project_id" string='Project Name' options="{'no_create':True, 'no_create_edit':True}"/>
+						<field name="source_location_id" string='Project Store' domain="[('usage','=','internal')]" options="{'no_create':True, 'no_create_edit':True}"/>
+						<field name="is_receive" />
+						<field name="partner_id" domain="[('contractor','=',True)]" string="Contractor" options="{'no_create':True, 'no_create_edit':True}" invisible="0"/>
+
+
+						<!--<field name="is_debit_note" />-->
+						<field name="vehicle_id" options="{'no_create':True, 'no_create_edit':True}"/>
+						<field name="model_id" options="{'no_create':True, 'no_create_edit':True}"/>
+						<field name="brand_id" options="{'no_create':True, 'no_create_edit':True}"/>
+						<field name="chase_no"/>
+						<field name="engine_no"/>
+
+
+					</group>
+					<notebook>
+					<page string="Item List">
+					<field name="material_issue_slip_lines_ids">
+					<tree editable="bottom">
+						<field name="date" invisible='1'/>
+					    <field name="item_id" />
+					    <field name="desc"/>
+					    <field name="unit_id" options="{'no_create':True, 'no_create_edit':True}"/>
+
+					    <field name="req_qty"/>
+
+					    <field name ="rate"/>
+					    <field name = "amount"/>
+						<field name="remarks"/>
+						<field name="project_id" invisible='1'/>
+
+					</tree>
+					</field>
+					</page>
+					</notebook>
+				</form>
+			</field>
+		</record>
+
+
+
+
+
+		 <record id="view_material_issue_slip_tree_receiver" model="ir.ui.view">
+			<field name="name">material.issue.slip.tree</field>
+			<field name="model">material.issue.slip</field>
+			<field name="arch" type="xml">
+				<tree>
+
+						<field name="name" string="MRN No"/>
+						<field name="date"/>
+						<field name="project_id" string='Project Name'/>
+						<field name="employee_id" string='Given By'/>
+					<field name="partner_id" domain="[('contractor','=',True)]" string="Contractor" options="{'no_create':True, 'no_create_edit':True}" invisible="0"/>
+
+
+						<!--<field name="is_debit_note" />
+						<field name="item_list"/>
+						<field name="total_quantity"/>-->
+
+
+				</tree>
+			</field>
+		</record>
+
+		<record id="action_material_issue_slip_receiver" model="ir.actions.act_window">
+			<field name="name">Material Return Note</field>
+			<field name="res_model">material.issue.slip</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_id" ref="view_material_issue_slip_tree_receiver" />
+			<field name="domain">[('is_receive','=',True)]</field>
+			<field name="context">{'form_view_ref':'view_material_issue_slip_receive_form','tree_view_ref':'view_material_issue_slip_tree_receiver','default_is_receive':True}</field>
+
+		</record>
+
+		<record id="action_material_issue_slip_rece_tree" model="ir.actions.act_window.view">
+			<field name="view_mode">tree</field>
+			<field name="view_id" ref="view_material_issue_slip_tree_receiver" />
+			<field name="act_window_id" ref="action_material_issue_slip_receiver" />
+		</record>
+
+		<record id="action_material_isuue_slip_form" model="ir.actions.act_window.view">
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="view_material_issue_slip_receive_form" />
+			<field name="act_window_id" ref="action_material_issue_slip_receiver" />
+		</record>
+
+
+		<menuitem id="menu_material_issue_slip_receive" parent="hiworth_construction.menu_warehouse_transaction"
+				  name="Material Return Note " sequence="20"
+				  action = "action_material_issue_slip_receiver"
+				   />
+
+
+	</data>
+	</openerp>

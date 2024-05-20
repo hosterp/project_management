@@ -1,0 +1,386 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>
+		<report id="print_bills_followup_report" string="Bills Followup Report"
+			model="customer.invoice.follow.up" report_type="qweb-pdf"
+			name="hiworth_construction.report_bills_followup_status" />
+
+		<template id="external_layout_inherit_bills_followup">
+		    <!-- Multicompany -->
+		    <t t-if="o and 'company_id' in o">
+		        <t t-set="company" t-value="o.company_id"></t>
+		    </t>
+		    <t t-if="not o or not 'company_id' in o">
+		        <t t-set="company" t-value="res_company"></t>
+		    </t>
+
+		    <t t-call="hiworth_construction.external_layout_header_inherit_bills_followup" />
+		    <t t-raw="0" />
+		</template>
+
+		<template id="external_layout_header_inherit_bills_followup">
+		    <div class="header">
+		        <div class="row">
+		            <div class="col-xs-3">
+		                <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % company.logo" style="max-height: 80px;"/>
+		            </div>
+		            <div class="col-xs-9 text-left" style="font-size: 20px;margin-top:30px;" t-field="company.rml_header1"/>
+		        </div>
+		            <div class="col-xs-12 text-center" style="font-size: 20px;margin-top:10px;"> 
+		                <div style="border-style:solid;">Bills Followup and Status Report</div>
+		        </div>
+		        
+		    </div>
+		</template>
+		<template id="report_bills_followup_status">
+			<t t-call="report.html_container">
+
+				<t t-call="hiworth_construction.external_layout_inherit_bills_followup">
+
+					<div class="page" >
+						<!-- <div class="header">
+							<h3>
+								<center>Bills Followup and Status Report</center>
+							</h3>
+						</div> -->
+						<t t-foreach="docs" t-as="o">
+							<table style="font-size:16px;width: 100%;border-bottom: outset;border-top: outset;margin-top:10px;">
+							<!-- <table class="table table-bordered" style="border-top: outset;border-left: outset; border-right: outset;border-bottom: outset;width: 100%">
+ -->							
+								<tr style="border-left: 1px solid black; border-right: 1px solid black;border-bottom: 1px solid black;">
+									<td style="width: 15%;">
+										Bill Date
+									</td>
+									<td style="width: 5%;">
+										:
+									</td>
+									<td  style="width: 30%;">
+										<span t-field="o.bill_date" />
+									</td>
+									<td style="width: 15%;">
+										Bill No
+									</td>
+									<td style="width: 5%;">
+										:
+									</td>
+									<td style="width: 30%;">
+										<span t-field="o.bill_no.name" />
+									</td>
+								</tr>
+								<tr style="border-left: 1px solid black; border-right: 1px solid black;border-bottom: 1px solid black;">
+									<td style="width: 15%;">
+										Name of work 
+									</td>
+									<td style="width: 5%;">
+										:
+									</td>
+									<td style="width: 30%;">
+										<span t-field="o.project_id.name" />
+									</td>
+									<td style="width: 15%;">
+										Tender Amount
+									</td>
+									<td style="width: 5%;">
+										:
+									</td>
+									<td  style="width: 30%;">
+										<span t-field="o.total_tender_amount" />
+									</td>
+								</tr>
+								<tr style="border-left: 1px solid black; border-right: 1px solid black;border-bottom: 1px solid black;">
+									<td style="width: 15%;">
+										Person In Charge 
+									</td>
+									<td style="width: 5%;">
+										:
+									</td>
+									<td style="width: 30%;">
+										<span t-field="o.person" />
+									</td>
+									<td style="width: 15%;">
+										Estimate Amount
+									</td>
+									<td style="width: 5%;">
+										:
+									</td>
+									<td  style="width: 30%;">
+										<span t-field="o.estimate_amount" />
+									</td>
+								</tr>
+
+								<tr style="border-left: 1px solid black; border-right: 1px solid black;border-bottom: 1px solid black;">
+									<td style="width: 15%;">
+										District 
+									</td>
+									<td style="width: 5%;">
+										:
+									</td>
+									<td  style="width: 30%;">
+										<span t-field="o.district" />
+									</td>
+									<td style="width: 15%;">
+										Department
+									</td>
+									<td style="width: 5%;">
+										:
+									</td>
+									<td  style="width: 30%;">
+										<span t-field="o.agreed_amount" />
+									</td>
+								</tr>
+								<tr style="border-left: 1px solid black; border-right: 1px solid black;border-bottom: 1px solid black;">
+									<td style="width: 15%;">
+										Default Liability Period 
+									</td>
+									<td style="width: 5%;">
+										:
+									</td>
+									<td  style="width: 30%;">
+										<span t-field="o.dlp_from" />:<span t-field="o.dlp_to" />
+									</td>
+									<td style="width: 15%;">
+										Bill Amount(Gross)
+									</td>
+									<td style="width: 5%;">
+										:
+									</td>
+									<td  style="width: 30%;">
+										<span t-field="o.bill_amount" />
+									</td>
+								</tr>
+								<tr style="border-left: 1px solid black; border-right: 1px solid black;border-bottom: 1px solid black;">
+									<td style="width: 15%;">
+										Current Status
+									</td>
+									<td style="width: 5%;">
+										:
+									</td>
+									<td  style="width: 30%;">
+										<span t-field="o.current_status.name" />
+									</td>
+									<td style="width: 15%;">
+										It %
+									</td>
+									<td style="width: 5%;">
+										:
+									</td>
+									<td  style="width: 30%;">
+										<span t-field="o.it_per" />  Rs  <span t-field="o.it_amount" />
+									</td>
+								</tr>
+
+								<tr style="border-left: 1px solid black; border-right: 1px solid black;border-bottom: 1px solid black;">
+									<td style="width: 15%;">
+										Current Table
+									</td>
+									<td style="width: 5%;">
+										:
+									</td>
+									<td  style="width: 30%;">
+										<span t-field="o.current_table.name" />
+									</td>
+									<td style="width: 15%;">
+										Welfare %
+									</td>
+									<td style="width: 5%;">
+										:
+									</td>
+									<td  style="width: 30%;">
+										<span t-field="o.welfare_per" /> Rs <span t-field="o.welfare_amount" />
+									</td>
+								</tr>
+
+								<tr style="border-left: 1px solid black; border-right: 1px solid black;border-bottom: 1px solid black;">
+									<td style="width: 15%;">
+										Mode of Payment
+									</td>
+									<td style="width: 5%;">
+										:
+									</td>
+									<td  style="width: 30%;">
+										<span t-field="o.mode_of_payment.name" />
+									</td>
+									<td style="width: 15%;">
+										SGST %
+									</td>
+									<td style="width: 5%;">
+										:
+									</td>
+									<td  style="width: 30%;">
+										<span t-field="o.sgst_per" /> Rs <span t-field="o.sgst_amount" />
+										
+									</td>
+								</tr>
+								<tr style="border-left: 1px solid black; border-right: 1px solid black;border-bottom: 1px solid black;">
+									<td style="width: 15%;">
+										Remarks
+									</td>
+									<td style="width: 5%;">
+										:
+									</td>
+									<td  style="width: 30%;">
+										<span t-field="o.bill_status" />
+									</td>
+									<td style="width: 15%;">
+										CGST %
+									</td>
+									<td style="width: 5%;">
+										:
+									</td>
+									<td  style="width: 30%;">
+										<span t-field="o.cgst_per" /> Rs <span t-field="o.cgst_amount" />
+										
+									</td>
+								</tr>
+
+								<tr style="border-left: 1px solid black; border-right: 1px solid black;border-bottom: 1px solid black;">
+									<td style="width: 50%;" colspan="3">										
+									</td>
+									<td style="width: 15%;">
+										Retention %
+									</td>
+									<td style="width: 5%;">
+										:
+									</td>
+									<td  style="width: 30%;">
+										<span t-field="o.retention_per" /> Rs <span t-field="o.retention_amount" />
+									</td>
+								</tr>
+
+								<tr style="border-left: 1px solid black; border-right: 1px solid black;border-bottom: 1px solid black;">
+									<td style="width: 50%;" colspan="3">										
+									</td>
+									<td style="width: 15%;">
+										Security
+									</td>
+									<td style="width: 5%;">
+										:
+									</td>
+									<td  style="width: 30%;">
+										<span t-field="o.security" />
+									</td>
+								</tr>
+
+								<tr style="border-left: 1px solid black; border-right: 1px solid black;border-bottom: 1px solid black;">
+									<td style="width: 50%;" colspan="3">										
+									</td>
+									<td style="width: 15%;">
+										Other Recovery
+									</td>
+									<td style="width: 5%;">
+										:
+									</td>
+									<td  style="width: 30%;">
+										<span t-field="o.other_recovery" />
+									</td>
+								</tr>
+
+								<tr style="border-left: 1px solid black; border-right: 1px solid black;border-bottom: 1px solid black;">
+
+									<td style="width: 15%;">
+									</td>
+									<td style="width: 5%;">
+									</td>
+									<td  style="width: 30%;">
+									</td>
+									<td style="width: 15%;">
+										Check Amount
+									</td>
+									<td style="width: 5%;">
+										:
+									</td>
+									<td style="width: 30%;">
+										<span t-field="o.check_amount" />
+									</td>
+								</tr>
+
+								<tr style="border-left: 1px solid black; border-right: 1px solid black;border-bottom: 1px solid black;">
+									<td style="width: 50%;" colspan="3">										
+									</td>
+									<td style="width: 15%;">
+										Total Deduction
+									</td>
+									<td style="width: 5%;">
+										:
+									</td>
+									<td style="width: 30%;">
+										<span t-field="o.total_deduction" />
+									</td>
+								</tr>
+
+								<tr style="border-left: 1px solid black; border-right: 1px solid black;border-bottom: 1px solid black;">
+									<td colspan="3">										
+									</td>
+									<td style="width: 15%;">
+										Bill Amount(Net)
+									</td>
+									<td style="width: 5%;">
+										:
+									</td>
+									<td style="width: 30%;">
+										<span t-field="o.bill_amount_after" />
+									</td>
+								</tr>
+
+								<tr style="border-left: 1px solid black; border-right: 1px solid black;border-bottom: 1px solid black;">
+									<td style="width: 50%;" colspan="3">										
+									</td>
+									<td style="width: 15%;">
+										Balance Amount
+									</td>
+									<td style="width: 5%;">
+										:
+									</td>
+									<td  style="width: 30%;">
+										<span t-field="o.bill_amount" />
+									</td>
+								</tr>
+
+
+							</table>
+
+							<!-- <t t-foreach="o.update_status_history_ids" t-as="line"> -->
+							<table style="font-size:16px;width: 100%;border-bottom: 1px solid black;border-top: 1px solid black">
+								<tr style="font-size:25px;border-left: 1px solid black; border-right: 1px solid black;border-bottom: 1px solid black;"><td  colspan="4" align="Center" style="font-size:16px;">
+									<b>Status History</b>
+									
+								</td></tr>
+								<tr style="border-left: 1px solid black; border-right: 1px solid black;border-bottom: 1px solid black;border-spacing: 5px;">
+									<td style="width:25%" align="center"><b>Date</b>										
+									</td>
+									<td style="width:25%;border-left: 1px solid black;border-spacing: 5px;" align="center">
+										<b>Status Update</b>
+									</td>
+									<td style="width:25%;border-left: 1px solid black;border-spacing: 5px;" align="center">
+										<b>Table</b>
+									</td>
+									<td style="width:25%;border-left: 1px solid black;border-spacing: 5px;" align="center">
+										<b>Remarks</b>
+									</td>
+								</tr>
+							<t t-foreach="o.update_status_history_ids" t-as="line">
+								<tr style="border-left: 1px solid black; border-right: 1px solid black;border-bottom: 1px solid black;">
+									<td style="width:25%;"><span t-field="line.Date" />										
+									</td>
+									<td style="width:25%;border-left: 1px solid black;">
+										<span t-field="line.update_status.name" />
+									</td>
+									<td style="width:25%;border-left: 1px solid black;">
+										<span t-field="line.update_table.name" />
+									</td>
+									<td style="width:25%;border-left: 1px solid black;">
+										<span t-field="line.remarks" />
+									</td>
+								</tr>
+							</t>
+						</table>
+
+							
+
+						</t>
+					</div>
+				</t>
+			</t>
+		</template>
+	</data>
+</openerp>
